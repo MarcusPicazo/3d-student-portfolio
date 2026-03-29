@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Manrope:wght@700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "on-secondary-fixed-variant": "#474649",
+              "background": "#f9f9fe",
+              "error-container": "#ffdad6",
+              "surface-container": "#ededf2",
+              "on-primary-fixed": "#001a41",
+              "tertiary-container": "#c64f00",
+              "tertiary-fixed-dim": "#ffb595",
+              "outline-variant": "#c1c6d7",
+              "on-secondary-fixed": "#1b1b1d",
+              "on-background": "#1a1c1f",
+              "surface-container-low": "#f3f3f8",
+              "surface": "#f9f9fe",
+              "on-primary": "#ffffff",
+              "on-secondary-container": "#636264",
+              "primary-container": "#0070eb",
+              "inverse-surface": "#2e3034",
+              "secondary-fixed-dim": "#c8c6c8",
+              "on-error-container": "#93000a",
+              "inverse-primary": "#adc6ff",
+              "on-tertiary": "#ffffff",
+              "surface-tint": "#005bc1",
+              "primary": "#0058bc",
+              "on-error": "#ffffff",
+              "on-secondary": "#ffffff",
+              "surface-dim": "#d9dade",
+              "surface-container-high": "#e8e8ed",
+              "surface-container-highest": "#e2e2e7",
+              "surface-container-lowest": "#ffffff",
+              "on-surface-variant": "#414755",
+              "primary-fixed-dim": "#adc6ff",
+              "secondary": "#5f5e60",
+              "on-tertiary-fixed": "#351000",
+              "secondary-container": "#e2dfe1",
+              "on-primary-fixed-variant": "#004493",
+              "secondary-fixed": "#e4e2e4",
+              "inverse-on-surface": "#f0f0f5",
+              "surface-bright": "#f9f9fe",
+              "on-surface": "#1a1c1f",
+              "outline": "#717786",
+              "tertiary": "#9e3d00",
+              "error": "#ba1a1a",
+              "on-primary-container": "#fefcff",
+              "surface-variant": "#e2e2e7",
+              "primary-fixed": "#d8e2ff",
+              "on-tertiary-fixed-variant": "#7c2e00",
+              "on-tertiary-container": "#fffbff",
+              "tertiary-fixed": "#ffdbcc"
+            },
+            fontFamily: {
+              "headline": ["Manrope"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        .action-gradient { background: linear-gradient(135deg, #0058bc 0%, #0070eb 100%); }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background font-body antialiased">
+<!-- TopAppBar -->
+<header class="sticky top-0 z-50 w-full bg-white/80 dark:bg-slate-950/80 backdrop-blur-xl shadow-sm shadow-slate-200/50 dark:shadow-none flex items-center justify-between px-6 h-[72px]">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-full bg-surface-container overflow-hidden">
+<img alt="User profile photo" class="w-full h-full object-cover" data-alt="Close-up portrait of a stylish young professional man with a neutral expression against a clean studio background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuChi3jR6r1NJkhR2Lc3UXvy5KsJmFN9I-M4Ceoeqw3wH4smdgqD7lDAhmOKth5hKSRfeCvacecNtgZqsM_vpWUvuaHuHuhi2ri7yGr0xNNoqKneChvIAQLn-HJqwwOhL3-c0SQbdTfNZr9kh87nExByuuQtNSRV4zo-hu6XGNDHJRly6lswP6hCCsHjC7m49UdndRP2bhouA7EImnfXh5AixwEXiUZYVWWQk0VW0EO_FVsnWvCrD5qSupTL30oeK6RWBNM5DWKuvZI"/>
+</div>
+<span class="font-manrope font-extrabold tracking-tighter text-2xl text-slate-900 dark:text-slate-50">Kinetic</span>
+</div>
+<!-- Desktop Nav Cluster -->
+<nav class="hidden md:flex items-center gap-8">
+<a class="text-slate-400 dark:text-slate-500 hover:text-slate-900 dark:hover:text-slate-100 font-medium transition-colors" href="#">Feed</a>
+<a class="text-blue-600 dark:text-blue-400 font-bold transition-colors" href="#">Explore</a>
+<a class="text-slate-400 dark:text-slate-500 hover:text-slate-900 dark:hover:text-slate-100 font-medium transition-colors" href="#">Create</a>
+<a class="text-slate-400 dark:text-slate-500 hover:text-slate-900 dark:hover:text-slate-100 font-medium transition-colors" href="#">Messages</a>
+</nav>
+<div class="flex items-center gap-2">
+<button class="p-2 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors active:scale-95 duration-200">
+<span class="material-symbols-outlined text-slate-500 dark:text-slate-400" data-icon="search">search</span>
+</button>
+</div>
+</header>
+<main class="max-w-7xl mx-auto px-6 py-6 pb-24 md:pb-12">
+<!-- Search & Discovery Header -->
+<section class="mb-10">
+<div class="relative w-full max-w-2xl mx-auto">
+<span class="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-outline" data-icon="search">search</span>
+<input class="w-full h-14 pl-12 pr-6 rounded-full bg-surface-container-high border-none focus:ring-2 focus:ring-primary/40 text-on-surface placeholder-on-surface-variant font-medium" placeholder="Search experiences, people, or ideas..." type="text"/>
+</div>
+</section>
+<!-- Categories -->
+<section class="mb-10 overflow-x-auto hide-scrollbar -mx-6 px-6">
+<div class="flex items-center gap-3 w-max">
+<button class="px-6 py-2.5 rounded-full action-gradient text-on-primary font-semibold text-sm shadow-lg shadow-primary/20">Trending</button>
+<button class="px-6 py-2.5 rounded-full bg-surface-container-high text-on-surface-variant hover:bg-surface-container-highest transition-colors font-semibold text-sm">Tech</button>
+<button class="px-6 py-2.5 rounded-full bg-surface-container-high text-on-surface-variant hover:bg-surface-container-highest transition-colors font-semibold text-sm">Design</button>
+<button class="px-6 py-2.5 rounded-full bg-surface-container-high text-on-surface-variant hover:bg-surface-container-highest transition-colors font-semibold text-sm">Travel</button>
+<button class="px-6 py-2.5 rounded-full bg-surface-container-high text-on-surface-variant hover:bg-surface-container-highest transition-colors font-semibold text-sm">Careers</button>
+<button class="px-6 py-2.5 rounded-full bg-surface-container-high text-on-surface-variant hover:bg-surface-container-highest transition-colors font-semibold text-sm">Architecture</button>
+<button class="px-6 py-2.5 rounded-full bg-surface-container-high text-on-surface-variant hover:bg-surface-container-highest transition-colors font-semibold text-sm">Innovation</button>
+</div>
+</section>
+<!-- Bento Style Content Grid -->
+<section class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 auto-rows-[200px] md:auto-rows-[280px]">
+<!-- Large Feature Card -->
+<div class="col-span-2 row-span-2 rounded-xl overflow-hidden relative group cursor-pointer">
+<img alt="Modern Architecture" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="Sleek minimalist office interior with floor to ceiling windows showing a city skyline at dusk with cool blue tones" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCWi4NjYFi5fgHavz4o_jB8jCJveaazTaBP7Bwx3KzudBnPD3RWM3iCp3VyjEVO93yQ_p9DE11ifzv2E5GZIYofV_Vdd5ofWsLxaY1wLon86mSujaZzBAiuMz7Yo8rG9pQ1_-YNAxYpAWnrybvdPwflx1XDyuZ8tHvHTRpiERVw-JhMEXEJrU1Zty9-WRXat3oIreU-ZW0FZsKuK1RP7cbyWeAd3tzSjf8AVtC3KmonAQ9riZLsW_gFL8SIh5Axnzad313mfYiJbhA"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6">
+<p class="text-white font-manrope font-bold text-xl leading-tight">The Future of Remote Workspaces</p>
+<p class="text-white/80 text-sm mt-1">Design • 4 min read</p>
+</div>
+</div>
+<!-- Standard Cards -->
+<div class="rounded-xl overflow-hidden relative group cursor-pointer bg-surface-container-lowest shadow-sm">
+<img alt="Retro Tech" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" data-alt="Close-up of vintage computer hardware and mechanical keyboards in a clean, brightly lit modern room" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD8wYrqiLn88j7EpKoYUcXxGbiUQtsB1qpiupj9CWculdXAiFGFEpjGaaF-jIB54n85Y3n2auNP7DG01r9rF5VR1-RnLGOyJpghms9tXreLPf4unmJyrLY1rj4azLTsf3lgcoVO2D5cLo40k2yHCdattfwOOzpUxPCr0KRaz8YqI_84ix5--JkSyDrKnPplDRKGH-mLus0pbPPvOSOEmT7UAC1NXfqTvP47nKBYP-c1qQmSZTsIWOIn0BQri1fpJ0Dz4MnyMg9VYqI"/>
+<div class="absolute top-3 right-3">
+<span class="material-symbols-outlined text-white drop-shadow-md" data-icon="play_circle" style="font-variation-settings: 'FILL' 1;">play_circle</span>
+</div>
+</div>
+<div class="rounded-xl overflow-hidden relative group cursor-pointer bg-surface-container-lowest shadow-sm">
+<img alt="Vibrant Concept" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" data-alt="A single bright yellow banana floating against a soft pastel pink studio background with clean shadows" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCng9tZ9ngPnA5lRiSRKL5SViOdTQ97kEbc7znRXLAwNBcQZ2Y_HTTBqNUdTJw5Pb7MU8EiCMD2ZwI3WVoJbnJV0p7EnMWUnpWCaGORkhhm0bvTwWt7pzj2TRxVgRd06n_MHA_7OhnURQSr9rYle4SrannHF6m-xxsV6vu5uC2rdHHSf-zB50diBTo_46Wo6-5TRoeroTdMUzNtbx3hgpd3IMr6qZ_hwK-NIs6Tbgz9EWghj3aXRjacbPVjAM_0Kv_dtsVrJyj5bnM"/>
+</div>
+<!-- Recommendation Section (In-grid) -->
+<div class="col-span-2 row-span-1 rounded-xl bg-surface-container-low p-6 flex flex-col justify-between">
+<div>
+<h3 class="font-manrope font-bold text-lg text-on-surface">Curated Creators</h3>
+<p class="text-on-surface-variant text-sm mt-1">People in Design &amp; Tech you should know.</p>
+</div>
+<div class="flex -space-x-3 overflow-hidden mt-4">
+<img alt="Creator 1" class="inline-block h-10 w-10 rounded-full ring-2 ring-white" data-alt="Portrait of a young woman with a warm smile in natural outdoor lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCNtXT19qGlBvPTWqoyjQ7-DNdTjKp3LZzmUyKGWGRuk_gWLeHhnSqoghyIE2PvdbFnEnUTAPLUtCQhBuGqWRZS7lE2C5bhrnXp5uN3rHBo6sMg9ikI-s3bvkVV79o212vuIje7fLA-iTKjFPapHZUQLXE0gZ7aEnwlU1hs9cRWp2HWsVGh7Bq-tv52zaRLW8OtRVS1VOKlUWD46ns-2pGy2ivJLKKK0dCbH7mJ_XbB0dq5jbC0OC40ZqFHDZLUIxoruJ4fbnjIQsw"/>
+<img alt="Creator 2" class="inline-block h-10 w-10 rounded-full ring-2 ring-white" data-alt="Professional headshot of a man with a clean beard and sharp suit" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDIF2S72TMuo3oHEnsowKH8ep6fPZ6CpV78mExuBJh7b_VU0xKITIiR3PvVKx1J9opSBp22HnAx2nDCcDTpTpPIZrInGCO22yjvMplS7klU2NUDkY9IswKvayHZrlwZMB1wO9nvXMZw4_Q0pgV5OqdgU18Tx3XwhgCYSsL4lG20PlawCl0gZFf8uVHpdeajkpiZ6894L1eaJmAWVmUeVmr5BeMeBSDhnIx_NmMh0YnAEHA0PjAS8ldJCn9c5NyIfqdNwavry_RByAE"/>
+<img alt="Creator 3" class="inline-block h-10 w-10 rounded-full ring-2 ring-white" data-alt="Candid shot of a young person laughing in a brightly lit modern cafe" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCJ4vpItNM1a90JeHiIJi8VYQmqzJRSHYniP0kw3f_73qqL2VLdDh-F9kHr5rjUSOdHO2Szx5zJ1en3lwIFl3XlGmYeyT-qRWBobzDZUXkhDncmU-8-bVgzhwJwaYgdCvf_8dMVixdYg22wDIPm38eE_YYsU3i_Wx64oDZ369mB93WYvxtQOBG5kM5OLkY00iwpOyvQJNkbrONBy4sxRjUQty56HKsPW0SL__gCgjqHa9yVy0GSYgSqH0bkkL8nRGIQ_UoIjITvgWI"/>
+<div class="flex items-center justify-center h-10 w-10 rounded-full bg-white ring-2 ring-white text-primary text-xs font-bold">+24</div>
+</div>
+<button class="mt-4 w-full py-2 bg-white rounded-lg text-primary text-sm font-bold border border-outline-variant/20 hover:bg-primary/5 transition-colors">View All Suggestions</button>
+</div>
+<!-- More grid items -->
+<div class="rounded-xl overflow-hidden relative group cursor-pointer">
+<img alt="Portrait" class="w-full h-full object-cover" data-alt="High-fashion close-up of a model wearing minimalist silver jewelry against a stark white background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBt-LSudKCV6NRGrpP8LH7NsGO57aoPgPbCZZO7j72mKCiVG2CGpD2lO114oJXRz21PXCeI7osAPqBfuHAPKIPBtM051A2LBqd0-NNmg02gLQ_lDHvBO-TruXpotiecyPSNl4VqlUciGqf7a-J4NWOZPyQmgAL39Zf7AEYfBPzT9M7EyYghBcdIu2qi9J7S_4RvqrDI4ZIN9kEYGVQyCA9g0yKplW2PVGxcE-MwN8R9vvYa-wO1EkCvBDYnURX9RyAf0LC6hgi0kXI"/>
+</div>
+<div class="md:row-span-2 rounded-xl overflow-hidden relative group cursor-pointer">
+<img alt="Vertical Travel" class="w-full h-full object-cover" data-alt="Majestic view of a wooden boat on a turquoise alpine lake surrounded by dramatic jagged mountains" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDYwaUTj07tQo0fBR3-_d5zdHOfwmuPP43cvkiYDehWiDcZYM-3agc4LEKUzZJb_30UYQdfjA151y4Zw4ZGbjVysFWqSoshyB8_iNe8yz6ieLuBs4CufGyOfXaynLRrLZqswCPmXaGTLr4u3g72LKkhcx1IVZlQsKu1371LdS5AbUm-YtPCDBpd7N2c_A139F_oFVOm7-Y9kGtcd4Zsfl-H7aSf4Zqpz-ukmEqCeV3o0Id6gfCTdwIw4CMj6xtpzNRWHvv4g8JTjzY"/>
+</div>
+<div class="rounded-xl overflow-hidden relative group cursor-pointer">
+<img alt="Product Design" class="w-full h-full object-cover" data-alt="Minimalist white designer watch on a clean slate gray surface with artistic shadows" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAptbNn86chqId4PA2un431A5nP7LxCYXdy_Ug82YJ4hRWEE1MDxydXrGi1KyVwQsck_1cdzUG6_cOM4oBis_-A9fO-t05ipt9si27nq6FlBQ4gU0Y3WmmYmp7k5ebMUG8r6960kFqHV5fiF85329WsB0eZF7u4_f406-mH62hiVzgdgAnZ0a-j5kbuCdrT-nENTJUh4h-HcXqCHtc1JKq2nb-pin68hjgoYOLODgoQWt0NMkxAvT5YT-RJshVevx6BNHLMWdhZIeE"/>
+</div>
+</section>
+<!-- Section: Top Reels -->
+<section class="mt-16">
+<div class="flex items-center justify-between mb-6">
+<h2 class="font-manrope font-extrabold text-2xl tracking-tight">Trending Reels</h2>
+<button class="text-primary font-bold text-sm flex items-center gap-1 hover:underline">
+                    Watch All
+                    <span class="material-symbols-outlined text-lg" data-icon="chevron_right">chevron_right</span>
+</button>
+</div>
+<div class="grid grid-cols-3 md:grid-cols-6 gap-3">
+<!-- Reel Item -->
+<div class="aspect-[9/16] rounded-xl overflow-hidden relative cursor-pointer group">
+<img alt="Reel 1" class="w-full h-full object-cover" data-alt="Group of young adults collaborating around a laptop in a vibrant, sunlit office space" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDM5mO5QTw_V93yuMJa6TtOYJOFHv1lSCU4Pi_0GTEFovukpPlo2acfasriUYxfsjdSyRe7UR0_DpBn9TWE0pZxDu9wsF64W6FqtmxajwtWKTEXu9K_aIgtxamkqQjWKmLujZAYAPi4fwx8OX9SJrBE1denqz_jPwElby37d_2YXEkBGs2azRTpJEh-lXwdqduwDJsC8T34fBD1ZATjw3_aQGgRK40kgdOZV1JPIgXLCj1tEr1hmPXUM1u4MQVYvFujRmT8NyeSTl4"/>
+<div class="absolute bottom-2 left-2 flex items-center gap-1 text-white text-[10px] font-bold">
+<span class="material-symbols-outlined text-xs" data-icon="play_arrow" style="font-variation-settings: 'FILL' 1;">play_arrow</span>
+                        12.4K
+                    </div>
+</div>
+<div class="aspect-[9/16] rounded-xl overflow-hidden relative cursor-pointer group">
+<img alt="Reel 2" class="w-full h-full object-cover" data-alt="Close-up of high-end fashion details, focusing on texture and material under soft studio lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBFVMpjckkBtXbrXCUyNufsdusoHhSD-AuHf3vYUezLfnQ97hJiV7l9BuzbKj172Gtl2bKA0y5rsSOD6BOKF88wP3Q2RPv3GqFFr-Heq4Rz77TdMlf8TXdZYERCwMC4bpYE9oSE-MJP2LYGb0WL2tFEgkaTmjBVEKbK65f6LPOsJr70jB24nJ6NYoBZaKS6SO3UL_TIU-oqCD_wn5zh1HdIOOAHsagFdWu4D41oYYwjqisJw0bQs8KcLDu4u1bVoWEcTzXLPlXLAGU"/>
+<div class="absolute bottom-2 left-2 flex items-center gap-1 text-white text-[10px] font-bold">
+<span class="material-symbols-outlined text-xs" data-icon="play_arrow" style="font-variation-settings: 'FILL' 1;">play_arrow</span>
+                        8.1K
+                    </div>
+</div>
+<div class="aspect-[9/16] rounded-xl overflow-hidden relative cursor-pointer group">
+<img alt="Reel 3" class="w-full h-full object-cover" data-alt="Vast green meadow at sunset with rolling hills in the background under a warm orange sky" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAqxzFxdIh5TC5qLMBuGDNuvVYVWTTnMFpb2nBl4jmbpIAsKnPW6rNknOwjTlAhUDxHh5ew319xKxzt-wJOoFweAn_TzhGfDoIhXQRK-mNaGshVNbUGxcUuT3RLa6K4jkAP7PxIeSU58JhpTrc-6OCbXPav_ypn16CWLgHPV-FWTy2U5mVXCkxI8yxABDIZrw2z3rZCJXEeNK1amL_UhUwB57cGWS3UOW1RpRMj1m415DIhQam9jGe7fomxyGE0xgFDMe_ZC1nbq78"/>
+<div class="absolute bottom-2 left-2 flex items-center gap-1 text-white text-[10px] font-bold">
+<span class="material-symbols-outlined text-xs" data-icon="play_arrow" style="font-variation-settings: 'FILL' 1;">play_arrow</span>
+                        45K
+                    </div>
+</div>
+<div class="hidden md:block aspect-[9/16] rounded-xl overflow-hidden relative cursor-pointer group">
+<img alt="Reel 4" class="w-full h-full object-cover" data-alt="Portrait of a young creative professional with neon lighting accents on the side of their face" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAhtLOQu4L9uzZq5GwcnDmdn9LFRYKu6udZPJUxKRkM5nf_k_BMP_3HOkirXNTRJhNhocA6LnigkHPr8COpvf8k6R-drdyxHbK8heWgoga9OF_10x0-WMyiF6qvfjBt7uM7RsT3k-2aiA5DG0VDvRe4lnqHQzjWGlKk4VCgw8MCrvIYi9i3Nm_9DEDSOrBMoYV3Mqb9ZF8HuWFrpyfFS8zi2hQRf8oGq-TD5P0U2V57thDSt2yiX3WseZ2JOd8GOKuTa56zG6gxrT0"/>
+<div class="absolute bottom-2 left-2 flex items-center gap-1 text-white text-[10px] font-bold">
+<span class="material-symbols-outlined text-xs" data-icon="play_arrow" style="font-variation-settings: 'FILL' 1;">play_arrow</span>
+                        2.2K
+                    </div>
+</div>
+<div class="hidden md:block aspect-[9/16] rounded-xl overflow-hidden relative cursor-pointer group">
+<img alt="Reel 5" class="w-full h-full object-cover" data-alt="Mist-covered evergreen forest in the early morning light with deep green tones" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCgqjqOx3KaofVAPbgjm0IxF4huP1xTVJPzJyF36OLtdyv8RQPMF4uf-zlz-tNmot7q7zbQyirl8IbkjXUhT4U62JpPHQ-GTupEofm-Zu6S0tbTdsFasIgUwxHTIg9J519-koRD6IicG7LmkwH887QBp2Ln6uPRuLdk6f6zwTP8tGtqnN1JABQYppPrZnHTsBQuh-H-CWDtlk1Uznt34tgWggUpbuQp3BUS7tsATXLIJYRCmA64eCu3r7faXMTfuBUfEdXpWQ7cCIE"/>
+<div class="absolute bottom-2 left-2 flex items-center gap-1 text-white text-[10px] font-bold">
+<span class="material-symbols-outlined text-xs" data-icon="play_arrow" style="font-variation-settings: 'FILL' 1;">play_arrow</span>
+                        19.9K
+                    </div>
+</div>
+<div class="hidden md:block aspect-[9/16] rounded-xl overflow-hidden relative cursor-pointer group">
+<img alt="Reel 6" class="w-full h-full object-cover" data-alt="Aerial view of a team of designers working on large prototypes spread out on a white floor" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA5dQ_5KNAjkFS6JKYzHgxHY3NtigESWUFgwmp2gZj35_RaO2ZCrI2hiN0r_bvth1-cRHN5LsbJx5ZYh2PhqL1mOndx77EgRuq8Cc1hcPzYq0n2oICPEcsD725aPn4ZZwMTspvzudGbNh9zClnu-yLGeEui2rgW_EPMprdUxZ7WPxOPsxcuvLnq9mYqrZYZajZpUHeKkQnRwVRbz5EZ6u-RAGUMMU-5siAU596aXa-8XIv20ItxXsuRIrhch6ILiSvEPneDzK51RSU"/>
+<div class="absolute bottom-2 left-2 flex items-center gap-1 text-white text-[10px] font-bold">
+<span class="material-symbols-outlined text-xs" data-icon="play_arrow" style="font-variation-settings: 'FILL' 1;">play_arrow</span>
+                        3.5K
+                    </div>
+</div>
+</div>
+</section>
+</main>
+<!-- BottomNavBar -->
+<nav class="md:hidden fixed bottom-0 w-full z-50 bg-white/80 dark:bg-slate-950/80 backdrop-blur-xl shadow-[0_-4px_24px_rgba(0,0,0,0.04)] flex justify-around items-center h-[72px] px-4 pb-safe">
+<a class="flex flex-col items-center justify-center text-slate-400 dark:text-slate-500 hover:text-slate-900 dark:hover:text-slate-100 transition-transform duration-150 active:scale-90" href="#">
+<span class="material-symbols-outlined" data-icon="home">home</span>
+<span class="font-inter text-[10px] font-medium tracking-wide">Feed</span>
+</a>
+<a class="flex flex-col items-center justify-center text-blue-600 dark:text-blue-400 relative after:content-[''] after:absolute after:-bottom-1 after:w-1 after:h-1 after:bg-blue-600 after:rounded-full transition-transform duration-150 active:scale-90" href="#">
+<span class="material-symbols-outlined" data-icon="explore">explore</span>
+<span class="font-inter text-[10px] font-medium tracking-wide">Explore</span>
+</a>
+<a class="flex flex-col items-center justify-center text-slate-400 dark:text-slate-500 hover:text-slate-900 dark:hover:text-slate-100 transition-transform duration-150 active:scale-90" href="#">
+<span class="material-symbols-outlined text-3xl" data-icon="add_circle">add_circle</span>
+</a>
+<a class="flex flex-col items-center justify-center text-slate-400 dark:text-slate-500 hover:text-slate-900 dark:hover:text-slate-100 transition-transform duration-150 active:scale-90" href="#">
+<span class="material-symbols-outlined" data-icon="chat_bubble">chat_bubble</span>
+<span class="font-inter text-[10px] font-medium tracking-wide">Messages</span>
+</a>
+<a class="flex flex-col items-center justify-center text-slate-400 dark:text-slate-500 hover:text-slate-900 dark:hover:text-slate-100 transition-transform duration-150 active:scale-90" href="#">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+<span class="font-inter text-[10px] font-medium tracking-wide">Profile</span>
+</a>
+</nav>
+</body></html>

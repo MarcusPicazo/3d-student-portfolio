@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Resolver - Obsidian Laboratory</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Space+Grotesk:wght@500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary-fixed-dim": "#adc6ff",
+              "surface-bright": "#393939",
+              "secondary-fixed-dim": "#e8b3ff",
+              "inverse-surface": "#e5e2e1",
+              "on-surface-variant": "#c1c6d7",
+              "tertiary-fixed": "#ffdbcc",
+              "outline-variant": "#414755",
+              "on-surface": "#e5e2e1",
+              "tertiary": "#ffb595",
+              "on-primary": "#002e69",
+              "surface": "#131313",
+              "on-error": "#690005",
+              "error-container": "#93000a",
+              "error": "#ffb4ab",
+              "secondary": "#e8b3ff",
+              "on-error-container": "#ffdad6",
+              "surface-container-low": "#1c1b1b",
+              "on-tertiary-container": "#4c1a00",
+              "on-primary-container": "#00285c",
+              "inverse-primary": "#005bc1",
+              "on-secondary-fixed-variant": "#7201a2",
+              "surface-variant": "#353534",
+              "on-primary-fixed-variant": "#004493",
+              "primary": "#adc6ff",
+              "on-tertiary-fixed-variant": "#7c2e00",
+              "background": "#131313",
+              "secondary-container": "#7508a5",
+              "on-secondary": "#510074",
+              "surface-dim": "#131313",
+              "surface-tint": "#adc6ff",
+              "surface-container-highest": "#353534",
+              "secondary-fixed": "#f6d9ff",
+              "surface-container-lowest": "#0e0e0e",
+              "primary-container": "#4b8eff",
+              "on-primary-fixed": "#001a41",
+              "on-tertiary-fixed": "#351000",
+              "inverse-on-surface": "#313030",
+              "on-tertiary": "#571e00",
+              "outline": "#8b90a0",
+              "surface-container": "#201f1f",
+              "tertiary-fixed-dim": "#ffb595",
+              "surface-container-high": "#2a2a2a",
+              "primary-fixed": "#d8e2ff",
+              "on-background": "#e5e2e1",
+              "tertiary-container": "#ef6719",
+              "on-secondary-fixed": "#310048",
+              "on-secondary-container": "#e19fff"
+            },
+            fontFamily: {
+              "headline": ["Space Grotesk"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "1rem", "lg": "2rem", "xl": "3rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+        body {
+            background-color: #131313;
+            color: #e5e2e1;
+            overflow-x: hidden;
+        }
+        .glass-card {
+            background: rgba(53, 53, 52, 0.4);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+        }
+        .formula-cursor {
+            display: inline-block;
+            width: 2px;
+            height: 1.2em;
+            background-color: #adc6ff;
+            margin-left: 2px;
+            vertical-align: middle;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="font-body selection:bg-primary/30">
+<!-- Top App Bar -->
+<header class="bg-[#131313] dark:bg-[#131313] w-full top-0 px-6 py-4 flex justify-between items-center z-50 fixed">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-surface-container-high border border-outline-variant/20 overflow-hidden">
+<img alt="User Profile" class="w-full h-full object-cover" data-alt="Close-up portrait of a person with dramatic side lighting and a high-tech neon aesthetic" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDVZTao8vQnr3PcZFD6x63orae-veNk8BDnlixNSBm1fCe_BE_0FsalFWNHbGuxmg2hRDnalHkDSTC-dwhFsineja0UhTSTpoHa5cMPY14yxMLJe_de1Gb9JzrJFkHX17eEFCAaUT2CrxAeniA8SKVi5ZNd7SuioFeT5uqP7ZDJXYWF3vVnjag_RyGxJPBqrK4fzCeU4RvmgDr4yqstmGIVAo9yOCpXO1K_j5NtSy8d3ny0-qNl-01HI3kIo_hKHoRj5VKCU6Pw_Cg"/>
+</div>
+<span class="text-xl font-bold text-[#ADC6FF] dark:text-[#ADC6FF] font-['Space_Grotesk'] tracking-tight">Resolver</span>
+</div>
+<button class="text-[#ADC6FF] p-2 rounded-full hover:bg-white/5 transition-colors active:scale-95 duration-200">
+<span class="material-symbols-outlined">settings</span>
+</button>
+</header>
+<main class="pt-24 pb-48 min-h-screen flex flex-col px-6">
+<!-- Display Area: The Result & Input -->
+<section class="flex-grow flex flex-col justify-end gap-12 py-8">
+<!-- Asymmetric Recent History Area -->
+<div class="flex gap-4 overflow-x-auto pb-4 no-scrollbar -mx-6 px-6">
+<div class="glass-card min-w-[180px] p-5 rounded-lg border border-white/5 flex flex-col gap-2">
+<span class="text-xs font-medium text-secondary-fixed-dim uppercase tracking-tighter">Cálculo de Área</span>
+<span class="font-headline text-lg font-bold">πr² = 78.54</span>
+</div>
+<div class="glass-card min-w-[140px] p-5 rounded-lg border border-white/5 flex flex-col gap-2 opacity-60">
+<span class="text-xs font-medium text-primary-fixed-dim uppercase tracking-tighter">Log</span>
+<span class="font-headline text-lg font-bold">log(100) = 2</span>
+</div>
+<div class="glass-card min-w-[200px] p-5 rounded-lg border border-white/5 flex flex-col gap-2 opacity-40">
+<span class="text-xs font-medium text-tertiary uppercase tracking-tighter">Matriz</span>
+<span class="font-headline text-lg font-bold">det(A) = 12</span>
+</div>
+</div>
+<!-- Mathematical Input Field -->
+<div class="space-y-4">
+<div class="flex items-end justify-between">
+<div class="flex flex-col">
+<span class="text-primary/50 text-xs font-label uppercase tracking-widest mb-2">Entrada Científica</span>
+<div class="font-headline text-4xl md:text-6xl font-bold tracking-tight text-on-surface flex items-center">
+                            ∫(x² + 2x) dx<span class="formula-cursor"></span>
+</div>
+</div>
+</div>
+<div class="h-1 w-full bg-surface-container-low rounded-full overflow-hidden">
+<div class="h-full w-2/3 bg-gradient-to-r from-primary to-secondary"></div>
+</div>
+</div>
+</section>
+<!-- Dynamic Keyboard Container -->
+<section class="fixed bottom-24 left-0 w-full bg-surface-container-lowest/80 backdrop-blur-3xl px-6 pt-8 pb-10 rounded-t-[3rem] border-t border-white/5 shadow-[0_-8px_32px_rgba(173,198,255,0.08)]">
+<div class="max-w-screen-xl mx-auto">
+<!-- Functions Row -->
+<div class="flex gap-3 mb-6 overflow-x-auto no-scrollbar">
+<span class="bg-secondary-container/20 text-secondary-fixed-dim px-4 py-2 rounded-full text-xs font-bold font-label border border-secondary-container/30">SIN</span>
+<span class="bg-secondary-container/20 text-secondary-fixed-dim px-4 py-2 rounded-full text-xs font-bold font-label border border-secondary-container/30">COS</span>
+<span class="bg-secondary-container/20 text-secondary-fixed-dim px-4 py-2 rounded-full text-xs font-bold font-label border border-secondary-container/30">TAN</span>
+<span class="bg-secondary-container/20 text-secondary-fixed-dim px-4 py-2 rounded-full text-xs font-bold font-label border border-secondary-container/30">LOG</span>
+<span class="bg-secondary-container/20 text-secondary-fixed-dim px-4 py-2 rounded-full text-xs font-bold font-label border border-secondary-container/30">RAD</span>
+<span class="bg-secondary-container/20 text-secondary-fixed-dim px-4 py-2 rounded-full text-xs font-bold font-label border border-secondary-container/30">INV</span>
+</div>
+<div class="grid grid-cols-4 gap-4">
+<!-- Standard Numbers & Ops -->
+<button class="h-16 rounded-lg bg-surface-container-high text-on-surface font-headline text-2xl font-bold active:bg-surface-bright transition-colors duration-100">7</button>
+<button class="h-16 rounded-lg bg-surface-container-high text-on-surface font-headline text-2xl font-bold active:bg-surface-bright transition-colors duration-100">8</button>
+<button class="h-16 rounded-lg bg-surface-container-high text-on-surface font-headline text-2xl font-bold active:bg-surface-bright transition-colors duration-100">9</button>
+<button class="h-16 rounded-lg bg-primary/10 text-primary font-headline text-2xl font-bold active:bg-primary/20 transition-colors duration-100">/</button>
+<button class="h-16 rounded-lg bg-surface-container-high text-on-surface font-headline text-2xl font-bold active:bg-surface-bright transition-colors duration-100">4</button>
+<button class="h-16 rounded-lg bg-surface-container-high text-on-surface font-headline text-2xl font-bold active:bg-surface-bright transition-colors duration-100">5</button>
+<button class="h-16 rounded-lg bg-surface-container-high text-on-surface font-headline text-2xl font-bold active:bg-surface-bright transition-colors duration-100">6</button>
+<button class="h-16 rounded-lg bg-primary/10 text-primary font-headline text-2xl font-bold active:bg-primary/20 transition-colors duration-100">*</button>
+<button class="h-16 rounded-lg bg-surface-container-high text-on-surface font-headline text-2xl font-bold active:bg-surface-bright transition-colors duration-100">1</button>
+<button class="h-16 rounded-lg bg-surface-container-high text-on-surface font-headline text-2xl font-bold active:bg-surface-bright transition-colors duration-100">2</button>
+<button class="h-16 rounded-lg bg-surface-container-high text-on-surface font-headline text-2xl font-bold active:bg-surface-bright transition-colors duration-100">3</button>
+<button class="h-16 rounded-lg bg-primary/10 text-primary font-headline text-2xl font-bold active:bg-primary/20 transition-colors duration-100">-</button>
+<button class="h-16 rounded-lg bg-surface-container-high text-on-surface font-headline text-2xl font-bold active:bg-surface-bright transition-colors duration-100">0</button>
+<button class="h-16 rounded-lg bg-surface-container-high text-on-surface font-headline text-2xl font-bold active:bg-surface-bright transition-colors duration-100">.</button>
+<button class="h-16 rounded-lg bg-error-container/20 text-error font-headline text-2xl font-bold active:bg-error-container/30 transition-colors duration-100">C</button>
+<button class="h-16 rounded-lg bg-primary/10 text-primary font-headline text-2xl font-bold active:bg-primary/20 transition-colors duration-100">+</button>
+<!-- Resolver Action -->
+<button class="col-span-4 h-18 mt-2 rounded-lg bg-gradient-to-r from-primary to-primary-container text-on-primary font-headline text-xl font-bold tracking-widest uppercase shadow-[0_4px_20px_rgba(173,198,255,0.3)] active:scale-95 transition-transform duration-200">
+                        RESOLVER
+                    </button>
+</div>
+</div>
+</section>
+</main>
+<!-- Bottom Nav Bar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 pb-8 pt-4 bg-[#131313]/80 backdrop-blur-xl dark:bg-[#131313]/80 shadow-[0_-1px_0_0_rgba(255,255,255,0.05)]">
+<div class="flex flex-col items-center justify-center bg-[#ADC6FF]/10 text-[#ADC6FF] rounded-[1.5rem] px-5 py-2 active:scale-90 duration-200 transition-all cursor-pointer">
+<span class="material-symbols-outlined mb-1">calculate</span>
+<span class="font-['Inter'] text-[10px] uppercase tracking-widest font-medium">Resolver</span>
+</div>
+<div class="flex flex-col items-center justify-center text-white/50 px-5 py-2 hover:text-[#ADC6FF] transition-all active:scale-90 duration-200 cursor-pointer">
+<span class="material-symbols-outlined mb-1">explore</span>
+<span class="font-['Inter'] text-[10px] uppercase tracking-widest font-medium">Explorar</span>
+</div>
+<div class="flex flex-col items-center justify-center text-white/50 px-5 py-2 hover:text-[#ADC6FF] transition-all active:scale-90 duration-200 cursor-pointer">
+<span class="material-symbols-outlined mb-1">school</span>
+<span class="font-['Inter'] text-[10px] uppercase tracking-widest font-medium">Aprender</span>
+</div>
+<div class="flex flex-col items-center justify-center text-white/50 px-5 py-2 hover:text-[#ADC6FF] transition-all active:scale-90 duration-200 cursor-pointer">
+<span class="material-symbols-outlined mb-1">menu_book</span>
+<span class="font-['Inter'] text-[10px] uppercase tracking-widest font-medium">Biblioteca</span>
+</div>
+</nav>
+</body></html>

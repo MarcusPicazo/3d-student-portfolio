@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Manrope:wght@700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "on-secondary-fixed-variant": "#474649",
+              "background": "#f9f9fe",
+              "error-container": "#ffdad6",
+              "surface-container": "#ededf2",
+              "on-primary-fixed": "#001a41",
+              "tertiary-container": "#c64f00",
+              "tertiary-fixed-dim": "#ffb595",
+              "outline-variant": "#c1c6d7",
+              "on-secondary-fixed": "#1b1b1d",
+              "on-background": "#1a1c1f",
+              "surface-container-low": "#f3f3f8",
+              "surface": "#f9f9fe",
+              "on-primary": "#ffffff",
+              "on-secondary-container": "#636264",
+              "primary-container": "#0070eb",
+              "inverse-surface": "#2e3034",
+              "secondary-fixed-dim": "#c8c6c8",
+              "on-error-container": "#93000a",
+              "inverse-primary": "#adc6ff",
+              "on-tertiary": "#ffffff",
+              "surface-tint": "#005bc1",
+              "primary": "#0058bc",
+              "on-error": "#ffffff",
+              "on-secondary": "#ffffff",
+              "surface-dim": "#d9dade",
+              "surface-container-high": "#e8e8ed",
+              "surface-container-highest": "#e2e2e7",
+              "surface-container-lowest": "#ffffff",
+              "on-surface-variant": "#414755",
+              "primary-fixed-dim": "#adc6ff",
+              "secondary": "#5f5e60",
+              "on-tertiary-fixed": "#351000",
+              "secondary-container": "#e2dfe1",
+              "on-primary-fixed-variant": "#004493",
+              "secondary-fixed": "#e4e2e4",
+              "inverse-on-surface": "#f0f0f5",
+              "surface-bright": "#f9f9fe",
+              "on-surface": "#1a1c1f",
+              "outline": "#717786",
+              "tertiary": "#9e3d00",
+              "error": "#ba1a1a",
+              "on-primary-container": "#fefcff",
+              "surface-variant": "#e2e2e7",
+              "primary-fixed": "#d8e2ff",
+              "on-tertiary-fixed-variant": "#7c2e00",
+              "on-tertiary-container": "#fffbff",
+              "tertiary-fixed": "#ffdbcc"
+            },
+            fontFamily: {
+              "headline": ["Manrope"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass-header {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(20px);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface font-body text-on-surface antialiased">
+<!-- TopAppBar -->
+<header class="sticky top-0 z-50 w-full bg-white/80 dark:bg-slate-950/80 backdrop-blur-xl shadow-sm shadow-slate-200/50 dark:shadow-none flex items-center justify-between px-6 h-[72px]">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full overflow-hidden bg-surface-container-high">
+<img alt="User profile photo" class="w-full h-full object-cover" data-alt="close-up portrait of a confident male professional with a warm smile, wearing a modern charcoal blazer, soft studio lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCNw-kZ-NmmSDAKx-vc0H2hgK_kQfHyVuzEVIO1yXCVkbc7fXyFFOp4lpiHPI5IWR9m_5_sUxvkZvcWjPA7zP20oa5QA0gTtQ1b2r03TgfUK7HoO3k2Mdrplrifq1QBOtmPHv9IuWnaCkEx_WQDva0MQWrjV-LifkvKQrqAqCX50H5ix4IB7IR_FEtYMejH_h_30QE4-8LKnCgF3Vm9WrFCr3tGt3Yu5TPgFNpxDLj6fZemrhoethcjumCqk8jYa1yr5pODvYner6I"/>
+</div>
+<span class="font-manrope font-extrabold tracking-tighter text-2xl text-slate-900 dark:text-slate-50">Kinetic</span>
+</div>
+<div class="flex items-center gap-4">
+<button class="p-2 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors active:scale-95 duration-200">
+<span class="material-symbols-outlined text-slate-500 dark:text-slate-400">search</span>
+</button>
+<button class="p-2 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors active:scale-95 duration-200">
+<span class="material-symbols-outlined text-slate-500 dark:text-slate-400">more_vert</span>
+</button>
+</div>
+</header>
+<main class="max-w-4xl mx-auto px-6 py-8 pb-32">
+<!-- Profile Header Section -->
+<section class="flex flex-col md:flex-row gap-8 items-start md:items-center mb-12">
+<div class="relative group">
+<div class="w-32 h-32 md:w-44 md:h-44 rounded-full p-1 bg-gradient-to-tr from-primary to-primary-container">
+<div class="w-full h-full rounded-full border-4 border-surface overflow-hidden">
+<img alt="Profile avatar" class="w-full h-full object-cover" data-alt="high-resolution professional headshot of a creative director in a minimalist white studio, neutral tones, editorial style" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBt-HrPgAI_Amq0OIkitnzQ9gQUBDudPFcjvlJOR11zmN3kWDywiW3gZAWIEwk58cadji3AiscZmszTOveZMls0sqJ33aOnHT3Oehr8SaUK1a-14UdexDmojg3Rmc0z4hZ5OSVyfbSQqKhB90jTaf0guu_omiVN86APQbQ1qPm2tsOiFgBxd9ieId_ei2M7BCkokx14A7uP7QQBH91Ap_4RRFmKy7EhNnrs3JmOZq821Ft35FfiyCzZhtS-hBNW7ZqdQvTPEqLFWG0"/>
+</div>
+</div>
+</div>
+<div class="flex-1 space-y-6">
+<div class="flex flex-col gap-2">
+<h1 class="font-headline text-3xl md:text-4xl font-extrabold tracking-tight text-on-surface">Alex Rivera</h1>
+<p class="text-on-surface-variant max-w-lg leading-relaxed">
+                        Creative Director &amp; Digital Strategist. Building the future of human-centric interfaces at Nexus Lab. Exploring the intersection of minimalism and high-performance design.
+                    </p>
+</div>
+<div class="flex gap-8 items-center py-2">
+<div class="flex flex-col">
+<span class="font-headline text-xl font-bold text-on-surface">1,284</span>
+<span class="text-label-sm text-on-surface-variant uppercase tracking-wider font-semibold text-[10px]">Posts</span>
+</div>
+<div class="flex flex-col">
+<span class="font-headline text-xl font-bold text-on-surface">42.8k</span>
+<span class="text-label-sm text-on-surface-variant uppercase tracking-wider font-semibold text-[10px]">Followers</span>
+</div>
+<div class="flex flex-col">
+<span class="font-headline text-xl font-bold text-on-surface">892</span>
+<span class="text-label-sm text-on-surface-variant uppercase tracking-wider font-semibold text-[10px]">Following</span>
+</div>
+</div>
+<div class="flex flex-wrap gap-3 pt-2">
+<button class="px-8 py-2.5 rounded-lg bg-gradient-to-br from-primary to-primary-container text-on-primary font-semibold text-sm shadow-lg shadow-primary/20 hover:shadow-primary/30 active:scale-95 transition-all">
+                        Edit Profile
+                    </button>
+<button class="px-8 py-2.5 rounded-lg bg-surface-container-high text-on-surface-variant font-semibold text-sm hover:bg-surface-container-highest active:scale-95 transition-all">
+                        Share Profile
+                    </button>
+</div>
+</div>
+</section>
+<!-- Highlights Section -->
+<section class="mb-12">
+<div class="flex gap-6 overflow-x-auto pb-4 no-scrollbar">
+<div class="flex flex-col items-center gap-2 flex-shrink-0 cursor-pointer group">
+<div class="w-16 h-16 rounded-full border-2 border-outline-variant p-0.5 group-hover:border-primary transition-colors">
+<div class="w-full h-full rounded-full overflow-hidden bg-surface-container">
+<img alt="Highlight Lab" class="w-full h-full object-cover" data-alt="ultra-modern minimalist office interior with floor to ceiling windows and clean white furniture" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA-5C5VVv-Hasc0BvUYlB-CY_z-gj_8W_v5yfpihMw6gQ3FQN11zyV6EtwQZ43RU51gtunlrfEHC3gg7KYzJ9lRChPXjIGIHb_2BhraqFvP_BLT8nGZECRGC9xLyxJZWVXnVRtjTXFfdIV1y2LT9919dzK0EbKWSjszKPrK_e41qMZifgh-vK8eywkUu3HND7rwYpCfVG16vlsorEaqHBU8kAygtR2VXKEslz0OVHLM0ISTSyC3kzX_vHovuafzIdlmWhP6o6QTI9A"/>
+</div>
+</div>
+<span class="text-[11px] font-medium text-on-surface-variant">The Lab</span>
+</div>
+<div class="flex flex-col items-center gap-2 flex-shrink-0 cursor-pointer group">
+<div class="w-16 h-16 rounded-full border-2 border-outline-variant p-0.5 group-hover:border-primary transition-colors">
+<div class="w-full h-full rounded-full overflow-hidden bg-surface-container">
+<img alt="Highlight Process" class="w-full h-full object-cover" data-alt="macro shot of code on a high-resolution monitor with purple and blue glowing ambient light" src="https://lh3.googleusercontent.com/aida-public/AB6AXuChuhSd5YloxAERXr5YAc38faa6saHejR9hUkcGb2oXHsWArmH0TnO6O4h3260qtuSCMreU4fssYRkiSbfuWGYPVDoKWaln73adnHLnuhO4PnnsBgmpnKeT0ORg65ek-7QDnWY4aQRJRqpbcAAAlTRArvzn1zmdzswLJjMDAlaXtx3o1jpINPuHgom00-fArIXH0vpNlLUVPx5aU86V9oT7y3_reZzkAXxWNHR75mKeNBOA23upcQanV-LLJ347BSxKtqN8OsvXKHY"/>
+</div>
+</div>
+<span class="text-[11px] font-medium text-on-surface-variant">Process</span>
+</div>
+<div class="flex flex-col items-center gap-2 flex-shrink-0 cursor-pointer group">
+<div class="w-16 h-16 rounded-full border-2 border-outline-variant p-0.5 group-hover:border-primary transition-colors">
+<div class="w-full h-full rounded-full overflow-hidden bg-surface-container">
+<img alt="Highlight Gear" class="w-full h-full object-cover" data-alt="minimalist overhead shot of luxury tech accessories like a watch and camera on a light grey stone surface" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBb09DfWGPgmaDWjUNTUwSmK6WDj5tRoHG3qoVuy5I3kJv01yUuAvo9I0bHGge4kfo7ebBSfco4f3yfjaPRp7bBB6-zFt6QHk08fE2VbO5rM0f-9sajI-LirjO_KOiVZdtOSUd0bkup5skwHlQE2O-kDDOlZeW8fXRAG1Gn9XtlJ9Am1BPvShLrFDJCy2SgeJNcUY9gQWqnCCkI9d_Wa3Dv7CbMSZeshA2tPKYAPmNwihl6ik30CyiL1pvIFMVQmyozsu8M79b2lME"/>
+</div>
+</div>
+<span class="text-[11px] font-medium text-on-surface-variant">Gear</span>
+</div>
+<div class="flex flex-col items-center gap-2 flex-shrink-0 cursor-pointer group">
+<div class="w-16 h-16 rounded-full border-2 border-outline-variant p-0.5 group-hover:border-primary transition-colors">
+<div class="w-full h-full rounded-full overflow-hidden bg-surface-container">
+<img alt="Highlight Travel" class="w-full h-full object-cover" data-alt="misty mountain peak at sunrise with a lone pine tree silhouette against soft orange sky" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCNQath9dtBukGjyi6pHoB1YU5mGU2MCOPJg2okKC1Rpxqwmme-dVUUwUhLdWiFYgoChck4lKuwlVHrByk3OClepVQgXJArXfaJ_zs1HMhg8J8zR_uo9WKcC9dgWSvk_gcvKk163yRPo0I3m2byYS0ZRtYvv4yZTT2UGKKTmfIK3Q4VOXjRCEJ4E8x8_O084Cnh47fabl1P-N7LO-bWEVVJit8coWyAwv2IZnFFHNPIsYkx82Pgp17zw8QofGNqcObPBsLOk-OoB4A"/>
+</div>
+</div>
+<span class="text-[11px] font-medium text-on-surface-variant">Travel</span>
+</div>
+<div class="flex flex-col items-center gap-2 flex-shrink-0 cursor-pointer group">
+<div class="w-16 h-16 rounded-full border-2 border-outline-variant p-0.5 flex items-center justify-center bg-surface-container-low group-hover:bg-surface-container-high transition-colors">
+<span class="material-symbols-outlined text-on-surface-variant">add</span>
+</div>
+<span class="text-[11px] font-medium text-on-surface-variant">New</span>
+</div>
+</div>
+</section>
+<!-- Tabs Section -->
+<div class="flex justify-center border-t border-surface-container mb-8">
+<div class="flex gap-12 -mt-px">
+<button class="flex items-center gap-2 py-4 border-t-2 border-primary text-primary font-semibold text-xs uppercase tracking-widest">
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">grid_view</span>
+                    Feed
+                </button>
+<button class="flex items-center gap-2 py-4 border-t-2 border-transparent text-on-surface-variant font-medium text-xs uppercase tracking-widest hover:text-on-surface transition-colors">
+<span class="material-symbols-outlined text-[18px]">business_center</span>
+                    Portfolio
+                </button>
+<button class="flex items-center gap-2 py-4 border-t-2 border-transparent text-on-surface-variant font-medium text-xs uppercase tracking-widest hover:text-on-surface transition-colors">
+<span class="material-symbols-outlined text-[18px]">bookmark</span>
+                    Saved
+                </button>
+<button class="flex items-center gap-2 py-4 border-t-2 border-transparent text-on-surface-variant font-medium text-xs uppercase tracking-widest hover:text-on-surface transition-colors">
+<span class="material-symbols-outlined text-[18px]">assignment_ind</span>
+                    Tagged
+                </button>
+</div>
+</div>
+<!-- Bento Grid Portfolio/Feed -->
+<div class="grid grid-cols-2 md:grid-cols-3 gap-1 md:gap-4">
+<!-- Large Feature Card -->
+<div class="col-span-2 row-span-2 aspect-square md:aspect-auto md:h-full rounded-none md:rounded-xl overflow-hidden bg-surface-container-low relative group cursor-pointer">
+<img alt="Project 1" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="overhead shot of a clean workspace with a laptop, designer notes, and coffee cup on a light wood desk, bright and airy" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDRGNPx-8NHAEIrt6MyZbMJAPcUIho6IykP1n3_m5IYp689msQ1riDDvKig8w4SX-UXqT2g0tUiX6s3d7FmY_YiFbm9ccSawOqR7IyiUV0uQya_2CrEJ8rUOo4cSwdjWQArjycu87Rn-gIT868uOqAy-ZQKZeKxPAvpQMOef8yBirEKxknc0EW2udEpyRpwYiH0CwD8a-Szkr3m6chnO9f0XEP1ArRt5AnTwQbv4U0_6jC2MXnduFk9uFMizBJq9IYBqr3JizkY0ew"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6">
+<span class="text-white/70 text-[10px] uppercase tracking-[0.2em] font-bold">Case Study</span>
+<h3 class="text-white font-headline text-xl font-bold">The Minimalism Project</h3>
+</div>
+</div>
+<!-- Small Cards -->
+<div class="aspect-square rounded-none md:rounded-xl overflow-hidden bg-surface-container-low relative group cursor-pointer">
+<img alt="Project 2" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" data-alt="aesthetic close-up of high-tech code architecture on a screen with soft glowing depth of field" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAO2khKuMaERgDniyLrhYhXcieVFuauzDUp-nfMTK4K2DVS0-g18Lm2quZoExfurZDmuTsLsLLbQdAKmKaOG-h7zwhePzq38NC2aEOcmBfmeW5nDTKpmqmiD7SqGOqXNWbxswCbW_XR0uvtqkwYRt18EjZPjIlVNDHGerIDo6xA0rJE_JMJ3aEAajFB8Dg-fv9OUy_Vo_Sf9_A_1e4DxZfYoxpq6XzQT-kmJKl8ipG3pixofVO0h2EcTQG85CLikGWujH1zRibvtTw"/>
+<div class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+<span class="material-symbols-outlined text-white" style="font-variation-settings: 'FILL' 1;">favorite</span>
+</div>
+</div>
+<div class="aspect-square rounded-none md:rounded-xl overflow-hidden bg-surface-container-low relative group cursor-pointer">
+<img alt="Project 3" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" data-alt="clean minimalist home office with a white desk and a small green plant, architectural lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB_AGNnJ1JXm8AFT0CplzX0dLCi6MWRyxfN1t55ZFicF8CYIDex4BsPbKT9nba_dGPXOqd-y4hmBttzTZjibuIZ9XA8vd8Q0ULErmM2UM1rrlzAFPDI6vFkOmTVJwo0XRQxrokt5cgT88fZdPEnhz8FRFimZeWTas9gBrSinrmk8KzZivHubBWgn6Boys-QPZoJy3lJGIR5FgLzQiq_VO_tY0iurr2MYOk-eYdjA3_scLpbHeeyNwpf_-5DiMxtq4_VVvG_FzrKYww"/>
+</div>
+<div class="aspect-square rounded-none md:rounded-xl overflow-hidden bg-surface-container-low relative group cursor-pointer">
+<img alt="Project 4" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" data-alt="collaborative team meeting around a light wood table with laptops and sketches in a sunlit modern studio" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDKHO3vlwvJV1cdJT0BaQMcbQr3X603RvRB5oWshD6ZFvgKXjaAzz9kJE2gCVZOxGLPJMqZ0D0N17sylA0Bq4Y6w2ZaFdKZ4dvS706sxelw2-mu0Ugoc9_jiY7mZfz8JHyJb9VyKOE6X_Y7v4iefoY3KlatkIQxLjaL3W7734po0EmU_Py4jB2o798-c90pHimuApI9jRX3PdN6qOQy2_2WZESaLnqhl8Zk7KODJfpfiF0N0P13jRt4_lfU_2jtF7lyQEaHNAClggM"/>
+</div>
+<div class="aspect-square rounded-none md:rounded-xl overflow-hidden bg-surface-container-low relative group cursor-pointer">
+<img alt="Project 5" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" data-alt="macro detail of an elegant watch face on a wrist, emphasizing precision and design excellence" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAN-yP4qxke-_WBx4UgQbJGgau7ZcdySFIolEokAef6VPfQR9PiJwk3PvutEINhkr60Jnwx8BafkxqbURaGvhdd3P2nHyoPNfTdtH370G3dFqvJyVCHrzYFwwhr7IcMUIKBcOq5-pJTwex44GnFAibYWE3veRpMfIhtmV69yiNewItcE0oTJFRv_B0Y-jLc-QVBJiOA53wEt-D-xLw-mBsgGMtCcRjQKIvimgtES2ATv2HDMH9JenCcVroZM7UKRrOtQJPgNT1ad-Y"/>
+</div>
+<div class="aspect-square rounded-none md:rounded-xl overflow-hidden bg-surface-container-low relative group cursor-pointer">
+<img alt="Project 6" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" data-alt="modern brutalist architecture building facade with strong geometric lines and blue sky background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB7Bbdgw7Thmob_q2bbnMw8iTUAJ5HD8ITyxoWjLABmYgNuHNTrtP1f-MD8OIlotW55tAMrpYqx4FGMRTre9r6UiU8jtSo_KDxUJpBRtxNuZdINlqLN_u1bjDtnvjraROycr7SRLwopLtqw8fkKOQ1Q3ybH4zhW2xGSc3Hw9nZTfpt2l8BG5yMaaL1V-0A6dhOBuMfCMh-GaLxt8RgCTkxnqOPnuKQUzj0Z5xrxpAdwYYoo382sFdJPaTav8pxc5L0FWeK26WN9KBo"/>
+</div>
+</div>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 w-full z-50 bg-white/80 dark:bg-slate-950/80 backdrop-blur-xl shadow-[0_-4px_24px_rgba(0,0,0,0.04)] h-[72px] px-4 pb-safe flex justify-around items-center border-t border-slate-100 dark:border-slate-800">
+<a class="flex flex-col items-center justify-center text-slate-400 dark:text-slate-500 hover:text-slate-900 dark:hover:text-slate-100 active:scale-90 transition-transform duration-150" href="#">
+<span class="material-symbols-outlined">home</span>
+<span class="font-inter text-[10px] font-medium tracking-wide">Feed</span>
+</a>
+<a class="flex flex-col items-center justify-center text-slate-400 dark:text-slate-500 hover:text-slate-900 dark:hover:text-slate-100 active:scale-90 transition-transform duration-150" href="#">
+<span class="material-symbols-outlined">explore</span>
+<span class="font-inter text-[10px] font-medium tracking-wide">Explore</span>
+</a>
+<a class="flex flex-col items-center justify-center text-slate-400 dark:text-slate-500 hover:text-slate-900 dark:hover:text-slate-100 active:scale-90 transition-transform duration-150" href="#">
+<span class="material-symbols-outlined text-[32px] text-primary">add_circle</span>
+<span class="font-inter text-[10px] font-medium tracking-wide">Create</span>
+</a>
+<a class="flex flex-col items-center justify-center text-slate-400 dark:text-slate-500 hover:text-slate-900 dark:hover:text-slate-100 active:scale-90 transition-transform duration-150" href="#">
+<span class="material-symbols-outlined">chat_bubble</span>
+<span class="font-inter text-[10px] font-medium tracking-wide">Messages</span>
+</a>
+<a class="flex flex-col items-center justify-center text-blue-600 dark:text-blue-400 relative after:content-[''] after:absolute after:-bottom-1 after:w-1 after:h-1 after:bg-blue-600 after:rounded-full active:scale-90 transition-transform duration-150" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">person</span>
+<span class="font-inter text-[10px] font-medium tracking-wide">Profile</span>
+</a>
+</nav>
+</body></html>

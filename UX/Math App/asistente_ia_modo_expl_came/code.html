@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MathAI - Explícame</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Space+Grotesk:wght@500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary-fixed-dim": "#adc6ff",
+              "surface-bright": "#393939",
+              "secondary-fixed-dim": "#e8b3ff",
+              "inverse-surface": "#e5e2e1",
+              "on-surface-variant": "#c1c6d7",
+              "tertiary-fixed": "#ffdbcc",
+              "outline-variant": "#414755",
+              "on-surface": "#e5e2e1",
+              "tertiary": "#ffb595",
+              "on-primary": "#002e69",
+              "surface": "#131313",
+              "on-error": "#690005",
+              "error-container": "#93000a",
+              "error": "#ffb4ab",
+              "secondary": "#e8b3ff",
+              "on-error-container": "#ffdad6",
+              "surface-container-low": "#1c1b1b",
+              "on-tertiary-container": "#4c1a00",
+              "on-primary-container": "#00285c",
+              "inverse-primary": "#005bc1",
+              "on-secondary-fixed-variant": "#7201a2",
+              "surface-variant": "#353534",
+              "on-primary-fixed-variant": "#004493",
+              "primary": "#adc6ff",
+              "on-tertiary-fixed-variant": "#7c2e00",
+              "background": "#131313",
+              "secondary-container": "#7508a5",
+              "on-secondary": "#510074",
+              "surface-dim": "#131313",
+              "surface-tint": "#adc6ff",
+              "surface-container-highest": "#353534",
+              "secondary-fixed": "#f6d9ff",
+              "surface-container-lowest": "#0e0e0e",
+              "primary-container": "#4b8eff",
+              "on-primary-fixed": "#001a41",
+              "on-tertiary-fixed": "#351000",
+              "inverse-on-surface": "#313030",
+              "on-tertiary": "#571e00",
+              "outline": "#8b90a0",
+              "surface-container": "#201f1f",
+              "tertiary-fixed-dim": "#ffb595",
+              "surface-container-high": "#2a2a2a",
+              "primary-fixed": "#d8e2ff",
+              "on-background": "#e5e2e1",
+              "tertiary-container": "#ef6719",
+              "on-secondary-fixed": "#310048",
+              "on-secondary-container": "#e19fff"
+            },
+            fontFamily: {
+              "headline": ["Space Grotesk"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "1rem", "lg": "2rem", "xl": "3rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+      .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      }
+      .glass-card {
+        background: rgba(53, 53, 52, 0.4);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+      }
+      .bg-glow-purple {
+        background: radial-gradient(circle at center, rgba(232, 179, 255, 0.08) 0%, transparent 70%);
+      }
+      .bg-glow-blue {
+        background: radial-gradient(circle at center, rgba(173, 198, 255, 0.08) 0%, transparent 70%);
+      }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface text-on-surface font-body min-h-screen flex flex-col">
+<!-- Top Navigation Bar -->
+<nav class="bg-[#131313] dark:bg-[#131313] w-full top-0 px-6 py-4 flex justify-between items-center z-50 sticky">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-surface-container-high flex items-center justify-center overflow-hidden border border-outline-variant/20">
+<img alt="User Profile Profile" class="w-full h-full object-cover" data-alt="Portrait of a young student smiling with soft studio lighting and a clean dark background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDpdXum6aLecWXO9k5whCDQbDomgEj2lS40H_AwKo5YKSsJj3D0htUVx9YOgT7DUOLM8r29UIUY6SpsWcAX2DEVEJWE1dolJF-e8ooq7VSY3oo9q4JG9imOCCsRnpvAYdaNxRPrac7KQjL7DiCkPx9YPdAfV3rOzEAvprPExzAHbzIv3JadJgzJDOmQtOEK0jgObGxVtJRItR7yf490daB9scDgnSuRuPUlHFy7GJvUVcfaTb8iTFe4LhPCf4CWKievlFtsrWlraNk"/>
+</div>
+<span class="font-['Space_Grotesk'] font-bold tracking-tight text-xl text-[#ADC6FF] dark:text-[#ADC6FF]">Resolver</span>
+</div>
+<button class="material-symbols-outlined text-white/70 hover:bg-white/5 transition-colors p-2 rounded-full active:scale-95 transition-transform" data-icon="settings">settings</button>
+</nav>
+<!-- Chat Canvas -->
+<main class="flex-1 max-w-4xl mx-auto w-full px-4 pb-32 pt-6 relative overflow-hidden">
+<!-- Background Ambient Glows -->
+<div class="absolute top-20 left-0 w-96 h-96 bg-glow-blue pointer-events-none"></div>
+<div class="absolute bottom-40 right-0 w-96 h-96 bg-glow-purple pointer-events-none"></div>
+<div class="space-y-10 relative z-10">
+<!-- User Message -->
+<div class="flex flex-col items-end space-y-2 max-w-[85%] ml-auto">
+<div class="bg-surface-container-high text-on-surface px-6 py-4 rounded-t-3xl rounded-bl-3xl shadow-sm">
+<p class="text-[0.9375rem] leading-relaxed">Explícame esto como si tuviera 10 años: ¿Por qué el área de un círculo es πr²?</p>
+</div>
+<span class="text-[0.65rem] uppercase tracking-widest text-white/30 font-medium mr-2">Tú • 14:02</span>
+</div>
+<!-- AI Response -->
+<div class="flex flex-col items-start space-y-4 max-w-[90%]">
+<div class="flex items-center gap-2 mb-1">
+<div class="w-8 h-8 rounded-full bg-primary-container flex items-center justify-center">
+<span class="material-symbols-outlined text-on-primary-container text-lg" style="font-variation-settings: 'FILL' 1;">auto_awesome</span>
+</div>
+<span class="font-headline font-bold text-secondary tracking-tight">MathAI</span>
+</div>
+<!-- AI Message Bubble (Glass) -->
+<div class="glass-card border border-outline-variant/10 px-6 py-6 rounded-t-xl rounded-br-xl space-y-6">
+<p class="text-[1rem] leading-relaxed text-on-surface/90">
+                        ¡Claro! Imagina que tenemos una <span class="text-primary font-bold">Pizza</span> redonda 🍕.
+                    </p>
+<!-- Visual Aid: Bento Grid Style -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<div class="bg-surface-container-low p-4 rounded-lg border border-outline-variant/5">
+<p class="text-xs font-label uppercase tracking-widest text-primary mb-3">Paso 1: Cortar</p>
+<p class="text-sm text-on-surface/70 leading-snug">Si cortas la pizza en muchísimas rebanadas muy finitas...</p>
+<div class="mt-4 h-24 flex items-center justify-center">
+<svg class="text-primary" height="80" viewbox="0 0 100 100" width="80">
+<circle cx="50" cy="50" fill="none" r="40" stroke="currentColor" stroke-dasharray="2 2" stroke-width="2"></circle>
+<path d="M50 10 L50 90 M10 50 L90 50 M22 22 L78 78 M78 22 L22 78" opacity="0.5" stroke="currentColor" stroke-width="1"></path>
+</svg>
+</div>
+</div>
+<div class="bg-surface-container-low p-4 rounded-lg border border-outline-variant/5">
+<p class="text-xs font-label uppercase tracking-widest text-secondary mb-3">Paso 2: Reacomodar</p>
+<p class="text-sm text-on-surface/70 leading-snug">Y las pones una al derecho y otra al revés, ¡forman casi un <span class="text-secondary font-medium">Rectángulo</span>!</p>
+<div class="mt-4 h-24 flex items-center justify-center">
+<div class="flex gap-1">
+<div class="w-4 h-12 bg-primary/20 border-t-2 border-primary rounded-t-full"></div>
+<div class="w-4 h-12 bg-secondary/20 border-b-2 border-secondary rounded-b-full"></div>
+<div class="w-4 h-12 bg-primary/20 border-t-2 border-primary rounded-t-full"></div>
+<div class="w-4 h-12 bg-secondary/20 border-b-2 border-secondary rounded-b-full"></div>
+<div class="w-4 h-12 bg-primary/20 border-t-2 border-primary rounded-t-full"></div>
+</div>
+</div>
+</div>
+</div>
+<div class="pt-2 border-t border-outline-variant/10">
+<p class="text-[1rem] leading-relaxed text-on-surface/90">
+                            La base de ese "rectángulo" es la mitad de la orilla de la pizza (<span class="text-primary-fixed-dim italic">πr</span>) y la altura es el radio (<span class="text-secondary-fixed-dim italic">r</span>). 
+                            <br/><br/>
+                            Como el área de un rectángulo es <span class="font-bold">Base × Altura</span>, tenemos:
+                        </p>
+<div class="mt-4 p-4 bg-surface-container-highest/50 rounded-lg text-center">
+<span class="font-headline text-3xl md:text-4xl text-secondary tracking-tight">A = π × r × r</span>
+<div class="text-xs text-white/40 mt-1 uppercase tracking-[0.2em]">Resultado Final</div>
+</div>
+</div>
+</div>
+<span class="text-[0.65rem] uppercase tracking-widest text-white/30 font-medium ml-2">MathAI • Ahora mismo</span>
+</div>
+</div>
+</main>
+<!-- Floating Input Area -->
+<div class="fixed bottom-24 left-1/2 -translate-x-1/2 w-full max-w-2xl px-6 z-40">
+<div class="glass-card border border-outline-variant/20 rounded-full p-2 flex items-center shadow-2xl">
+<button class="w-12 h-12 rounded-full flex items-center justify-center text-white/50 hover:bg-white/5 transition-all">
+<span class="material-symbols-outlined" data-icon="add">add</span>
+</button>
+<input class="flex-1 bg-transparent border-none focus:ring-0 text-on-surface placeholder:text-white/30 px-4 font-body" placeholder="Escribe tu duda matemática..." type="text"/>
+<div class="flex items-center gap-2">
+<button class="w-10 h-10 rounded-full flex items-center justify-center text-primary hover:bg-primary/10 transition-all">
+<span class="material-symbols-outlined" data-icon="mic">mic</span>
+</button>
+<button class="w-10 h-10 rounded-full bg-gradient-to-tr from-primary to-primary-container flex items-center justify-center text-on-primary shadow-lg shadow-primary/20 active:scale-90 transition-transform">
+<span class="material-symbols-outlined" data-icon="arrow_upward" style="font-variation-settings: 'wght' 600;">arrow_upward</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Bottom Navigation Bar -->
+<footer class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 pb-8 pt-4 bg-[#131313]/80 backdrop-blur-xl dark:bg-[#131313]/80 shadow-[0_-8px_32px_rgba(173,198,255,0.08)] rounded-t-[3rem]">
+<!-- Resolver -->
+<a class="flex flex-col items-center justify-center text-white/50 px-5 py-2 hover:text-[#ADC6FF] transition-all active:scale-90 duration-200" href="#">
+<span class="material-symbols-outlined mb-1" data-icon="calculate">calculate</span>
+<span class="font-['Inter'] text-[10px] uppercase tracking-widest font-medium">Resolver</span>
+</a>
+<!-- Explorar -->
+<a class="flex flex-col items-center justify-center text-white/50 px-5 py-2 hover:text-[#ADC6FF] transition-all active:scale-90 duration-200" href="#">
+<span class="material-symbols-outlined mb-1" data-icon="explore">explore</span>
+<span class="font-['Inter'] text-[10px] uppercase tracking-widest font-medium">Explorar</span>
+</a>
+<!-- Aprender (Active) -->
+<a class="flex flex-col items-center justify-center bg-[#ADC6FF]/10 text-[#ADC6FF] rounded-[1.5rem] px-5 py-2 active:scale-90 duration-200" href="#">
+<span class="material-symbols-outlined mb-1" data-icon="school" style="font-variation-settings: 'FILL' 1;">school</span>
+<span class="font-['Inter'] text-[10px] uppercase tracking-widest font-medium">Aprender</span>
+</a>
+<!-- Biblioteca -->
+<a class="flex flex-col items-center justify-center text-white/50 px-5 py-2 hover:text-[#ADC6FF] transition-all active:scale-90 duration-200" href="#">
+<span class="material-symbols-outlined mb-1" data-icon="menu_book">menu_book</span>
+<span class="font-['Inter'] text-[10px] uppercase tracking-widest font-medium">Biblioteca</span>
+</a>
+</footer>
+</body></html>

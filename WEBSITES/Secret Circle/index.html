@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Secret Circle Platform</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        bgDark: '#030303',
+                        surface: '#0a0a0a',
+                        borderLight: 'rgba(255, 255, 255, 0.08)',
+                        champagne: '#D4C3A3',
+                        textMain: '#EAEAEA',
+                        textMuted: '#888888',
+                    },
+                    fontFamily: {
+                        sans: ['Lato', 'sans-serif'],
+                        serif: ['Playfair Display', 'serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: theme('colors.bgDark');
+            color: theme('colors.textMain');
+            -webkit-font-smoothing: antialiased;
+            margin: 0;
+            overflow-x: hidden;
+        }
+
+        /* App Shell Scrollbars */
+        .app-scroll::-webkit-scrollbar { width: 4px; }
+        .app-scroll::-webkit-scrollbar-track { background: transparent; }
+        .app-scroll::-webkit-scrollbar-thumb { background: #222; border-radius: 4px; }
+        .app-scroll::-webkit-scrollbar-thumb:hover { background: theme('colors.champagne'); }
+
+        /* Animations */
+        .fade-in { animation: fadeIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+        .slide-up { animation: slideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards; opacity: 0; }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Image Hover Effects */
+        .img-zoom { transition: transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94); }
+        .group:hover .img-zoom { transform: scale(1.05); }
+
+        /* Subtle noise texture */
+        .bg-noise {
+            position: relative;
+        }
+        .bg-noise::before {
+            content: "";
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.03'/%3E%3C/svg%3E");
+            pointer-events: none;
+            z-index: 50; /* Needs to be above backgrounds but ignore pointer events */
+        }
+    </style>
+</head>
+<body class="bg-noise selection:bg-champagne selection:text-black">
+
+    <div class="min-h-screen flex">
+        
+        <!-- Sidebar (Desktop) -->
+        <nav id="sidebar" class="hidden md:flex flex-col w-64 h-screen fixed left-0 top-0 border-r border-borderLight bg-surface z-40">
+            <!-- Rendered by JS -->
+        </nav>
+
+        <!-- Main Content Area -->
+        <main id="main-scroll-area" class="flex-1 md:ml-64 h-screen overflow-y-auto app-scroll relative">
+            <div id="app-content">
+                <!-- Rendered by JS -->
+            </div>
+        </main>
+
+        <!-- Bottom Navigation (Mobile) -->
+        <nav id="bottom-nav" class="md:hidden fixed bottom-0 w-full bg-surface/90 backdrop-blur-xl border-t border-borderLight z-40 flex justify-around items-center py-4 px-2">
+            <!-- Rendered by JS -->
+        </nav>
+
+    </div>
+
+    <!-- Application Logic -->
+    <script>
+        // --- DATA ---
+        const SPOTS = [
+            { id: 1, title: "El Santuario Subterráneo", category: "Mixology", location: "Berlín, Alemania", img: "https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?auto=format&fit=crop&w=1200&q=80", desc: "Un bar de mixología avanzada ubicado en un búnker de la guerra fría. Solo se accede con contraseña y la invitación requiere aprobación de tres miembros activos.", rating: 4.8, author: "Elena R.", circle: "Midnight Society" },
+            { id: 2, title: "Oasis en la Cumbre", category: "Adventure", location: "Patagonia, Chile", img: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1200&q=80", desc: "Campamento base de lujo con domos geodésicos transparentes para ver las estrellas. Accesible solo por helicóptero o un trek de 3 días.", rating: 4.9, author: "Mateo B.", circle: "Nomads of Luxury" },
+            { id: 3, title: "El Comedor de los Espejos", category: "Gastronomy", location: "Venecia, Italia", img: "https://images.unsplash.com/photo-1514933651103-005eec06c04b?auto=format&fit=crop&w=1200&q=80", desc: "Restaurante con capacidad para solo 8 comensales por noche, oculto en un palacio veneciano restaurado del siglo XV. Menú a ciegas de 12 tiempos.", rating: 5.0, author: "Isabella R.", circle: "The Epicureans" },
+            { id: 4, title: "Aurora Glasshouse", category: "Retreat", location: "Tromsø, Noruega", img: "https://images.unsplash.com/photo-1520698115623-dfcc77838ce1?auto=format&fit=crop&w=1200&q=80", desc: "Cabaña de cristal diseñada para observar auroras boreales en absoluto aislamiento. Acceso exclusivo mediante moto de nieve guiada por un experto local.", rating: 4.9, author: "Olaf K.", circle: "Nomads of Luxury" },
+            { id: 5, title: "Galería Susurro", category: "Art", location: "Tokio, Japón", img: "https://images.unsplash.com/photo-1544413660-299165566b1d?auto=format&fit=crop&w=1200&q=80", desc: "Una galería de arte digital interactiva oculta detrás de una fachada en Akihabara. Las obras cambian en tiempo real respondiendo al pulso cardíaco de los visitantes.", rating: 4.7, author: "Kenji Y.", circle: "Hidden Canvas" },
+            { id: 6, title: "Cenote de las Sombras", category: "Retreat", location: "Tulum, México", img: "https://images.unsplash.com/photo-1504280741564-f21ae48e1046?auto=format&fit=crop&w=1200&q=80", desc: "Un cenote subterráneo privado iluminado solo por bioluminiscencia. Ofrece sesiones de meditación acústica en completa oscuridad guiadas por expertos locales.", rating: 5.0, author: "Maya S.", circle: "The Epicureans" },
+            { id: 7, title: "El Archivo Botánico", category: "Mixology", location: "Londres, UK", img: "https://images.unsplash.com/photo-1497935586351-b67a49e012bf?auto=format&fit=crop&w=1200&q=80", desc: "Ubicado en un invernadero victoriano abandonado. Los cócteles se preparan con extractos de plantas raras cultivadas en el mismo lugar. Solo 12 accesos por noche.", rating: 4.8, author: "James W.", circle: "Midnight Society" },
+            { id: 8, title: "Cripta Culinaria", category: "Gastronomy", location: "Madrid, España", img: "https://images.unsplash.com/photo-1559339352-11d035aa65de?auto=format&fit=crop&w=1200&q=80", desc: "Comedor clandestino situado en las antiguas bodegas de un monasterio del siglo XVI. Menú degustación de 15 tiempos inspirado en la literatura medieval.", rating: 4.9, author: "Carlos R.", circle: "The Epicureans" }
+        ];
+
+        const CIRCLES = [
+            { id: 1, name: "The Epicureans", type: "Gastronomy", members: 420, locked: false, img: "https://images.unsplash.com/photo-1414235077428-338988a2e8c0?auto=format&fit=crop&w=800&q=80" },
+            { id: 2, name: "Nomads of Luxury", type: "Travel", members: 156, locked: true, img: "https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?auto=format&fit=crop&w=800&q=80" },
+            { id: 3, name: "Midnight Society", type: "Nightlife", members: 89, locked: true, img: "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=800&q=80" },
+            { id: 4, name: "Hidden Canvas", type: "Art & Culture", members: 310, locked: false, img: "https://images.unsplash.com/photo-1542314831-c6a4d14d8373?auto=format&fit=crop&w=800&q=80" }
+        ];
+
+        const NAV_ITEMS = [
+            { id: 'feed', icon: 'compass', label: 'The Brief' },
+            { id: 'circles', icon: 'users', label: 'Círculos' },
+            { id: 'vault', icon: 'bookmark', label: 'The Vault' },
+            { id: 'submit', icon: 'plus', label: 'Aportar' }
+        ];
+
+        // --- STATE ---
+        let state = {
+            currentView: 'feed',
+            activeSpotId: null,
+            savedSpots: [1, 3],
+            likedSpots: [2, 5, 6],
+            activeCategory: 'All',
+            newComment: ''
+        };
+
+        // --- ACTIONS ---
+        function navigateTo(view) {
+            state.activeSpotId = null;
+            state.currentView = view;
+            renderApp();
+            scrollToTop();
+        }
+
+        function viewSpot(id) {
+            state.activeSpotId = id;
+            renderApp();
+            scrollToTop();
+        }
+
+        function toggleSave(event, id) {
+            event.stopPropagation();
+            if (state.savedSpots.includes(id)) {
+                state.savedSpots = state.savedSpots.filter(spotId => spotId !== id);
+            } else {
+                state.savedSpots.push(id);
+            }
+            renderApp();
+        }
+
+        function toggleLike(event, id) {
+            event.stopPropagation();
+            if (state.likedSpots.includes(id)) {
+                state.likedSpots = state.likedSpots.filter(spotId => spotId !== id);
+            } else {
+                state.likedSpots.push(id);
+            }
+            renderApp();
+        }
+
+        function setCategory(category) {
+            state.activeCategory = category;
+            renderApp();
+        }
+
+        function scrollToTop() {
+            const mainContent = document.getElementById('main-scroll-area');
+            if (mainContent) mainContent.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function handleCommentSubmit() {
+            const input = document.getElementById('comment-input');
+            if(input && input.value.trim() !== '') {
+                alert("Comentario enviado a revisión por el gremio.");
+                input.value = '';
+            }
+        }
+
+        // --- RENDER FUNCTIONS ---
+
+        function renderNavigation() {
+            // Sidebar
+            let sidebarHTML = `
+                <div class="p-8 pb-12 flex items-center justify-center border-b border-borderLight">
+                    <div class="font-serif text-xl tracking-[0.3em] flex flex-col items-center">
+                        <span class="text-champagne mb-1">SECRET</span>
+                        <span class="text-xs text-textMuted tracking-[0.4em]">CIRCLE</span>
+                    </div>
+                </div>
+                <div class="flex-1 py-8 px-6 space-y-2">
+                    <p class="text-[10px] uppercase tracking-[0.2em] text-textMuted mb-6 ml-4">Plataforma</p>
+            `;
+            
+            NAV_ITEMS.forEach(item => {
+                const isActive = state.currentView === item.id && !state.activeSpotId;
+                sidebarHTML += `
+                    <button onclick="navigateTo('${item.id}')" class="w-full flex items-center space-x-4 px-4 py-3 rounded-lg transition-all duration-300 ${isActive ? 'bg-white/5 text-champagne' : 'text-textMuted hover:text-white hover:bg-white/5'}">
+                        <i data-lucide="${item.icon}" class="w-[18px] h-[18px]"></i>
+                        <span class="text-sm tracking-wide font-light">${item.label}</span>
+                    </button>
+                `;
+            });
+
+            sidebarHTML += `
+                </div>
+                <div class="p-6 border-t border-borderLight">
+                    <button onclick="navigateTo('profile')" class="flex items-center space-x-3 w-full group">
+                        <div class="w-10 h-10 rounded-full overflow-hidden border border-borderLight group-hover:border-champagne transition-colors">
+                            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=100&q=80" alt="User" class="w-full h-full object-cover" />
+                        </div>
+                        <div class="text-left">
+                            <p class="text-sm text-white font-serif">Estudiante</p>
+                            <p class="text-[10px] text-champagne uppercase tracking-widest">EBVG</p>
+                        </div>
+                    </button>
+                </div>
+            `;
+            document.getElementById('sidebar').innerHTML = sidebarHTML;
+
+            // Bottom Nav
+            let bottomNavHTML = '';
+            const mobileItems = [...NAV_ITEMS, { id: 'profile', icon: 'user' }];
+            mobileItems.forEach(item => {
+                const isActive = state.currentView === item.id && !state.activeSpotId;
+                bottomNavHTML += `
+                    <button onclick="navigateTo('${item.id}')" class="p-2 transition-colors ${isActive ? 'text-champagne' : 'text-textMuted'}">
+                        <i data-lucide="${item.icon}" class="w-[22px] h-[22px]"></i>
+                    </button>
+                `;
+            });
+            document.getElementById('bottom-nav').innerHTML = bottomNavHTML;
+        }
+
+        function createEditorialCardHTML(spot, isLarge = false) {
+            const isSaved = state.savedSpots.includes(spot.id);
+            const sizeClasses = isLarge ? 'md:col-span-2 md:row-span-2' : '';
+            const heightClasses = isLarge ? 'h-[60vh] md:h-[70vh]' : 'h-80 md:h-96';
+            const titleClasses = isLarge ? 'text-3xl md:text-4xl' : 'text-xl md:text-2xl';
+            const bookmarkIconClass = isSaved ? "text-champagne fill-champagne" : "text-white/70 hover:text-white";
+
+            return `
+                <div class="group cursor-pointer slide-up ${sizeClasses}" onclick="viewSpot(${spot.id})">
+                    <div class="relative overflow-hidden bg-surface ${heightClasses}">
+                        <img src="${spot.img}" alt="${spot.title}" class="w-full h-full object-cover img-zoom opacity-80 group-hover:opacity-100 transition-opacity duration-500" loading="lazy" />
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent"></div>
+                        
+                        <button onclick="toggleSave(event, ${spot.id})" class="absolute top-4 right-4 p-2 z-10">
+                            <i data-lucide="bookmark" class="w-5 h-5 ${bookmarkIconClass}"></i>
+                        </button>
+
+                        <div class="absolute bottom-0 left-0 w-full p-6 md:p-8">
+                            <p class="text-[10px] uppercase tracking-[0.2em] text-champagne mb-2">${spot.circle}</p>
+                            <h3 class="font-serif text-white mb-2 ${titleClasses}">${spot.title}</h3>
+                            <div class="flex items-center text-xs text-textMuted space-x-4 font-light tracking-wide">
+                                <span class="flex items-center"><i data-lucide="map-pin" class="w-3 h-3 mr-1"></i> ${spot.location}</span>
+                                <span class="flex items-center"><i data-lucide="star" class="w-3 h-3 mr-1 text-champagne"></i> ${spot.rating}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderFeed() {
+            const categories = ['All', 'Mixology', 'Gastronomy', 'Retreat', 'Adventure', 'Art'];
+            const filteredSpots = state.activeCategory === 'All' ? SPOTS : SPOTS.filter(s => s.category === state.activeCategory);
+
+            let categoriesHTML = '';
+            categories.forEach(cat => {
+                const isActive = state.activeCategory === cat;
+                const baseClasses = "px-4 py-2 rounded-full text-xs tracking-wider transition-colors whitespace-nowrap";
+                const stateClasses = isActive ? "bg-champagne text-bgDark font-bold" : "border border-borderLight text-textMuted hover:text-white hover:border-white/30";
+                categoriesHTML += `<button onclick="setCategory('${cat}')" class="${baseClasses} ${stateClasses}">${cat}</button>`;
+            });
+
+            let spotsHTML = '';
+            if (filteredSpots.length > 0) {
+                filteredSpots.forEach((spot, index) => {
+                    const isLarge = index === 0 && state.activeCategory === 'All';
+                    spotsHTML += createEditorialCardHTML(spot, isLarge);
+                });
+            } else {
+                spotsHTML = `<div class="col-span-full py-12 text-center text-textMuted border border-dashed border-borderLight">No hay lugares clasificados en esta categoría aún.</div>`;
+            }
+
+            return `
+                <div class="p-6 md:p-12 max-w-7xl mx-auto pb-24 md:pb-12 fade-in">
+                    <header class="mb-8 md:mb-12 border-b border-borderLight pb-6">
+                        <div class="flex flex-col md:flex-row justify-between items-start md:items-end gap-6">
+                            <div>
+                                <h1 class="font-serif text-3xl md:text-5xl text-white mb-3">The Daily Brief</h1>
+                                <p class="text-textMuted font-light tracking-wide text-sm md:text-base">Selección curada para miembros de la sociedad.</p>
+                            </div>
+                            <div class="flex items-center space-x-2 text-xs uppercase tracking-widest text-textMuted">
+                                <i data-lucide="filter" class="w-3.5 h-3.5 mr-1"></i>
+                                <span>Filtrar Categoría</span>
+                            </div>
+                        </div>
+                        <div class="flex overflow-x-auto mt-6 pb-2 space-x-3 app-scroll">
+                            ${categoriesHTML}
+                        </div>
+                    </header>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        ${spotsHTML}
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderSpotDetail() {
+            const spot = SPOTS.find(s => s.id === state.activeSpotId) || SPOTS[0];
+            const isSaved = state.savedSpots.includes(spot.id);
+            const isLiked = state.likedSpots.includes(spot.id);
+
+            const heartIconClass = isLiked ? "text-red-500 fill-red-500" : "text-textMuted";
+            const bookmarkIconClass = isSaved ? "text-champagne fill-champagne" : "text-textMuted";
+
+            return `
+                <div class="fade-in min-h-screen bg-bgDark flex flex-col lg:flex-row relative">
+                    <button onclick="navigateTo('${state.currentView}')" class="absolute top-6 left-6 z-50 w-10 h-10 bg-black/50 backdrop-blur-md rounded-full flex items-center justify-center border border-borderLight text-white hover:text-champagne transition-colors">
+                        <i data-lucide="chevron-left" class="w-5 h-5"></i>
+                    </button>
+
+                    <div class="w-full lg:w-1/2 h-[50vh] lg:h-screen sticky top-0">
+                        <img src="${spot.img}" alt="${spot.title}" class="w-full h-full object-cover opacity-90" />
+                        <div class="absolute inset-0 bg-gradient-to-t from-bgDark lg:from-transparent lg:bg-gradient-to-r lg:to-bgDark to-transparent"></div>
+                    </div>
+
+                    <div class="w-full lg:w-1/2 p-8 md:p-16 lg:p-24 flex flex-col justify-start min-h-[50vh] lg:min-h-screen z-10 bg-bgDark overflow-y-auto app-scroll">
+                        <div class="max-w-xl slide-up w-full">
+                            <div class="flex justify-between items-start mb-6">
+                                <span class="text-[10px] uppercase tracking-[0.2em] text-champagne border border-champagne/30 px-3 py-1 rounded-full">
+                                    ${spot.category}
+                                </span>
+                                <div class="flex space-x-4">
+                                    <button onclick="toggleLike(event, ${spot.id})" class="hover:text-red-400 transition-colors">
+                                        <i data-lucide="heart" class="w-6 h-6 ${heartIconClass}"></i>
+                                    </button>
+                                    <button onclick="toggleSave(event, ${spot.id})" class="hover:text-champagne transition-colors">
+                                        <i data-lucide="bookmark" class="w-6 h-6 ${bookmarkIconClass}"></i>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <h1 class="font-serif text-4xl md:text-6xl text-white mb-6 leading-tight">${spot.title}</h1>
+                            
+                            <div class="flex flex-wrap gap-6 text-sm text-textMuted font-light tracking-wide mb-10 border-y border-borderLight py-4">
+                                <span class="flex items-center"><i data-lucide="map-pin" class="w-4 h-4 mr-2 text-white/50"></i> ${spot.location}</span>
+                                <span class="flex items-center"><i data-lucide="star" class="w-4 h-4 mr-2 text-champagne"></i> ${spot.rating} Rating</span>
+                                <span class="flex items-center"><i data-lucide="users" class="w-4 h-4 mr-2 text-white/50"></i> ${spot.circle}</span>
+                            </div>
+
+                            <p class="text-lg text-[#ccc] leading-relaxed font-light mb-12">${spot.desc}</p>
+
+                            <div class="bg-surface p-6 border border-borderLight rounded-sm flex items-center justify-between group cursor-pointer hover:border-champagne/50 transition-colors mb-12">
+                                <div>
+                                    <p class="text-xs text-textMuted uppercase tracking-widest mb-1">Acceder a Coordenadas</p>
+                                    <p class="text-sm text-white font-serif italic">Solo miembros verificados del círculo</p>
+                                </div>
+                                <i data-lucide="lock" class="w-5 h-5 text-champagne group-hover:scale-110 transition-transform"></i>
+                            </div>
+
+                            <div class="flex items-center space-x-4 mb-16 pb-8 border-b border-borderLight">
+                                <div class="w-12 h-12 rounded-full bg-surface border border-borderLight flex items-center justify-center font-serif text-white">
+                                    ${spot.author.charAt(0)}
+                                </div>
+                                <div>
+                                    <p class="text-xs text-textMuted uppercase tracking-widest">Descubierto por</p>
+                                    <p class="text-sm text-white">${spot.author}</p>
+                                </div>
+                            </div>
+
+                            <div>
+                                <h3 class="font-serif text-2xl text-white mb-6 flex items-center">
+                                    <i data-lucide="message-square" class="w-5 h-5 mr-3 text-champagne"></i> Discusión del Círculo
+                                </h3>
+                                <div class="space-y-6 mb-8">
+                                    <div class="bg-surface p-4 border border-borderLight/50 rounded-lg">
+                                        <p class="text-xs text-champagne mb-2 font-bold">Isabella R. <span class="text-textMuted font-light ml-2">hace 2 días</span></p>
+                                        <p class="text-sm text-[#ccc] font-light">Una experiencia absolutamente irreal. Asegúrense de pedir la especialidad fuera del menú, vale cada centavo.</p>
+                                    </div>
+                                    <div class="bg-surface p-4 border border-borderLight/50 rounded-lg">
+                                        <p class="text-xs text-champagne mb-2 font-bold">Tomás H. <span class="text-textMuted font-light ml-2">hace 1 semana</span></p>
+                                        <p class="text-sm text-[#ccc] font-light">El acceso fue un poco complicado de encontrar, pero el ambiente adentro es de otro nivel.</p>
+                                    </div>
+                                </div>
+                                <div class="relative">
+                                    <input type="text" id="comment-input" placeholder="Añade tus impresiones (Solo Miembros)..." class="w-full bg-surface border border-borderLight p-4 pr-12 text-sm text-white focus:outline-none focus:border-champagne transition-colors" />
+                                    <button onclick="handleCommentSubmit()" class="absolute right-4 top-1/2 -translate-y-1/2 text-champagne hover:text-white transition-colors">
+                                        <i data-lucide="arrow-right" class="w-4.5 h-4.5"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderCircles() {
+            let circlesHTML = '';
+            CIRCLES.forEach((circle, i) => {
+                const icon = circle.locked ? `<i data-lucide="lock" class="w-[18px] h-[18px] text-champagne"></i>` : `<i data-lucide="unlock" class="w-[18px] h-[18px] text-white/50"></i>`;
+                const ctaText = circle.locked ? 'Solicitar' : 'Entrar';
+                circlesHTML += `
+                    <div class="group relative h-64 md:h-80 bg-surface overflow-hidden cursor-pointer slide-up" style="animation-delay: ${i * 0.1}s">
+                        <img src="${circle.img}" alt="${circle.name}" class="absolute inset-0 w-full h-full object-cover opacity-40 group-hover:opacity-60 img-zoom grayscale group-hover:grayscale-0 transition-all duration-700" loading="lazy"/>
+                        <div class="absolute inset-0 bg-gradient-to-t from-surface to-transparent"></div>
+                        <div class="absolute inset-0 p-8 flex flex-col justify-between">
+                            <div class="flex justify-between items-start">
+                                <span class="text-[10px] uppercase tracking-[0.2em] bg-black/50 backdrop-blur-md px-3 py-1 text-white border border-borderLight">${circle.type}</span>
+                                ${icon}
+                            </div>
+                            <div>
+                                <h3 class="font-serif text-2xl md:text-3xl text-white mb-2">${circle.name}</h3>
+                                <div class="flex items-center justify-between">
+                                    <span class="text-xs text-textMuted tracking-wider">${circle.members} Miembros</span>
+                                    <span class="text-xs uppercase tracking-[0.2em] text-champagne opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center">
+                                        ${ctaText} <i data-lucide="arrow-right" class="w-3.5 h-3.5 ml-2"></i>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+
+            return `
+                <div class="p-6 md:p-12 max-w-6xl mx-auto pb-24 md:pb-12 fade-in">
+                    <header class="mb-12 border-b border-borderLight pb-6 text-center md:text-left">
+                        <h1 class="font-serif text-3xl md:text-5xl text-white mb-3">Sociedades Privadas</h1>
+                        <p class="text-textMuted font-light tracking-wide text-sm md:text-base">Solicita acceso para ver el contenido exclusivo de cada gremio.</p>
+                    </header>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        ${circlesHTML}
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderVault() {
+            const mySavedSpots = SPOTS.filter(s => state.savedSpots.includes(s.id));
+            
+            let vaultContentHTML = '';
+            if (mySavedSpots.length === 0) {
+                vaultContentHTML = `
+                    <div class="h-64 border border-dashed border-borderLight flex flex-col items-center justify-center text-textMuted slide-up">
+                        <i data-lucide="bookmark" class="w-8 h-8 mb-4 opacity-50"></i>
+                        <p class="font-light tracking-wide">La bóveda está vacía.</p>
+                    </div>
+                `;
+            } else {
+                let spotsHTML = '';
+                mySavedSpots.forEach((spot, i) => {
+                    spotsHTML += `<div style="animation-delay: ${i * 0.1}s">${createEditorialCardHTML(spot)}</div>`;
+                });
+                vaultContentHTML = `<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">${spotsHTML}</div>`;
+            }
+
+            return `
+                <div class="p-6 md:p-12 max-w-7xl mx-auto pb-24 md:pb-12 fade-in">
+                    <header class="mb-12 border-b border-borderLight pb-6 flex justify-between items-end">
+                        <div>
+                            <h1 class="font-serif text-3xl md:text-5xl text-white mb-3">The Vault</h1>
+                            <p class="text-textMuted font-light tracking-wide text-sm md:text-base">Tu colección personal de secretos guardados.</p>
+                        </div>
+                        <div class="hidden md:flex items-center bg-surface border border-borderLight px-4 py-2">
+                            <i data-lucide="search" class="w-3.5 h-3.5 text-textMuted mr-2"></i>
+                            <input type="text" placeholder="Buscar..." class="bg-transparent text-sm text-white focus:outline-none placeholder-textMuted w-32" />
+                        </div>
+                    </header>
+                    ${vaultContentHTML}
+                </div>
+            `;
+        }
+
+        function renderSubmit() {
+            return `
+                <div class="p-6 md:p-12 max-w-3xl mx-auto pb-24 md:pb-12 fade-in">
+                    <header class="mb-12 text-center">
+                        <h1 class="font-serif text-3xl md:text-4xl text-white mb-3">Aportar al Círculo</h1>
+                        <p class="text-textMuted font-light tracking-wide text-sm">La exclusividad de nuestra comunidad depende de la calidad de tus aportes. Todo envío es revisado por curadores.</p>
+                    </header>
+
+                    <form class="space-y-8 slide-up" onsubmit="event.preventDefault(); alert('Aporte enviado a revisión.')">
+                        <div class="bg-surface border border-borderLight p-8 md:p-10 space-y-6">
+                            <div>
+                                <label class="block text-[10px] uppercase tracking-[0.2em] text-textMuted mb-3">Nombre del Lugar</label>
+                                <input type="text" class="w-full bg-transparent border-b border-borderLight pb-2 text-white text-lg font-serif focus:outline-none focus:border-champagne transition-colors placeholder-white/20" placeholder="Ej. The Velvet Lounge" required/>
+                            </div>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                                <div>
+                                    <label class="block text-[10px] uppercase tracking-[0.2em] text-textMuted mb-3">Ubicación Precisa</label>
+                                    <input type="text" class="w-full bg-transparent border-b border-borderLight pb-2 text-white font-light focus:outline-none focus:border-champagne transition-colors placeholder-white/20" placeholder="Ciudad, País" required/>
+                                </div>
+                                <div>
+                                    <label class="block text-[10px] uppercase tracking-[0.2em] text-textMuted mb-3">Categoría</label>
+                                    <select class="w-full bg-transparent border-b border-borderLight pb-2 text-white font-light focus:outline-none focus:border-champagne appearance-none cursor-pointer" required>
+                                        <option value="" class="bg-surface text-textMuted">Seleccionar...</option>
+                                        <option value="gastronomy" class="bg-surface">Gastronomía Oculta</option>
+                                        <option value="mixology" class="bg-surface">Mixología Clandestina</option>
+                                        <option value="retreats" class="bg-surface">Retiros Privados</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block text-[10px] uppercase tracking-[0.2em] text-textMuted mb-3">Descripción de la Experiencia</label>
+                                <textarea rows="4" class="w-full bg-transparent border border-borderLight p-4 text-white font-light text-sm focus:outline-none focus:border-champagne transition-colors resize-none placeholder-white/20" placeholder="Describe por qué este lugar merece pertenecer al círculo..." required></textarea>
+                            </div>
+                            <div>
+                                <label class="block text-[10px] uppercase tracking-[0.2em] text-textMuted mb-3">Evidencia Visual</label>
+                                <div class="h-32 border border-dashed border-borderLight flex flex-col items-center justify-center text-textMuted hover:border-champagne hover:text-champagne transition-colors cursor-pointer group">
+                                    <i data-lucide="camera" class="w-6 h-6 mb-2 group-hover:scale-110 transition-transform"></i>
+                                    <span class="text-xs tracking-wide">Subir Fotografía</span>
+                                </div>
+                            </div>
+                        </div>
+                        <button type="submit" class="w-full bg-champagne text-bgDark py-4 text-xs font-bold uppercase tracking-[0.2em] hover:bg-white transition-colors flex justify-center items-center">
+                            <i data-lucide="check" class="w-4 h-4 mr-2"></i> Someter a Revisión
+                        </button>
+                    </form>
+                </div>
+            `;
+        }
+
+        function renderProfile() {
+            // Se mantiene la corrección del cuadro oscuro (bg-[#111], text-gray-200) para perfecta visibilidad
+            return `
+                <div class="p-6 md:p-12 max-w-4xl mx-auto pb-24 md:pb-12 fade-in">
+                    <div class="flex flex-col md:flex-row items-center md:items-start gap-8 border-b border-borderLight pb-12 mb-12 text-center md:text-left">
+                        <div class="w-32 h-32 md:w-40 md:h-40 rounded-full border border-borderLight p-1">
+                            <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=300&q=80" alt="Profile" class="w-full h-full rounded-full object-cover grayscale" />
+                        </div>
+                        
+                        <div class="flex-1 mt-4 md:mt-0">
+                            <div class="inline-flex items-center gap-2 border border-champagne text-champagne text-[10px] uppercase tracking-[0.2em] px-3 py-1 mb-4">
+                                <i data-lucide="star" class="w-2.5 h-2.5 inline mb-0.5"></i> Estudiante EBVG
+                            </div>
+                            <h1 class="font-serif text-4xl md:text-5xl text-white mb-2">Proyecto Académico</h1>
+                            <p class="text-textMuted font-light tracking-wide text-sm mb-6 leading-relaxed">
+                                Este sitio web fue desarrollado como un proyecto académico para la <strong>Escuela Bancaria y de Valores de Guanajuato (EBVG)</strong>. Funciona como una demostración práctica de diseño de interfaces, experiencia de usuario (UX/UI) y desarrollo frontend en tecnologías nativas.
+                            </p>
+                            
+                            <div class="flex justify-center md:justify-start gap-8 text-center">
+                                <div>
+                                    <p class="text-2xl font-serif text-white mb-1">8</p>
+                                    <p class="text-[10px] uppercase tracking-[0.2em] text-textMuted">Lugares</p>
+                                </div>
+                                <div>
+                                    <p class="text-2xl font-serif text-white mb-1">${state.savedSpots.length}</p>
+                                    <p class="text-[10px] uppercase tracking-[0.2em] text-textMuted">Guardados</p>
+                                </div>
+                                <div>
+                                    <p class="text-2xl font-serif text-white mb-1">${state.likedSpots.length}</p>
+                                    <p class="text-[10px] uppercase tracking-[0.2em] text-textMuted">Me Gusta</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="max-w-2xl mx-auto md:mx-0">
+                        <h2 class="text-xs font-bold uppercase tracking-[0.2em] text-champagne mb-6">Configuración del Proyecto</h2>
+                        
+                        <!-- Interfaz mejorada para el panel de configuración (antes el cuadro ilegible) -->
+                        <div class="bg-[#111] border border-borderLight rounded-xl overflow-hidden divide-y divide-borderLight shadow-lg">
+                            <div class="p-5 md:p-6 flex justify-between items-center cursor-pointer hover:bg-white/5 transition-colors">
+                                <span class="font-light text-sm text-gray-200">Ver Documentación (Memoria del Proyecto)</span>
+                                <i data-lucide="arrow-right" class="w-[18px] h-[18px] text-champagne"></i>
+                            </div>
+                            
+                            <div class="p-5 md:p-6 flex justify-between items-center cursor-pointer hover:bg-white/5 transition-colors">
+                                <span class="font-light text-sm text-gray-200">Calificar Interfaz (Feedback)</span>
+                                <span class="text-[10px] bg-champagne text-bgDark px-2 py-1 font-bold rounded-sm">NUEVO</span>
+                            </div>
+                            
+                            <div onclick="navigateTo('feed')" class="p-5 md:p-6 flex justify-between items-center cursor-pointer hover:bg-red-500/10 transition-colors">
+                                <span class="font-light text-sm text-red-400">Volver al Inicio</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // --- MASTER RENDER ---
+        function renderApp() {
+            renderNavigation();
+            
+            const container = document.getElementById('app-content');
+            
+            if (state.activeSpotId) {
+                container.innerHTML = renderSpotDetail();
+            } else {
+                switch(state.currentView) {
+                    case 'feed': container.innerHTML = renderFeed(); break;
+                    case 'circles': container.innerHTML = renderCircles(); break;
+                    case 'vault': container.innerHTML = renderVault(); break;
+                    case 'submit': container.innerHTML = renderSubmit(); break;
+                    case 'profile': container.innerHTML = renderProfile(); break;
+                    default: container.innerHTML = renderFeed();
+                }
+            }
+
+            // Re-initialize icons for newly added elements
+            setTimeout(() => {
+                lucide.createIcons();
+            }, 0);
+        }
+
+        // --- INITIALIZE ---
+        document.addEventListener('DOMContentLoaded', () => {
+            renderApp();
+        });
+
+    </script>
+</body>
+</html>

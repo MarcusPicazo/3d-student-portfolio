@@ -1,0 +1,957 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Magic Cat Academy - Estaciones (Mejorado)</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap');
+
+body {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background: #05070a;
+    font-family: 'Fredoka One', cursive;
+    touch-action: none;
+    user-select: none;
+}
+
+#game-container {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    transition: background 1s ease;
+    overflow: hidden;
+}
+
+canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: block;
+}
+
+#game-canvas {
+    z-index: 50;
+}
+
+.ui-layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 100;
+}
+
+.heart-container {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    display: flex;
+    gap: 5px;
+}
+
+.heart {
+    width: 30px;
+    height: 30px;
+    fill: #ff4757;
+    filter: drop-shadow(0 0 5px rgba(255, 71, 87, 0.5));
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), fill 0.3s;
+}
+
+.heart.lost {
+    fill: #2f3542;
+    transform: scale(0.8);
+    filter: none;
+}
+
+.score-display {
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    color: #fff;
+    font-size: 2.5rem;
+    text-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+    transition: transform 0.1s;
+}
+
+.score-pop {
+    transform: scale(1.3);
+    color: #fbbf24;
+}
+
+#overlay, #level-intro {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.85);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 200;
+    pointer-events: all;
+    color: white;
+    text-align: center;
+    padding: 20px;
+    backdrop-filter: blur(5px);
+}
+
+#level-intro {
+    background: rgba(0,0,0,0.7);
+    z-index: 150;
+    display: none;
+    pointer-events: none;
+}
+
+.btn-start {
+    background: #4f46e5;
+    border: none;
+    padding: 18px 60px;
+    border-radius: 50px;
+    font-size: 2.2rem;
+    color: white;
+    cursor: pointer;
+    box-shadow: 0 8px 0 #312e81, 0 15px 20px rgba(0,0,0,0.4);
+    transition: all 0.1s;
+    margin-top: 25px;
+    font-family: 'Fredoka One', cursive;
+}
+
+.btn-start:active {
+    transform: translateY(8px);
+    box-shadow: 0 0 0 #312e81;
+}
+
+.flash-red {
+    animation: flashRed 0.4s ease-out;
+}
+
+@keyframes flashRed {
+    0% { background: transparent; }
+    30% { background: rgba(255, 0, 0, 0.5); }
+    100% { background: transparent; }
+}
+
+.level-text {
+    animation: popIn 1s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+@keyframes popIn {
+    0% { transform: scale(0); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+}
+</style>
+</head>
+<body>
+
+<div id="game-container">
+    <canvas id="bg-canvas"></canvas>
+    <canvas id="game-canvas"></canvas>
+
+    <div class="ui-layer">
+        <div class="heart-container" id="hearts"></div>
+        <div class="score-display" id="score">0</div>
+    </div>
+
+    <div id="level-intro">
+        <h2 id="intro-title" class="text-6xl md:text-8xl level-text text-yellow-300 drop-shadow-lg">PRIMAVERA</h2>
+        <p id="intro-subtitle" class="text-xl md:text-3xl mt-4 opacity-90">¡Los fantasmas florecen!</p>
+    </div>
+
+    <div id="overlay">
+        <h1 id="main-title" class="text-5xl md:text-7xl mb-4 text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600 drop-shadow-lg">MAGIC CAT</h1>
+        <p id="main-desc" class="text-lg md:text-2xl opacity-80 mb-8 max-w-lg">Dibuja los símbolos (—, |, V, Λ) sobre los fantasmas para defenderte.</p>
+        <button id="btn-action" class="btn-start" onclick="startGame()">JUGAR</button>
+    </div>
+</div>
+
+<script>
+const bgCanvas = document.getElementById('bg-canvas');
+const canvas = document.getElementById('game-canvas');
+
+const bgCtx = bgCanvas.getContext('2d', { alpha: false });
+const ctx = canvas.getContext('2d');
+
+let width, height;
+let lives = 5;
+let score = 0;
+let monsters = [];
+let projectiles = [];
+let particles = [];
+let envParticles = []; // Para los elementos ambientales de fondo
+let floatingTexts = []; // Para los "+10"
+let isDrawing = false;
+let currentPath = [];
+let fadingPaths = []; // Para el efecto de desvanecimiento del trazo
+let gameState = 'MENU';
+let lastSpawn = 0;
+let currentSeasonIndex = 0;
+let wandTargetAngle = -Math.PI / 2; // Gato apuntando arriba por defecto
+
+const SEASONS = [
+    { name: "PRIMAVERA", intro: "¡Los fantasmas florecen!", bg: "radial-gradient(circle at center, #2d5a27 0%, #0f1c0f 100%)", floor: "#4d7c0f", speedMult: 0.8, spawnRate: 2500 },
+    { name: "VERANO", intro: "¡Calor infernal!", bg: "radial-gradient(circle at center, #d97706 0%, #451a03 100%)", floor: "#b45309", speedMult: 1.2, spawnRate: 2000 },
+    { name: "OTOÑO", intro: "Cae la noche...", bg: "radial-gradient(circle at center, #9a3412 0%, #2e0c04 100%)", floor: "#7c2d12", speedMult: 1.6, spawnRate: 1500 },
+    { name: "NAVIDAD", intro: "¡Frío gélido!", bg: "radial-gradient(circle at center, #1e3a8a 0%, #020617 100%)", floor: "#cbd5e1", speedMult: 2.0, spawnRate: 1200 },
+    { name: "HALLOWEEN", intro: "¡EL DESAFÍO FINAL!", bg: "radial-gradient(circle at center, #4c1d95 0%, #000000 100%)", floor: "#111827", speedMult: 2.5, spawnRate: 900 }
+];
+
+const SYMBOLS = {
+    HORIZONTAL: { char: '—', color: '#38bdf8' },
+    VERTICAL: { char: '|', color: '#f87171' },
+    V: { char: 'V', color: '#a3e635' },
+    CARET: { char: 'Λ', color: '#facc15' },
+    HEART: { char: '❤', color: '#fb7185' }
+};
+
+function resize() {
+    width = window.innerWidth;
+    height = window.innerHeight;
+    [bgCanvas, canvas].forEach(c => {
+        c.width = width;
+        c.height = height;
+    });
+    drawBackground();
+}
+window.addEventListener('resize', resize);
+resize();
+
+function drawBackground() {
+    const season = SEASONS[currentSeasonIndex];
+    document.getElementById('game-container').style.background = season.bg;
+
+    bgCtx.fillStyle = '#000'; // Fallback
+    bgCtx.fillRect(0, 0, width, height);
+    
+    // Suelo
+    bgCtx.fillStyle = season.floor;
+    bgCtx.fillRect(0, height * 0.75, width, height * 0.25);
+
+    // Patrón de fondo sutil
+    bgCtx.fillStyle = 'rgba(255,255,255,0.03)';
+    for(let i=0; i<width; i+=60) {
+        bgCtx.fillRect(i, 0, 2, height * 0.75);
+    }
+    
+    // Estrellas estáticas en el cielo
+    for(let i=0; i<50; i++) {
+        bgCtx.fillStyle = `rgba(255, 255, 255, ${Math.random() * 0.3 + 0.1})`;
+        bgCtx.beginPath();
+        bgCtx.arc(Math.random() * width, Math.random() * (height * 0.75), Math.random() * 1.5, 0, Math.PI*2);
+        bgCtx.fill();
+    }
+}
+
+function checkSeasonChange() {
+    let newIndex = Math.min(4, Math.floor(score / 200));
+    if (newIndex !== currentSeasonIndex) {
+        currentSeasonIndex = newIndex;
+        showLevelIntro();
+        drawBackground();
+    }
+}
+
+function showLevelIntro() {
+    const season = SEASONS[currentSeasonIndex];
+    const introDiv = document.getElementById('level-intro');
+    
+    // Animar textos reiniciando la clase
+    const title = document.getElementById('intro-title');
+    title.classList.remove('level-text');
+    void title.offsetWidth; // trigger reflow
+    title.classList.add('level-text');
+    
+    title.innerText = season.name;
+    document.getElementById('intro-subtitle').innerText = season.intro;
+
+    introDiv.style.display = 'flex';
+    
+    // Empujar fantasmas un poco hacia atrás al cambiar de nivel en lugar de borrarlos
+    monsters.forEach(m => m.y -= 100);
+
+    setTimeout(() => {
+        introDiv.style.display = 'none';
+    }, 2500);
+}
+
+class FloatingText {
+    constructor(x, y, text, color) {
+        this.x = x;
+        this.y = y;
+        this.text = text;
+        this.color = color;
+        this.life = 1.0;
+        this.vy = -2;
+    }
+    update() {
+        this.y += this.vy;
+        this.life -= 0.02;
+    }
+    draw() {
+        ctx.save();
+        ctx.globalAlpha = this.life;
+        ctx.fillStyle = this.color;
+        ctx.font = 'bold 24px "Fredoka One", sans-serif';
+        ctx.textAlign = 'center';
+        ctx.shadowBlur = 4;
+        ctx.shadowColor = '#000';
+        ctx.fillText(this.text, this.x, this.y);
+        ctx.restore();
+    }
+}
+
+class EnvParticle {
+    constructor(seasonIndex) {
+        this.x = Math.random() * width;
+        this.y = -20;
+        this.seasonIndex = seasonIndex;
+        this.life = 1.0;
+
+        if (seasonIndex === 0) { // Primavera: Pétalos de cerezo
+            this.color = '#fbcfe8';
+            this.size = Math.random() * 4 + 2;
+            this.vx = (Math.random() - 0.5) * 2 + 1; // Viento a la derecha
+            this.vy = Math.random() * 1 + 0.5;
+        } else if (seasonIndex === 1) { // Verano: Luciérnagas (salen de abajo)
+            this.y = height + 20;
+            this.x = Math.random() * width;
+            this.color = '#fef08a';
+            this.size = Math.random() * 2 + 1;
+            this.vx = (Math.random() - 0.5) * 1;
+            this.vy = -(Math.random() * 1 + 0.5);
+        } else if (seasonIndex === 2) { // Otoño: Hojas secas
+            this.color = Math.random() > 0.5 ? '#ea580c' : '#ca8a04';
+            this.size = Math.random() * 5 + 3;
+            this.vx = (Math.random() - 0.5) * 3 - 1; // Viento a la izquierda
+            this.vy = Math.random() * 2 + 1;
+        } else if (seasonIndex === 3) { // Navidad: Nieve
+            this.color = '#ffffff';
+            this.size = Math.random() * 3 + 1;
+            this.vx = (Math.random() - 0.5) * 1;
+            this.vy = Math.random() * 2 + 1;
+        } else { // Halloween: Ascuas mágicas
+            this.y = height + 20;
+            this.x = Math.random() * width;
+            this.color = Math.random() > 0.5 ? '#9333ea' : '#ea580c';
+            this.size = Math.random() * 3 + 1;
+            this.vx = (Math.random() - 0.5) * 2;
+            this.vy = -(Math.random() * 2 + 1);
+        }
+        this.angle = Math.random() * Math.PI * 2;
+        this.spin = (Math.random() - 0.5) * 0.1;
+    }
+
+    update() {
+        this.x += this.vx;
+        this.y += this.vy;
+        this.angle += this.spin;
+
+        // Oscilación de caída natural
+        if (this.seasonIndex === 0 || this.seasonIndex === 2 || this.seasonIndex === 3) {
+            this.x += Math.sin(this.y * 0.05) * 0.5;
+        }
+
+        if (this.y > height + 30 || this.y < -30 || this.x > width + 30 || this.x < -30) {
+            this.life = 0;
+        }
+    }
+
+    draw() {
+        ctx.save();
+        ctx.translate(this.x, this.y);
+        ctx.rotate(this.angle);
+        ctx.globalAlpha = 0.5;
+        ctx.fillStyle = this.color;
+        
+        if (this.seasonIndex === 0 || this.seasonIndex === 2) {
+            // Forma de hoja/pétalo
+            ctx.beginPath();
+            ctx.ellipse(0, 0, this.size, this.size/2, 0, 0, Math.PI*2);
+            ctx.fill();
+        } else if (this.seasonIndex === 1 || this.seasonIndex === 4) {
+            // Efecto de brillo para luciérnagas y ascuas
+            ctx.shadowBlur = 10;
+            ctx.shadowColor = this.color;
+            ctx.beginPath(); ctx.arc(0, 0, this.size, 0, Math.PI*2); ctx.fill();
+        } else {
+            // Círculo simple para nieve
+            ctx.beginPath(); ctx.arc(0, 0, this.size, 0, Math.PI*2); ctx.fill();
+        }
+        ctx.restore();
+    }
+}
+
+class Ghost {
+    constructor() {
+        this.id = Math.random();
+        this.side = Math.random() > 0.5 ? 1 : -1;
+        this.x = this.side === 1 ? -50 : width + 50;
+        this.y = height * 0.1 + Math.random() * (height * 0.3);
+
+        this.targetX = width / 2;
+        this.targetY = height * 0.85;
+
+        const season = SEASONS[currentSeasonIndex];
+        this.speed = (1.0 + Math.random() * 0.8) * season.speedMult;
+        this.size = 40 + Math.random() * 10;
+        this.wobbleOffset = Math.random() * Math.PI * 2;
+        this.wobbleSpeed = 0.002 + Math.random() * 0.002; // Movimiento mucho más lento
+
+        // Longitud de secuencia basada en nivel (más corta al principio para mejor experiencia)
+        const seqLength = Math.min(5, 1 + Math.floor(currentSeasonIndex * 0.8) + Math.floor(Math.random() * 2));
+        this.sequence = [];
+        const symKeys = Object.keys(SYMBOLS).filter(k => k !== 'HEART');
+        for(let i=0; i<seqLength; i++) {
+            this.sequence.push(symKeys[Math.floor(Math.random() * symKeys.length)]);
+        }
+        this.isDead = false;
+        this.hitTimer = 0; // Para efecto de parpadeo blanco al recibir daño
+    }
+
+    update() {
+        // Separación (Flocking) para evitar solapamiento extremo
+        let sepX = 0, sepY = 0;
+        for (let other of monsters) {
+            if (other === this || other.isDead) continue;
+            let dx = this.x - other.x;
+            let dy = this.y - other.y;
+            let dist = Math.hypot(dx, dy);
+            if (dist < this.size * 2) {
+                sepX += dx * 0.05;
+                sepY += dy * 0.05;
+            }
+        }
+
+        const dx = this.targetX - this.x;
+        const dy = this.targetY - this.y;
+        const dist = Math.hypot(dx, dy);
+
+        // Movimiento base + separación
+        if (dist > 10) {
+            this.x += (dx / dist) * this.speed + sepX;
+            this.y += (dy / dist) * this.speed + sepY;
+        } else {
+            this.attack();
+        }
+
+        if (this.hitTimer > 0) this.hitTimer--;
+    }
+
+    attack() {
+        if(this.isDead) return;
+        lives--;
+        this.die(false);
+        updateHearts();
+        
+        // Efecto visual de daño
+        const gameContainer = document.getElementById('game-container');
+        gameContainer.classList.remove('flash-red');
+        void gameContainer.offsetWidth; 
+        gameContainer.classList.add('flash-red');
+        
+        // Sacudir pantalla
+        canvas.style.transform = 'translate(10px, 10px)';
+        setTimeout(() => canvas.style.transform = 'translate(-10px, -10px)', 50);
+        setTimeout(() => canvas.style.transform = 'translate(0, 0)', 100);
+
+        if (lives <= 0) endGame();
+    }
+
+    die(withScore = true) {
+        this.isDead = true;
+        if (withScore) {
+            score += 10;
+            checkSeasonChange();
+            animateScore();
+            floatingTexts.push(new FloatingText(this.x, this.y, "+10", "#a3e635"));
+        }
+        
+        // Explosión de partículas
+        for(let i=0; i<20; i++) {
+            particles.push(new Particle(this.x, this.y, 'rgba(255,255,255,0.8)', true));
+            particles.push(new Particle(this.x, this.y, SYMBOLS[this.sequence[0] || 'HORIZONTAL'].color, false));
+        }
+    }
+
+    draw() {
+        ctx.save();
+        const time = performance.now();
+        const wx = Math.sin(time * this.wobbleSpeed + this.wobbleOffset) * 3; // Menor amplitud horizontal
+        const wy = Math.cos(time * this.wobbleSpeed + this.wobbleOffset) * 2; // Menor amplitud vertical
+        ctx.translate(this.x + wx, this.y + wy);
+
+        // Sombra
+        ctx.fillStyle = 'rgba(0,0,0,0.2)';
+        ctx.beginPath(); ctx.ellipse(0, this.size + 15, this.size * 0.6, 8, 0, 0, Math.PI*2); ctx.fill();
+
+        // Cuerpo (Parpadeo blanco si hitTimer > 0)
+        ctx.fillStyle = this.hitTimer > 0 ? '#ffffff' : 'rgba(240, 240, 255, 0.9)';
+        
+        // Cola ondeante
+        ctx.beginPath();
+        ctx.arc(0, 0, this.size, Math.PI, 0);
+        ctx.lineTo(this.size, this.size);
+        
+        // Curvas de la sábana
+        const waves = 3;
+        const waveWidth = (this.size * 2) / waves;
+        for(let i=0; i<waves; i++) {
+            ctx.quadraticCurveTo(
+                this.size - waveWidth * i - waveWidth/2, 
+                this.size + (i%2===0 ? 10 : -5), 
+                this.size - waveWidth * (i+1), 
+                this.size
+            );
+        }
+        ctx.closePath();
+        ctx.fill();
+
+        // Ojos
+        if (this.hitTimer === 0) {
+            ctx.fillStyle = '#1e293b';
+            ctx.beginPath(); ctx.ellipse(-12, -5, 4, 6, 0, 0, Math.PI*2); ctx.fill();
+            ctx.beginPath(); ctx.ellipse(12, -5, 4, 6, 0, 0, Math.PI*2); ctx.fill();
+        }
+
+        // Símbolos flotando sobre la cabeza
+        this.sequence.forEach((s, i) => {
+            const ox = (i - (this.sequence.length-1)/2) * 32;
+            const oy = -this.size - 30;
+            
+            // Fondo del símbolo
+            ctx.fillStyle = i === 0 ? SYMBOLS[s].color : 'rgba(255,255,255,0.2)';
+            ctx.beginPath(); ctx.arc(ox, oy, 14, 0, Math.PI*2); ctx.fill();
+            
+            // Texto del símbolo
+            ctx.fillStyle = i === 0 ? '#000' : 'rgba(0,0,0,0.5)';
+            ctx.font = 'bold 16px "Fredoka One"';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            // Ajuste visual para el CARET que suele verse descentrado
+            ctx.fillText(SYMBOLS[s].char, ox, oy + (s === 'CARET' ? 2 : 0));
+        });
+        
+        ctx.restore();
+    }
+}
+
+class Projectile {
+    constructor(x, y, target, symbolType) {
+        this.x = x; 
+        this.y = y;
+        this.target = target;
+        this.symbolType = symbolType;
+        this.color = SYMBOLS[symbolType].color;
+        this.speed = 25;
+        this.done = false;
+        
+        // Actualizar varita de Momo
+        wandTargetAngle = Math.atan2(target.y - y, target.x - x);
+    }
+    
+    update() {
+        const dx = this.target.x - this.x;
+        const dy = this.target.y - this.y;
+        const dist = Math.hypot(dx, dy);
+        
+        // Dejar rastro
+        particles.push(new Particle(this.x, this.y, this.color, false, 0.5));
+
+        if (dist < this.speed || this.target.isDead) {
+            this.done = true;
+            if (!this.target.isDead) {
+                // Impacto
+                this.target.hitTimer = 5;
+                this.target.sequence.shift();
+                
+                // Efecto de impacto
+                for(let i=0; i<8; i++) particles.push(new Particle(this.x, this.y, this.color, true));
+                
+                if (this.target.sequence.length === 0) {
+                    this.target.die();
+                }
+            }
+        } else {
+            this.x += (dx / dist) * this.speed;
+            this.y += (dy / dist) * this.speed;
+        }
+    }
+    
+    draw() {
+        ctx.fillStyle = '#fff';
+        ctx.shadowBlur = 15; 
+        ctx.shadowColor = this.color;
+        ctx.beginPath(); ctx.arc(this.x, this.y, 8, 0, Math.PI*2); ctx.fill();
+        ctx.shadowBlur = 0;
+    }
+}
+
+class Particle {
+    constructor(x, y, color, isExplosion = false, lifeSpeed = 0.04) {
+        this.x = x; this.y = y;
+        const spread = isExplosion ? 12 : 3;
+        this.vx = (Math.random() - 0.5) * spread;
+        this.vy = (Math.random() - 0.5) * spread;
+        this.life = 1.0;
+        this.lifeSpeed = lifeSpeed;
+        this.color = color;
+        this.size = Math.random() * 4 + 2;
+    }
+    update() { 
+        this.x += this.vx; 
+        this.y += this.vy; 
+        this.life -= this.lifeSpeed; 
+        this.size *= 0.95; // Encoger
+    }
+    draw() {
+        ctx.globalAlpha = Math.max(0, this.life);
+        ctx.fillStyle = this.color;
+        ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI*2); ctx.fill();
+        ctx.globalAlpha = 1;
+    }
+}
+
+// LÓGICA DE GESTOS MEJORADA (Heurísticas robustas)
+function recognizeGesture(pts) {
+    if (pts.length < 5) return null;
+    
+    let minX = Infinity, maxX = -Infinity, minY = Infinity, maxY = -Infinity;
+    let first = pts[0], last = pts[pts.length-1];
+    let lowest = pts[0], highest = pts[0]; // y crece hacia abajo en canvas
+
+    pts.forEach(p => {
+        if (p.x < minX) minX = p.x; if (p.x > maxX) maxX = p.x;
+        if (p.y < minY) minY = p.y; if (p.y > maxY) maxY = p.y;
+        if (p.y > lowest.y) lowest = p; 
+        if (p.y < highest.y) highest = p; 
+    });
+
+    const w = maxX - minX;
+    const h = maxY - minY;
+    const dx = Math.abs(last.x - first.x);
+    const dy = Math.abs(last.y - first.y);
+    const totalDist = pts.reduce((acc, p, i) => i === 0 ? 0 : acc + Math.hypot(p.x - pts[i-1].x, p.y - pts[i-1].y), 0);
+
+    // Corazón (forma cerrada aproximada)
+    const distSE = Math.hypot(last.x - first.x, last.y - first.y);
+    if (distSE < w * 0.4 && w > 40 && h > 40 && totalDist > w * 2) return 'HEART';
+
+    // Líneas simples
+    if (w > h * 1.5 && dx > w * 0.6) return 'HORIZONTAL';
+    if (h > w * 1.5 && dy > h * 0.6) return 'VERTICAL';
+
+    // Formas en V y ^
+    if (w > 30 && h > 30) {
+        // V: Puntos inicial/final están altos (y pequeño), punto central está bajo (y grande)
+        if ((lowest.y - first.y) > h * 0.4 && (lowest.y - last.y) > h * 0.4) {
+            // El punto más bajo debe estar razonablemente en el centro horizontal
+            if (lowest.x > minX + w * 0.15 && lowest.x < maxX - w * 0.15) {
+                return 'V';
+            }
+        }
+        
+        // ^ (Caret): Puntos inicial/final están bajos, punto central está alto
+        if ((first.y - highest.y) > h * 0.4 && (last.y - highest.y) > h * 0.4) {
+            if (highest.x > minX + w * 0.15 && highest.x < maxX - w * 0.15) {
+                return 'CARET';
+            }
+        }
+    }
+    
+    return null;
+}
+
+function updateHearts() {
+    const container = document.getElementById('hearts');
+    container.innerHTML = '';
+    for(let i=0; i<5; i++) {
+        const lostClass = i >= lives ? 'lost' : '';
+        container.innerHTML += `<svg class="heart ${lostClass}" viewBox="0 0 32 32"><path d="M16 28.5L14.1 26.7C7.3 20.6 2.8 16.5 2.8 11.5C2.8 7.4 6 4.2 10.1 4.2C12.4 4.2 14.6 5.3 16 7.1C17.4 5.3 19.6 4.2 21.9 4.2C26 4.2 29.2 7.4 29.2 11.5C29.2 16.5 24.7 20.6 17.9 26.7L16 28.5Z"/></svg>`;
+    }
+}
+
+function animateScore() {
+    const scoreEl = document.getElementById('score');
+    scoreEl.innerText = score;
+    scoreEl.classList.add('score-pop');
+    setTimeout(() => scoreEl.classList.remove('score-pop'), 150);
+}
+
+function drawMomo() {
+    const x = width / 2;
+    const y = height * 0.88; // Un poco más alto
+    ctx.save();
+    ctx.translate(x, y);
+
+    // Respiración
+    const breath = Math.sin(performance.now() * 0.003) * 2;
+
+    // Capa (detrás)
+    ctx.fillStyle = '#1e1b4b';
+    ctx.beginPath(); ctx.moveTo(-40, 0); ctx.lineTo(0, -70 + breath); ctx.lineTo(40, 0); ctx.fill();
+
+    // Cabeza
+    ctx.translate(0, breath);
+    ctx.fillStyle = '#0f172a';
+    ctx.beginPath(); ctx.arc(0, -60, 32, 0, Math.PI*2); ctx.fill();
+
+    // Orejas
+    ctx.beginPath(); ctx.moveTo(-25, -75); ctx.lineTo(-40, -100); ctx.lineTo(-10, -85); ctx.fill();
+    ctx.beginPath(); ctx.moveTo(25, -75); ctx.lineTo(40, -100); ctx.lineTo(10, -85); ctx.fill();
+
+    // Interior Orejas
+    ctx.fillStyle = '#1e293b';
+    ctx.beginPath(); ctx.moveTo(-25, -78); ctx.lineTo(-35, -95); ctx.lineTo(-15, -85); ctx.fill();
+    ctx.beginPath(); ctx.moveTo(25, -78); ctx.lineTo(35, -95); ctx.lineTo(15, -85); ctx.fill();
+
+    // Ojos
+    ctx.fillStyle = '#fbbf24'; // Amarillo gato
+    ctx.beginPath(); ctx.ellipse(-12, -65, 7, 10, 0, 0, Math.PI*2); ctx.fill();
+    ctx.beginPath(); ctx.ellipse(12, -65, 7, 10, 0, 0, Math.PI*2); ctx.fill();
+    
+    // Pupilas (miran hacia la varita/objetivo)
+    ctx.fillStyle = '#000';
+    const lookX = Math.cos(wandTargetAngle) * 2;
+    const lookY = Math.sin(wandTargetAngle) * 2;
+    ctx.beginPath(); ctx.ellipse(-12 + lookX, -65 + lookY, 3, 7, 0, 0, Math.PI*2); ctx.fill();
+    ctx.beginPath(); ctx.ellipse(12 + lookX, -65 + lookY, 3, 7, 0, 0, Math.PI*2); ctx.fill();
+
+    // Bufanda roja
+    ctx.fillStyle = '#dc2626';
+    ctx.beginPath(); ctx.roundRect(-15, -35, 30, 10, 5); ctx.fill();
+    ctx.beginPath(); ctx.roundRect(5, -35, 10, 25, 5); ctx.fill(); // Cola de bufanda
+
+    ctx.restore();
+
+    // Brazo y Varita (rotación dinámica)
+    ctx.save();
+    ctx.translate(x, y - 30 + breath); // Hombro
+    
+    // Suavizar rotación de la varita
+    const dx = Math.cos(wandTargetAngle);
+    const dy = Math.sin(wandTargetAngle);
+    ctx.rotate(Math.atan2(dy, dx));
+
+    // Brazo
+    ctx.strokeStyle = '#0f172a';
+    ctx.lineWidth = 12;
+    ctx.lineCap = 'round';
+    ctx.beginPath(); ctx.moveTo(0, 0); ctx.lineTo(25, 0); ctx.stroke();
+
+    // Palo de varita
+    ctx.strokeStyle = '#78350f'; // Madera
+    ctx.lineWidth = 5;
+    ctx.beginPath(); ctx.moveTo(15, 0); ctx.lineTo(55, 0); ctx.stroke();
+    
+    // Punta brillante
+    ctx.fillStyle = '#fff';
+    ctx.shadowBlur = 15; 
+    ctx.shadowColor = '#60a5fa';
+    ctx.beginPath(); ctx.arc(55, 0, 6, 0, Math.PI*2); ctx.fill();
+
+    // Retornar al centro para animar flotando si no hay objetivo
+    wandTargetAngle += ( -Math.PI/2 - wandTargetAngle) * 0.05;
+
+    ctx.restore();
+}
+
+function drawPaths() {
+    // Dibujar trazo actual
+    if (isDrawing && currentPath.length > 0) {
+        ctx.strokeStyle = '#fff';
+        ctx.lineWidth = 8;
+        ctx.lineCap = 'round';
+        ctx.lineJoin = 'round';
+        ctx.shadowBlur = 10;
+        ctx.shadowColor = '#4f46e5';
+
+        ctx.beginPath();
+        ctx.moveTo(currentPath[0].x, currentPath[0].y);
+        for(let i=1; i<currentPath.length; i++) {
+            ctx.lineTo(currentPath[i].x, currentPath[i].y);
+        }
+        ctx.stroke();
+        ctx.shadowBlur = 0; // Reset
+    }
+
+    // Dibujar trazos desvaneciéndose (Feedback)
+    fadingPaths = fadingPaths.filter(p => {
+        p.life -= 0.05;
+        if (p.life <= 0) return false;
+
+        ctx.strokeStyle = p.isError ? `rgba(239, 68, 68, ${p.life})` : `rgba(255, 255, 255, ${p.life})`;
+        ctx.lineWidth = 8 + (1 - p.life) * 5; // Se expande un poco al desvanecer
+        ctx.lineCap = 'round';
+        ctx.lineJoin = 'round';
+        ctx.shadowBlur = p.isError ? 0 : 15 * p.life;
+        ctx.shadowColor = '#4f46e5';
+
+        ctx.beginPath();
+        ctx.moveTo(p.pts[0].x, p.pts[0].y);
+        for(let i=1; i<p.pts.length; i++) ctx.lineTo(p.pts[i].x, p.pts[i].y);
+        ctx.stroke();
+        ctx.shadowBlur = 0;
+        
+        return true;
+    });
+}
+
+function gameLoop(time) {
+    if (gameState !== 'PLAYING') return;
+
+    ctx.clearRect(0, 0, width, height);
+
+    const season = SEASONS[currentSeasonIndex];
+
+    // Spawning progresivo (más rápido si no hay fantasmas)
+    const effectiveSpawnRate = monsters.length === 0 ? season.spawnRate * 0.5 : season.spawnRate;
+    if (time - lastSpawn > effectiveSpawnRate) {
+        monsters.push(new Ghost());
+        lastSpawn = time;
+    }
+
+    // Generar partículas ambientales de fondo
+    if (Math.random() < 0.15) {
+        envParticles.push(new EnvParticle(currentSeasonIndex));
+    }
+    envParticles = envParticles.filter(p => { p.update(); p.draw(); return p.life > 0; });
+
+    // Actualizar y dibujar entidades
+    monsters = monsters.filter(m => { m.update(); return !m.isDead; });
+    // Ordenar fantasmas por Y (los más bajos se dibujan encima)
+    monsters.sort((a,b) => a.y - b.y).forEach(m => m.draw());
+
+    projectiles = projectiles.filter(p => { p.update(); p.draw(); return !p.done; });
+    particles = particles.filter(p => { p.update(); p.draw(); return p.life > 0; });
+    floatingTexts = floatingTexts.filter(ft => { ft.update(); ft.draw(); return ft.life > 0; });
+
+    drawMomo();
+    drawPaths();
+
+    requestAnimationFrame(gameLoop);
+}
+
+// --- INPUT HANDLERS ---
+function startDrawing(e) {
+    if (gameState !== 'PLAYING' || document.getElementById('level-intro').style.display === 'flex') return;
+    isDrawing = true;
+    currentPath = [getPos(e)];
+}
+
+function moveDrawing(e) {
+    if (!isDrawing) return;
+    const p = getPos(e);
+    // Filtrar puntos muy cercanos para optimizar
+    const last = currentPath[currentPath.length-1];
+    if (Math.hypot(p.x - last.x, p.y - last.y) > 5) {
+        currentPath.push(p);
+    }
+}
+
+function endDrawing() {
+    if (!isDrawing) return;
+    isDrawing = false;
+
+    if (currentPath.length > 5) {
+        const gesture = recognizeGesture(currentPath);
+        let success = false;
+
+        if (gesture) {
+            if (gesture === 'HEART') {
+                if (lives < 5) { 
+                    lives++; 
+                    updateHearts(); 
+                    success = true;
+                    floatingTexts.push(new FloatingText(width/2, height/2, "+1 VIDA", "#fb7185"));
+                }
+            } else {
+                let target = null;
+                let minDist = Infinity;
+                // Buscar el fantasma más cercano (más bajo en pantalla) que tenga el símbolo
+                monsters.forEach(m => {
+                    if (m.sequence[0] === gesture) {
+                        const d = height - m.y; // Prioridad al que esté más abajo
+                        if (d < minDist) { minDist = d; target = m; }
+                    }
+                });
+                
+                if (target) {
+                    success = true;
+                    projectiles.push(new Projectile(width/2, height*0.88, target, gesture));
+                }
+            }
+        }
+        
+        // Agregar al historial visual
+        fadingPaths.push({
+            pts: [...currentPath],
+            life: 1.0,
+            isError: !success
+        });
+    }
+    
+    currentPath = [];
+}
+
+function getPos(e) {
+    const r = canvas.getBoundingClientRect();
+    const t = e.touches ? e.touches[0] : e;
+    return { x: t.clientX - r.left, y: t.clientY - r.top };
+}
+
+function startGame() {
+    lives = 5;
+    score = 0;
+    currentSeasonIndex = 0;
+    monsters = [];
+    projectiles = [];
+    particles = [];
+    envParticles = [];
+    floatingTexts = [];
+    fadingPaths = [];
+    gameState = 'PLAYING';
+    
+    document.getElementById('score').innerText = "0";
+    document.getElementById('overlay').style.display = 'none';
+    
+    updateHearts();
+    drawBackground();
+    lastSpawn = performance.now();
+    requestAnimationFrame(gameLoop);
+}
+
+function endGame() {
+    gameState = 'MENU';
+    const overlay = document.getElementById('overlay');
+    overlay.style.display = 'flex';
+    document.getElementById('main-title').innerText = "FIN DEL JUEGO";
+    document.getElementById('main-title').className = "text-5xl md:text-7xl mb-4 text-red-500 drop-shadow-lg";
+    document.getElementById('main-desc').innerText = `Sobreviviste hasta ${SEASONS[currentSeasonIndex].name}.\nPuntuación final: ${score}`;
+    document.getElementById('btn-action').innerText = "VOLVER A INTENTAR";
+}
+
+// Event Listeners unificados
+const container = document.getElementById('game-container');
+container.addEventListener('mousedown', startDrawing);
+window.addEventListener('mousemove', moveDrawing);
+window.addEventListener('mouseup', endDrawing);
+container.addEventListener('touchstart', (e) => { 
+    if(e.target.id !== 'btn-action') e.preventDefault(); 
+    startDrawing(e); 
+}, {passive: false});
+window.addEventListener('touchmove', (e) => { 
+    if(isDrawing) e.preventDefault(); 
+    moveDrawing(e); 
+}, {passive: false});
+window.addEventListener('touchend', endDrawing);
+
+</script>
+</body>
+</html>

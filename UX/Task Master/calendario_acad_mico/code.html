@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+
+<html class="light" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>TaskMaster Student - Calendario</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "on-tertiary-container": "#4f3d00",
+                        "secondary": "#00677f",
+                        "secondary-container": "#00ccf9",
+                        "surface-bright": "#faf8ff",
+                        "on-tertiary-fixed": "#241a00",
+                        "error": "#ba1a1a",
+                        "on-primary-container": "#ffffff",
+                        "on-surface": "#171b2a",
+                        "background": "#faf8ff",
+                        "secondary-fixed-dim": "#4cd6ff",
+                        "surface-container-low": "#f2f3ff",
+                        "on-tertiary-fixed-variant": "#584400",
+                        "primary-fixed-dim": "#c1c1ff",
+                        "secondary-fixed": "#b7eaff",
+                        "primary": "#4744e5",
+                        "surface-variant": "#dee1f6",
+                        "on-primary-fixed": "#09006b",
+                        "on-error": "#ffffff",
+                        "tertiary": "#745b00",
+                        "on-error-container": "#93000a",
+                        "primary-container": "#6161ff",
+                        "surface-container-highest": "#dee1f6",
+                        "tertiary-fixed-dim": "#f2c000",
+                        "outline": "#767587",
+                        "tertiary-fixed": "#ffe08d",
+                        "on-secondary": "#ffffff",
+                        "on-surface-variant": "#464555",
+                        "inverse-on-surface": "#eff0ff",
+                        "on-primary-fixed-variant": "#2c24ce",
+                        "on-primary": "#ffffff",
+                        "surface": "#faf8ff",
+                        "surface-container-lowest": "#ffffff",
+                        "tertiary-container": "#d1a600",
+                        "primary-fixed": "#e1dfff",
+                        "inverse-primary": "#c1c1ff",
+                        "surface-container": "#ebedff",
+                        "on-background": "#171b2a",
+                        "on-secondary-container": "#005266",
+                        "surface-tint": "#4745e5",
+                        "outline-variant": "#c7c4d8",
+                        "on-tertiary": "#ffffff",
+                        "surface-dim": "#d6d9ed",
+                        "inverse-surface": "#2c303f",
+                        "on-secondary-fixed": "#001f28",
+                        "on-secondary-fixed-variant": "#004e60",
+                        "surface-container-high": "#e4e7fc",
+                        "error-container": "#ffdad6"
+                    },
+                    fontFamily: {
+                        "headline": ["Plus Jakarta Sans"],
+                        "body": ["Inter"],
+                        "label": ["Plus Jakarta Sans"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body { font-family: 'Inter', sans-serif; }
+        h1, h2, h3 { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .glass-nav {
+            background: rgba(250, 248, 255, 0.8);
+            backdrop-filter: blur(12px);
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface selection:bg-primary-container selection:text-white">
+<!-- Desktop SideNavBar -->
+<aside class="hidden md:flex flex-col h-screen w-64 fixed left-0 top-0 bg-[#f2f3ff] dark:bg-slate-900 py-8 px-4 z-40">
+<div class="mb-10 px-4">
+<span class="text-xl font-black text-[#4744e5]">TaskMaster</span>
+</div>
+<div class="flex items-center gap-3 px-4 mb-8">
+<div class="w-10 h-10 rounded-full overflow-hidden bg-primary-fixed">
+<img alt="Student Avatar" class="w-full h-full object-cover" data-alt="professional 3D avatar of a friendly male student with glasses and a blue hoodie on a soft pastel background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAkzggCKvtGluVtbANe6-nGiF31gZhp6D8xtD1txoxfKvrNK2J6XcoCywIJNnZ_QIYxWk6WXpIZU4WiGMy1MahE61OLAifei-g6GQh5BJnVRqfGW2fxsm9sJGBTWhyLQqo3QYJs0W-TCQs1-7QJMa69eH-mFQN6IXR5uD9xH5D1WwMjM1RcSqTdMMNRvG7x0dO-x2iaEsb2G4blLVooWg9eiMmXRhS9IZjim3Tz24e0C4Ly3NaUYtBDU2xzmUDdOTzlMp2mfaeJaA"/>
+</div>
+<div>
+<p class="font-bold text-sm text-on-surface">Alex Scholar</p>
+<p class="text-[10px] text-outline uppercase tracking-wider">Universidad</p>
+</div>
+</div>
+<nav class="flex-1 space-y-2">
+<a class="flex items-center gap-3 text-slate-600 dark:text-slate-400 px-4 py-3 hover:bg-[#dee1f6]/50 dark:hover:bg-slate-800/50 transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="font-medium text-sm">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 text-slate-600 dark:text-slate-400 px-4 py-3 hover:bg-[#dee1f6]/50 dark:hover:bg-slate-800/50 transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="grid_view">grid_view</span>
+<span class="font-medium text-sm">Mis Tableros</span>
+</a>
+<!-- ACTIVE TAB -->
+<a class="flex items-center gap-3 bg-[#dee1f6] dark:bg-slate-800 text-[#4744e5] dark:text-[#6161FF] rounded-xl px-4 py-3 translate-x-1 transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="calendar_today" style="font-variation-settings: 'FILL' 1;">calendar_today</span>
+<span class="font-medium text-sm">Calendario</span>
+</a>
+<a class="flex items-center gap-3 text-slate-600 dark:text-slate-400 px-4 py-3 hover:bg-[#dee1f6]/50 dark:hover:bg-slate-800/50 transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="menu_book">menu_book</span>
+<span class="font-medium text-sm">Materias</span>
+</a>
+<a class="flex items-center gap-3 text-slate-600 dark:text-slate-400 px-4 py-3 hover:bg-[#dee1f6]/50 dark:hover:bg-slate-800/50 transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="groups">groups</span>
+<span class="font-medium text-sm">Equipos</span>
+</a>
+<a class="flex items-center gap-3 text-slate-600 dark:text-slate-400 px-4 py-3 hover:bg-[#dee1f6]/50 dark:hover:bg-slate-800/50 transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="trending_up">trending_up</span>
+<span class="font-medium text-sm">Progreso</span>
+</a>
+</nav>
+<div class="mt-auto space-y-1">
+<button class="w-full bg-primary text-white py-3 rounded-xl font-bold text-sm mb-6 flex items-center justify-center gap-2 shadow-lg shadow-primary/20 hover:scale-[1.02] transition-transform">
+<span class="material-symbols-outlined text-sm" data-icon="add">add</span>
+                Add Task
+            </button>
+<a class="flex items-center gap-3 text-slate-600 dark:text-slate-400 px-4 py-3 hover:bg-[#dee1f6]/50 transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="font-medium text-sm">Settings</span>
+</a>
+<a class="flex items-center gap-3 text-slate-600 dark:text-slate-400 px-4 py-3 hover:bg-[#dee1f6]/50 transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="help_outline">help_outline</span>
+<span class="font-medium text-sm">Help</span>
+</a>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="md:ml-64 min-h-screen bg-surface flex flex-col lg:flex-row">
+<!-- Center Panel: Calendar -->
+<div class="flex-1 p-8 lg:pr-4">
+<!-- Header Section -->
+<header class="flex justify-between items-end mb-8">
+<div>
+<h1 class="text-3xl font-extrabold text-on-surface tracking-tight">Mayo 2024</h1>
+<p class="text-on-surface-variant font-medium mt-1">Planifica tu mes sin estrés</p>
+</div>
+<div class="flex gap-2 bg-surface-container-low p-1 rounded-xl">
+<button class="px-4 py-2 text-sm font-semibold text-primary bg-surface-container-lowest rounded-lg shadow-sm">Mes</button>
+<button class="px-4 py-2 text-sm font-semibold text-on-surface-variant hover:text-primary transition-colors">Semana</button>
+<button class="px-4 py-2 text-sm font-semibold text-on-surface-variant hover:text-primary transition-colors">Día</button>
+</div>
+</header>
+<!-- Calendar Grid -->
+<div class="bg-surface-container-low rounded-3xl p-6 shadow-sm">
+<!-- Days of week -->
+<div class="grid grid-cols-7 mb-4 text-center">
+<div class="text-[10px] font-bold text-outline uppercase tracking-widest">Lun</div>
+<div class="text-[10px] font-bold text-outline uppercase tracking-widest">Mar</div>
+<div class="text-[10px] font-bold text-outline uppercase tracking-widest">Mié</div>
+<div class="text-[10px] font-bold text-outline uppercase tracking-widest">Jue</div>
+<div class="text-[10px] font-bold text-outline uppercase tracking-widest">Vie</div>
+<div class="text-[10px] font-bold text-outline uppercase tracking-widest text-primary/40">Sáb</div>
+<div class="text-[10px] font-bold text-outline uppercase tracking-widest text-primary/40">Dom</div>
+</div>
+<!-- Days Content -->
+<div class="grid grid-cols-7 gap-3">
+<!-- Week 1 (Partial) -->
+<div class="aspect-square bg-surface-container p-2 rounded-2xl opacity-40">
+<span class="text-sm font-bold opacity-50">29</span>
+</div>
+<div class="aspect-square bg-surface-container p-2 rounded-2xl opacity-40">
+<span class="text-sm font-bold opacity-50">30</span>
+</div>
+<!-- May 1st -->
+<div class="aspect-square bg-surface-container-lowest p-3 rounded-2xl border border-outline-variant/10 group relative">
+<span class="text-sm font-bold text-on-surface">1</span>
+<div class="mt-2 flex flex-col gap-1">
+<div class="h-1.5 w-full bg-secondary-container rounded-full" title="Proyecto"></div>
+</div>
+</div>
+<div class="aspect-square bg-surface-container-lowest p-3 rounded-2xl border border-outline-variant/10">
+<span class="text-sm font-bold text-on-surface">2</span>
+</div>
+<div class="aspect-square bg-surface-container-lowest p-3 rounded-2xl border border-outline-variant/10">
+<span class="text-sm font-bold text-on-surface">3</span>
+<div class="mt-2 p-1.5 bg-primary/10 rounded-lg flex items-center justify-between group cursor-grab active:cursor-grabbing">
+<span class="text-[9px] font-bold text-primary truncate">Labs</span>
+<span class="material-symbols-outlined text-[10px] text-primary/50" data-icon="drag_indicator">drag_indicator</span>
+</div>
+</div>
+<div class="aspect-square bg-surface-container p-3 rounded-2xl opacity-60">
+<span class="text-sm font-bold">4</span>
+</div>
+<div class="aspect-square bg-surface-container p-3 rounded-2xl opacity-60">
+<span class="text-sm font-bold">5</span>
+</div>
+<!-- Week 2 -->
+<div class="aspect-square bg-surface-container-lowest p-3 rounded-2xl border border-outline-variant/10">
+<span class="text-sm font-bold text-on-surface">6</span>
+</div>
+<div class="aspect-square bg-surface-container-lowest p-3 rounded-2xl border border-outline-variant/10">
+<span class="text-sm font-bold text-on-surface">7</span>
+<div class="mt-2 p-1.5 bg-error/10 rounded-lg flex items-center justify-between group cursor-grab active:cursor-grabbing border-l-2 border-error">
+<span class="text-[9px] font-bold text-error truncate">Examen Física</span>
+<span class="material-symbols-outlined text-[10px] text-error/50 opacity-0 group-hover:opacity-100 transition-opacity" data-icon="drag_indicator">drag_indicator</span>
+</div>
+</div>
+<div class="aspect-square bg-surface-container-lowest p-3 rounded-2xl border border-outline-variant/10">
+<span class="text-sm font-bold text-on-surface">8</span>
+</div>
+<div class="aspect-square bg-surface-container-lowest p-3 rounded-2xl border border-outline-variant/10 ring-2 ring-primary ring-offset-2">
+<span class="text-sm font-bold text-primary">9</span>
+<div class="absolute bottom-2 right-2 w-1.5 h-1.5 bg-primary rounded-full"></div>
+</div>
+<div class="aspect-square bg-surface-container-lowest p-3 rounded-2xl border border-outline-variant/10">
+<span class="text-sm font-bold text-on-surface">10</span>
+<div class="mt-2 p-1.5 bg-tertiary-container/20 rounded-lg flex items-center justify-between group cursor-grab active:cursor-grabbing border-l-2 border-tertiary">
+<span class="text-[9px] font-bold text-tertiary truncate">Ensayo Literatura</span>
+<span class="material-symbols-outlined text-[10px] text-tertiary/50 opacity-0 group-hover:opacity-100 transition-opacity" data-icon="drag_indicator">drag_indicator</span>
+</div>
+</div>
+<div class="aspect-square bg-surface-container p-3 rounded-2xl opacity-60">
+<span class="text-sm font-bold">11</span>
+</div>
+<div class="aspect-square bg-surface-container p-3 rounded-2xl opacity-60">
+<span class="text-sm font-bold">12</span>
+</div>
+<!-- Week 3 -->
+<div class="aspect-square bg-surface-container-lowest p-3 rounded-2xl border border-outline-variant/10">
+<span class="text-sm font-bold text-on-surface">13</span>
+</div>
+<div class="aspect-square bg-surface-container-lowest p-3 rounded-2xl border border-outline-variant/10">
+<span class="text-sm font-bold text-on-surface">14</span>
+</div>
+<div class="aspect-square bg-surface-container-lowest p-3 rounded-2xl border border-outline-variant/10">
+<span class="text-sm font-bold text-on-surface">15</span>
+<div class="mt-2 p-1.5 bg-secondary/10 rounded-lg flex items-center justify-between group border-l-2 border-secondary cursor-grab">
+<span class="text-[9px] font-bold text-secondary truncate">Entrega Arte</span>
+<span class="material-symbols-outlined text-[10px]" data-icon="drag_indicator">drag_indicator</span>
+</div>
+</div>
+<div class="aspect-square bg-surface-container-lowest p-3 rounded-2xl border border-outline-variant/10">
+<span class="text-sm font-bold text-on-surface">16</span>
+</div>
+<div class="aspect-square bg-surface-container-lowest p-3 rounded-2xl border border-outline-variant/10">
+<span class="text-sm font-bold text-on-surface">17</span>
+</div>
+<div class="aspect-square bg-surface-container p-3 rounded-2xl opacity-60">
+<span class="text-sm font-bold">18</span>
+</div>
+<div class="aspect-square bg-surface-container p-3 rounded-2xl opacity-60">
+<span class="text-sm font-bold">19</span>
+</div>
+<!-- Additional Rows ... Simplified for layout visibility -->
+<div class="aspect-square bg-surface-container-lowest p-3 rounded-2xl border border-outline-variant/10">
+<span class="text-sm font-bold text-on-surface">20</span>
+</div>
+<div class="aspect-square bg-surface-container-lowest p-3 rounded-2xl border border-outline-variant/10">
+<span class="text-sm font-bold text-on-surface">21</span>
+<div class="mt-2 p-1.5 bg-primary-container/10 rounded-lg border-l-2 border-primary-container">
+<span class="text-[9px] font-bold text-primary-container">Final Math</span>
+</div>
+</div>
+<div class="aspect-square bg-surface-container-lowest p-3 rounded-2xl border border-outline-variant/10">
+<span class="text-sm font-bold text-on-surface">22</span>
+</div>
+<div class="aspect-square bg-surface-container-lowest p-3 rounded-2xl border border-outline-variant/10">
+<span class="text-sm font-bold text-on-surface">23</span>
+</div>
+<div class="aspect-square bg-surface-container-lowest p-3 rounded-2xl border border-outline-variant/10">
+<span class="text-sm font-bold text-on-surface">24</span>
+</div>
+<div class="aspect-square bg-surface-container p-3 rounded-2xl opacity-60">
+<span class="text-sm font-bold">25</span>
+</div>
+<div class="aspect-square bg-surface-container p-3 rounded-2xl opacity-60">
+<span class="text-sm font-bold">26</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Panel: Sidebar Summary -->
+<aside class="w-full lg:w-80 p-8 border-l border-outline-variant/10 bg-surface-container-lowest lg:h-screen lg:sticky lg:top-0 overflow-y-auto">
+<h2 class="text-xl font-extrabold text-on-surface mb-6">Entregas de la semana</h2>
+<div class="space-y-4">
+<!-- Delivery Item 1 -->
+<div class="group p-5 bg-surface rounded-2xl border border-outline-variant/15 hover:shadow-xl hover:shadow-primary/5 transition-all cursor-pointer">
+<div class="flex justify-between items-start mb-3">
+<span class="px-2.5 py-1 bg-error-container text-on-error-container text-[10px] font-bold rounded-full uppercase tracking-tighter">Urgente</span>
+<span class="text-[11px] font-bold text-outline">Mañana</span>
+</div>
+<h3 class="font-bold text-on-surface mb-1">Examen Física II</h3>
+<p class="text-xs text-on-surface-variant mb-4">Temas: Termodinámica y Fluidos.</p>
+<div class="flex items-center gap-2">
+<div class="flex -space-x-2">
+<img alt="User" class="w-6 h-6 rounded-full border-2 border-surface" data-alt="avatar of a female study partner with blue hair" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBuLDB0lG4H-qAJolG1y1E_Y7ivciYWJxsV6ox2mYm57kBRga5RMidJvDI3ep3yi4HfWDC1Bht7Z-bM9ujOAXPY-G2pWE5CQQ8saS-KIhcrlXUgJLfI116cPr1RRC6G8aEhXbw4pHgO_jgVJaysg8Ny37l2lPvL8wja18-TSYIYl8vMpadadnXBwo43y5k-rgMBvXideIhyYMNVrsE-iaFSHQKhY0tQsdheKgv4AihxsF2c4N2r8FS1POARf0XezDZ0wL4eRvhTDQ"/>
+<img alt="User" class="w-6 h-6 rounded-full border-2 border-surface" data-alt="avatar of a male study partner with a beanie" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAw4ba2pCK6Oql_3JPAPVpoPX3qE1oplyFjHJ-W-ydC3Tkz_hZGJrVYW-S2yu9KWISLpFwu3elMmXI_hyJDiSwOjeD_9vIkVNheJFnbapm2H3IaskOTRm-vpcnEJ4DnPPVtBqzMTmiWvUOUA-V2YJy_DGxyEDFNEaJSg_J1JdOgNfqe0Z6GWqWmdvu1zLbIOO4hQw0RuiR4YO3eWxO7ySamLyoFz48BOa-ict9AuIf86ewpjXaSS6EJnh9zVSOB_HeHZPs1e2TeyA"/>
+</div>
+<span class="text-[10px] font-medium text-outline">+2 compañeros</span>
+</div>
+</div>
+<!-- Delivery Item 2 -->
+<div class="group p-5 bg-surface-container-low rounded-2xl border border-outline-variant/15 hover:bg-surface transition-all cursor-pointer">
+<div class="flex justify-between items-start mb-3">
+<span class="px-2.5 py-1 bg-tertiary-fixed text-on-tertiary-fixed text-[10px] font-bold rounded-full uppercase tracking-tighter">Ensayo</span>
+<span class="text-[11px] font-bold text-outline">Viernes</span>
+</div>
+<h3 class="font-bold text-on-surface mb-1">Ensayo Literatura</h3>
+<p class="text-xs text-on-surface-variant mb-4">Análisis de "Cien años de soledad".</p>
+<div class="w-full bg-surface-variant h-1.5 rounded-full overflow-hidden">
+<div class="bg-tertiary h-full w-[65%] rounded-full"></div>
+</div>
+<div class="flex justify-between mt-2">
+<span class="text-[10px] font-bold text-tertiary uppercase">Progreso</span>
+<span class="text-[10px] font-bold text-on-surface">65%</span>
+</div>
+</div>
+<!-- Delivery Item 3 -->
+<div class="group p-5 bg-surface-container-low rounded-2xl border border-outline-variant/15 hover:bg-surface transition-all cursor-pointer">
+<div class="flex justify-between items-start mb-3">
+<span class="px-2.5 py-1 bg-secondary-fixed text-on-secondary-fixed text-[10px] font-bold rounded-full uppercase tracking-tighter">Laboratorio</span>
+<span class="text-[11px] font-bold text-outline">Lun 13</span>
+</div>
+<h3 class="font-bold text-on-surface mb-1">Reporte Química</h3>
+<p class="text-xs text-on-surface-variant">Preparación de soluciones molares.</p>
+</div>
+</div>
+<!-- Subject Pill-Clouds -->
+<div class="mt-12">
+<h3 class="text-[10px] font-black text-outline uppercase tracking-widest mb-4">Materias Activas</h3>
+<div class="flex flex-wrap gap-2">
+<span class="px-3 py-1.5 bg-primary-fixed text-on-primary-fixed-variant rounded-full text-[11px] font-bold">Matemáticas</span>
+<span class="px-3 py-1.5 bg-secondary-fixed text-on-secondary-fixed-variant rounded-full text-[11px] font-bold">Física</span>
+<span class="px-3 py-1.5 bg-tertiary-fixed text-on-tertiary-fixed-variant rounded-full text-[11px] font-bold">Literatura</span>
+<span class="px-3 py-1.5 bg-surface-container-highest text-on-surface-variant rounded-full text-[11px] font-bold">Química</span>
+<span class="px-3 py-1.5 bg-surface-container-highest text-on-surface-variant rounded-full text-[11px] font-bold">Historia</span>
+</div>
+</div>
+<!-- Motivational Quote Card -->
+<div class="mt-12 p-6 bg-gradient-to-br from-primary to-primary-container rounded-3xl text-white relative overflow-hidden">
+<span class="material-symbols-outlined absolute -right-4 -bottom-4 text-8xl opacity-10" data-icon="auto_awesome">auto_awesome</span>
+<p class="text-xs font-bold uppercase tracking-widest opacity-80 mb-2">Tip del día</p>
+<p class="text-sm font-medium leading-relaxed italic">"El secreto de avanzar es comenzar. Divide tus tareas complejas en pequeñas acciones."</p>
+</div>
+</aside>
+</main>
+<!-- Mobile Bottom Navigation (Hidden on desktop) -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full h-20 bg-[#faf8ff]/80 dark:bg-slate-950/80 backdrop-blur-2xl flex justify-around items-center px-6 pb-safe z-50 shadow-[0px_-12px_32px_rgba(23,27,42,0.06)]">
+<button class="flex flex-col items-center justify-center text-slate-400">
+<span class="material-symbols-outlined" data-icon="home">home</span>
+<span class="text-[10px] font-bold uppercase mt-1">Home</span>
+</button>
+<button class="flex flex-col items-center justify-center text-slate-400">
+<span class="material-symbols-outlined" data-icon="leaderboard">leaderboard</span>
+<span class="text-[10px] font-bold uppercase mt-1">Boards</span>
+</button>
+<button class="flex flex-col items-center justify-center bg-[#6161FF] text-white rounded-full w-12 h-12 -mt-6 shadow-lg shadow-[#6161FF]/40 active:scale-90 transition-transform">
+<span class="material-symbols-outlined" data-icon="add_circle">add_circle</span>
+</button>
+<button class="flex flex-col items-center justify-center text-[#6161FF]">
+<span class="material-symbols-outlined" data-icon="calendar_month" style="font-variation-settings: 'FILL' 1;">calendar_month</span>
+<span class="text-[10px] font-bold uppercase mt-1">Calendar</span>
+</button>
+<button class="flex flex-col items-center justify-center text-slate-400">
+<span class="material-symbols-outlined" data-icon="analytics">analytics</span>
+<span class="text-[10px] font-bold uppercase mt-1">Stats</span>
+</button>
+</nav>
+</body></html>

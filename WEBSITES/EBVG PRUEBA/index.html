@@ -1,0 +1,989 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Escuela EBVG | Descubre tu potencial</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Configuración personalizada de Tailwind -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#0066cc',    /* Azul estilo Apple Link */
+                        dark: '#1d1d1f',       /* Gris casi negro estilo Apple Typography */
+                        surface: '#f5f5f7',    /* Gris muy claro estilo Apple Backgrounds */
+                        surface_dark: '#e8e8ed',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'sans-serif'],
+                    },
+                    boxShadow: {
+                        'apple': '0 4px 24px rgba(0, 0, 0, 0.04)',
+                        'apple-hover': '0 10px 40px rgba(0, 0, 0, 0.08)',
+                        'apple-glass': '0 4px 24px rgba(0, 0, 0, 0.02)',
+                    },
+                    letterSpacing: {
+                        tightest: '-.04em',
+                        tighter: '-.02em',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        body { font-family: 'Inter', sans-serif; display: flex; flex-direction: column; min-height: 100vh; color: #1d1d1f; background-color: #ffffff; }
+        main { flex-grow: 1; }
+        
+        /* Sistema Multipágina */
+        .page-view {
+            display: none;
+            opacity: 0;
+            transform: translateY(10px);
+        }
+        .page-view.active {
+            display: block;
+            animation: appleFadeIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        @keyframes appleFadeIn {
+            0% { opacity: 0; transform: translateY(15px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Animaciones de Scroll */
+        .reveal {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1), transform 1s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .delay-100 { transition-delay: 100ms; }
+        .delay-200 { transition-delay: 200ms; }
+
+        /* Degradados Premium (El toque de color) */
+        .text-gradient-1 {
+            background: linear-gradient(135deg, #0066cc 0%, #00b4d8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .text-gradient-2 {
+            background: linear-gradient(135deg, #8a2387 0%, #e94057 50%, #f27121 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* Inputs limpios */
+        .input-apple {
+            background-color: #f5f5f7;
+            border: 1px solid transparent;
+            border-radius: 12px;
+            padding: 1rem 1.25rem;
+            font-size: 1rem;
+            transition: all 0.2s ease;
+        }
+        .input-apple:focus {
+            outline: none;
+            border-color: #0066cc;
+            background-color: #ffffff;
+            box-shadow: 0 0 0 4px rgba(0, 102, 204, 0.1);
+        }
+
+        /* Glassmorphism Navigation */
+        .nav-glass {
+            background-color: rgba(255, 255, 255, 0.72);
+            backdrop-filter: saturate(180%) blur(20px);
+            -webkit-backdrop-filter: saturate(180%) blur(20px);
+        }
+
+        .text-balance { text-wrap: balance; }
+        
+        /* Efecto Hover en Tarjetas Bento */
+        .bento-card {
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .bento-card:hover {
+            transform: scale(1.01) translateY(-2px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.06);
+        }
+
+        /* Estado activo en navegación */
+        .nav-link { color: #86868b; transition: color 0.2s ease; }
+        .nav-link:hover { color: #1d1d1f; }
+        .nav-link.active-link { color: #1d1d1f; font-weight: 500; }
+    </style>
+</head>
+<body class="antialiased selection:bg-primary selection:text-white">
+
+    <!-- AVISO ACADÉMICO -->
+    <div class="bg-dark text-white text-center py-2 px-4 text-xs font-medium z-[60] relative">
+        <span class="opacity-80">Proyecto Educativo Demo — Sitio web desarrollado con fines académicos. No representa una institución real.</span>
+    </div>
+
+    <!-- Navegación Fija (Estilo Glass) -->
+    <header class="fixed w-full top-0 mt-[32px] nav-glass border-b border-gray-200/50 z-50 transition-all duration-300" id="navbar">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-14 md:h-16">
+                <!-- Logo -->
+                <div class="flex-shrink-0 flex items-center cursor-pointer group" data-page="inicio">
+                    <span class="font-bold text-xl text-dark tracking-tight">EBVG.</span>
+                </div>
+
+                <!-- Menú Desktop -->
+                <nav class="hidden md:flex space-x-8 text-sm h-full items-center">
+                    <button data-page="inicio" class="nav-link active-link h-full flex items-center">Inicio</button>
+                    <button data-page="nosotros" class="nav-link h-full flex items-center">Filosofía</button>
+                    
+                    <!-- Dropdown Programas -->
+                    <div class="relative group h-full flex items-center">
+                        <button data-page="oferta" class="nav-link flex items-center gap-1">
+                            Programas <i class="fas fa-chevron-down text-[10px] opacity-50 transition-transform duration-300 group-hover:rotate-180"></i>
+                        </button>
+                        
+                        <!-- Menú Desplegable -->
+                        <div class="absolute top-full left-1/2 -translate-x-1/2 mt-0 w-56 bg-white/95 backdrop-blur-xl border border-gray-100 rounded-2xl shadow-apple opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform translate-y-2 group-hover:translate-y-0 overflow-hidden">
+                            <div class="py-2 flex flex-col">
+                                <button data-page="preescolar" class="text-left px-5 py-3 text-sm text-gray-600 hover:text-primary hover:bg-surface transition-colors border-b border-gray-50 last:border-0">Preescolar</button>
+                                <button data-page="primaria" class="text-left px-5 py-3 text-sm text-gray-600 hover:text-primary hover:bg-surface transition-colors border-b border-gray-50 last:border-0">Primaria</button>
+                                <button data-page="secundaria" class="text-left px-5 py-3 text-sm text-gray-600 hover:text-primary hover:bg-surface transition-colors border-b border-gray-50 last:border-0">Secundaria</button>
+                                <button data-page="prepa" class="text-left px-5 py-3 text-sm text-gray-600 hover:text-primary hover:bg-surface transition-colors border-b border-gray-50 last:border-0">Preparatoria</button>
+                                <button data-page="uni" class="text-left px-5 py-3 text-sm text-gray-600 hover:text-primary hover:bg-surface transition-colors">Universidad</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button data-page="instalaciones" class="nav-link h-full flex items-center">Campus</button>
+                </nav>
+
+                <!-- Botón CTA Desktop -->
+                <div class="hidden md:flex items-center">
+                    <button data-page="contacto" class="bg-dark text-white hover:bg-gray-800 px-5 py-1.5 rounded-full text-sm font-medium transition-colors">
+                        Admisiones
+                    </button>
+                </div>
+
+                <!-- Botón Menú Móvil -->
+                <div class="md:hidden flex items-center">
+                    <button id="mobile-menu-btn" class="text-dark p-2 focus:outline-none">
+                        <i class="fas fa-bars text-lg"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Menú Móvil -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white/95 backdrop-blur-xl absolute w-full h-[calc(100vh-56px)] overflow-y-auto border-t border-gray-200/50">
+            <div class="px-8 py-10 flex flex-col space-y-6 text-2xl font-semibold tracking-tight">
+                <button data-page="inicio" class="text-left text-dark hover:text-primary transition-colors border-b border-gray-100 pb-4">Inicio</button>
+                <button data-page="nosotros" class="text-left text-dark hover:text-primary transition-colors border-b border-gray-100 pb-4">Filosofía</button>
+                
+                <!-- Acordeón de Programas en Móvil -->
+                <div class="border-b border-gray-100 pb-4 flex flex-col">
+                    <button data-page="oferta" class="text-left text-dark hover:text-primary transition-colors mb-4">Programas</button>
+                    <div class="flex flex-col space-y-4 pl-4 border-l-2 border-gray-100 text-lg font-medium text-gray-500">
+                        <button data-page="preescolar" class="text-left hover:text-primary transition-colors">Preescolar</button>
+                        <button data-page="primaria" class="text-left hover:text-primary transition-colors">Primaria</button>
+                        <button data-page="secundaria" class="text-left hover:text-primary transition-colors">Secundaria</button>
+                        <button data-page="prepa" class="text-left hover:text-primary transition-colors">Preparatoria</button>
+                        <button data-page="uni" class="text-left hover:text-primary transition-colors">Universidad</button>
+                    </div>
+                </div>
+
+                <button data-page="instalaciones" class="text-left text-dark hover:text-primary transition-colors border-b border-gray-100 pb-4">Campus</button>
+                <button data-page="contacto" class="text-left text-primary hover:text-blue-700 transition-colors pt-2">Admisiones</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- CONTENEDOR PRINCIPAL MULTIPÁGINA -->
+    <main class="pt-[88px] md:pt-[96px]">
+
+        <!-- ==========================================
+             PÁGINA 1: INICIO
+        =========================================== -->
+        <div id="page-inicio" class="page-view active">
+            <!-- Hero Inicio -->
+            <section class="min-h-[85vh] flex flex-col items-center justify-center relative px-4 text-center">
+                <div class="max-w-4xl mx-auto reveal active z-10 pt-10">
+                    <h2 class="text-sm font-semibold tracking-widest uppercase text-gray-500 mb-4">Admisiones 2026-2027</h2>
+                    <h1 class="text-6xl md:text-8xl font-bold text-dark tracking-tighter mb-4 text-balance leading-none">
+                        El futuro es brillante.<br>
+                        <span class="text-gradient-2">Y comienza aquí.</span>
+                    </h1>
+                    <p class="text-xl md:text-2xl text-gray-500 mb-10 max-w-2xl mx-auto font-medium leading-relaxed tracking-tight">
+                        Un ecosistema educativo de clase mundial que potencia la creatividad, el intelecto y el lado humano, desde Kínder hasta la Universidad.
+                    </p>
+                    <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
+                        <button data-page="oferta" class="bg-primary hover:bg-blue-700 text-white px-8 py-3.5 rounded-full text-base font-medium transition-colors">
+                            Explorar programas
+                        </button>
+                        <button data-page="contacto" class="text-dark hover:text-primary px-8 py-3.5 rounded-full text-base font-medium transition-colors flex items-center gap-2 group">
+                            Agendar visita <i class="fas fa-chevron-right text-xs transition-transform group-hover:translate-x-1"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Imagen Hero estilo Apple Presentation -->
+                <div class="w-full max-w-6xl mx-auto mt-16 px-4 reveal delay-100">
+                    <img src="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80" alt="Estudiantes en el campus" class="rounded-3xl shadow-apple w-full h-[400px] md:h-[600px] object-cover">
+                </div>
+            </section>
+
+            <!-- Sección Bento Grid (El toque de color) -->
+            <section class="py-24 bg-white">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="text-center mb-16 reveal">
+                        <h2 class="text-4xl md:text-5xl font-bold tracking-tight text-dark mb-4">Diseñado para inspirar.</h2>
+                        <p class="text-xl text-gray-500">Innovación en cada detalle de nuestro modelo educativo.</p>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 auto-rows-[300px]">
+                        
+                        <!-- Bento 1 -->
+                        <div class="md:col-span-2 bg-surface rounded-[2rem] p-10 bento-card flex flex-col justify-between overflow-hidden relative reveal">
+                            <div class="relative z-10 max-w-md">
+                                <h3 class="text-3xl font-bold tracking-tight mb-2">Mentalidad global.</h3>
+                                <p class="text-gray-500 font-medium">Programa de inmersión bilingüe e intercambios internacionales que preparan ciudadanos del mundo.</p>
+                            </div>
+                            <div class="absolute -bottom-20 -right-20 w-80 h-80 bg-blue-500 rounded-full blur-[80px] opacity-20"></div>
+                        </div>
+
+                        <!-- Bento 2 -->
+                        <div class="bg-dark rounded-[2rem] p-10 bento-card text-white flex flex-col justify-between overflow-hidden relative reveal delay-100">
+                            <div class="relative z-10">
+                                <i class="fas fa-microchip text-4xl mb-4 text-gradient-1"></i>
+                                <h3 class="text-2xl font-bold tracking-tight mb-2">Tecnología.</h3>
+                                <p class="text-gray-400 font-medium text-sm">Aulas inteligentes y laboratorios Makerspace integrados.</p>
+                            </div>
+                        </div>
+
+                        <!-- Bento 3 -->
+                        <div class="bg-surface rounded-[2rem] p-10 bento-card flex flex-col justify-between overflow-hidden relative reveal">
+                            <div class="relative z-10">
+                                <h3 class="text-4xl font-bold tracking-tight mb-2 text-gradient-2">98%</h3>
+                                <p class="text-gray-500 font-medium">Tasa de aceptación universitaria de nuestros egresados de preparatoria.</p>
+                            </div>
+                        </div>
+
+                        <!-- Bento 4 -->
+                        <div class="md:col-span-2 relative overflow-hidden rounded-[2rem] bento-card reveal delay-100 group">
+                            <img src="https://images.unsplash.com/photo-1577896851231-70ef18881754?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="Alumnos felices" class="w-full h-full object-cover">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+                            <div class="absolute bottom-10 left-10">
+                                <h3 class="text-3xl font-bold tracking-tight text-white mb-2">Desarrollo Humano.</h3>
+                                <p class="text-white/80 font-medium">Porque la inteligencia emocional importa tanto como la académica.</p>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- ==========================================
+             PÁGINA 2: NOSOTROS (Filosofía)
+        =========================================== -->
+        <div id="page-nosotros" class="page-view">
+            <!-- Header de Subpágina -->
+            <section class="pt-24 pb-16 bg-white text-center px-4">
+                <div class="max-w-3xl mx-auto reveal">
+                    <h1 class="text-5xl md:text-7xl font-bold tracking-tighter text-dark mb-6">Nuestra filosofía.</h1>
+                    <p class="text-xl md:text-2xl text-gray-500 font-medium tracking-tight">
+                        Creemos en potenciar el talento natural mediante disciplina, tecnología y un profundo sentido humano.
+                    </p>
+                </div>
+            </section>
+
+            <section class="py-16 bg-surface">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                        <div class="relative reveal">
+                            <img src="https://images.unsplash.com/photo-1524178232363-1fb2b075b655?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="Arquitectura del campus" class="rounded-[2.5rem] shadow-apple w-full h-auto object-cover">
+                        </div>
+
+                        <div class="reveal delay-100 lg:pl-8">
+                            <h2 class="text-3xl md:text-4xl font-bold tracking-tight text-dark mb-6 text-balance">
+                                Más de dos décadas <br><span class="text-gradient-1">transformando la educación.</span>
+                            </h2>
+                            <p class="text-gray-500 mb-6 text-lg leading-relaxed">
+                                La institución EBVG nació con un propósito claro: ofrecer una alternativa educativa de primer mundo. No nos conformamos con el aprendizaje pasivo; diseñamos experiencias inmersivas donde el alumno es el centro.
+                            </p>
+                            <p class="text-gray-500 mb-10 text-lg leading-relaxed">
+                                Desde nuestras aulas de preescolar hasta nuestros centros de investigación universitaria, mantenemos un estándar de excelencia sin compromisos, apoyados por un cuerpo docente rigurosamente seleccionado.
+                            </p>
+
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-8 pt-8 border-t border-gray-200">
+                                <div>
+                                    <h4 class="text-xl font-bold text-dark mb-2 tracking-tight">Rigor Analítico</h4>
+                                    <p class="text-gray-500 text-sm">Metodologías comprobadas que fomentan el pensamiento crítico.</p>
+                                </div>
+                                <div>
+                                    <h4 class="text-xl font-bold text-dark mb-2 tracking-tight">Espíritu Innovador</h4>
+                                    <p class="text-gray-500 text-sm">Currículum adaptable a las exigencias tecnológicas del mañana.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- ==========================================
+             PÁGINA 3: OFERTA ACADÉMICA
+        =========================================== -->
+        <div id="page-oferta" class="page-view">
+            <!-- Header de Subpágina -->
+            <section class="pt-24 pb-16 bg-white text-center px-4">
+                <div class="max-w-3xl mx-auto reveal">
+                    <h1 class="text-5xl md:text-7xl font-bold tracking-tighter text-dark mb-6">Programas.</h1>
+                    <p class="text-xl md:text-2xl text-gray-500 font-medium tracking-tight">
+                        Un camino de aprendizaje continuo, diseñado a la perfección para cada etapa del desarrollo.
+                    </p>
+                </div>
+            </section>
+
+            <section class="py-16 bg-surface">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    
+                    <div class="space-y-6">
+                        
+                        <!-- Kínder & Primaria (Fila 1) -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div data-page="preescolar" class="bg-white rounded-[2rem] p-10 bento-card reveal group cursor-pointer border border-gray-100 flex flex-col justify-between">
+                                <div>
+                                    <h4 class="text-sm font-semibold tracking-widest text-primary uppercase mb-2">Educación Inicial</h4>
+                                    <h3 class="text-3xl font-bold tracking-tight text-dark mb-4">Preescolar.</h3>
+                                    <p class="text-gray-500 mb-8 leading-relaxed">El primer contacto con el aprendizaje estructurado. Estimulación sensorial, inmersión temprana al inglés y socialización en espacios seguros y de vanguardia.</p>
+                                </div>
+                                <div>
+                                    <div class="text-primary font-medium mb-6 flex items-center gap-2 group-hover:gap-3 transition-all">Ver detalles <i class="fas fa-arrow-right text-sm"></i></div>
+                                    <img src="https://images.unsplash.com/photo-1587691592099-24045742c181?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Kinder" class="w-full h-48 object-cover rounded-2xl group-hover:scale-[1.02] transition-transform duration-500">
+                                </div>
+                            </div>
+
+                            <div data-page="primaria" class="bg-white rounded-[2rem] p-10 bento-card reveal delay-100 group cursor-pointer border border-gray-100 flex flex-col justify-between">
+                                <div>
+                                    <h4 class="text-sm font-semibold tracking-widest text-primary uppercase mb-2">Educación Básica</h4>
+                                    <h3 class="text-3xl font-bold tracking-tight text-dark mb-4">Primaria.</h3>
+                                    <p class="text-gray-500 mb-8 leading-relaxed">Consolidación de la lectoescritura y el pensamiento lógico-matemático. Introducción a proyectos de investigación y herramientas tecnológicas básicas.</p>
+                                </div>
+                                <div>
+                                    <div class="text-primary font-medium mb-6 flex items-center gap-2 group-hover:gap-3 transition-all">Ver detalles <i class="fas fa-arrow-right text-sm"></i></div>
+                                    <img src="https://images.unsplash.com/photo-1427504494785-3a9ca7044f45?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Primaria" class="w-full h-48 object-cover rounded-2xl group-hover:scale-[1.02] transition-transform duration-500">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Secundaria & Prepa (Fila 2) -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div data-page="secundaria" class="bg-white rounded-[2rem] p-10 bento-card reveal group cursor-pointer border border-gray-100 flex flex-col justify-between">
+                                <div>
+                                    <h4 class="text-sm font-semibold tracking-widest text-primary uppercase mb-2">Educación Media</h4>
+                                    <h3 class="text-3xl font-bold tracking-tight text-dark mb-4">Secundaria.</h3>
+                                    <p class="text-gray-500 mb-8 leading-relaxed">Desarrollo del pensamiento crítico y analítico. Laboratorios de ciencias aplicadas, certificaciones lingüísticas y acompañamiento socioemocional.</p>
+                                </div>
+                                <div>
+                                    <div class="text-primary font-medium mb-6 flex items-center gap-2 group-hover:gap-3 transition-all">Ver detalles <i class="fas fa-arrow-right text-sm"></i></div>
+                                    <img src="https://images.unsplash.com/photo-1509062522246-3755977927d7?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Secundaria" class="w-full h-48 object-cover rounded-2xl group-hover:scale-[1.02] transition-transform duration-500">
+                                </div>
+                            </div>
+
+                            <div data-page="prepa" class="bg-white rounded-[2rem] p-10 bento-card reveal delay-100 group cursor-pointer border border-gray-100 flex flex-col justify-between">
+                                <div>
+                                    <h4 class="text-sm font-semibold tracking-widest text-primary uppercase mb-2">Educación Media Superior</h4>
+                                    <h3 class="text-3xl font-bold tracking-tight text-dark mb-4">Preparatoria.</h3>
+                                    <p class="text-gray-500 mb-8 leading-relaxed">Preparación preuniversitaria intensiva. Especialización temprana, orientación vocacional, programas de liderazgo y vinculación con universidades.</p>
+                                </div>
+                                <div>
+                                    <div class="text-primary font-medium mb-6 flex items-center gap-2 group-hover:gap-3 transition-all">Ver detalles <i class="fas fa-arrow-right text-sm"></i></div>
+                                    <img src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Preparatoria" class="w-full h-48 object-cover rounded-2xl group-hover:scale-[1.02] transition-transform duration-500">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Universidad (Destacado Full Width) -->
+                        <div data-page="uni" class="cursor-pointer bg-dark text-white rounded-[2rem] p-10 md:p-16 bento-card reveal relative overflow-hidden group">
+                            <!-- Glow effects -->
+                            <div class="absolute top-0 right-0 w-[500px] h-[500px] bg-gradient-to-br from-blue-600/30 to-purple-600/30 blur-[100px] rounded-full pointer-events-none"></div>
+                            
+                            <div class="relative z-10 grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+                                <div>
+                                    <h4 class="text-sm font-semibold tracking-widest text-blue-400 uppercase mb-3">Educación Superior</h4>
+                                    <h3 class="text-4xl md:text-5xl font-bold tracking-tight mb-6">Universidad EBVG.</h3>
+                                    <p class="text-gray-300 text-lg mb-8 leading-relaxed">Formación de profesionales altamente competitivos. Licenciaturas e ingenierías con planes de estudio actualizados, catedráticos líderes en su industria e infraestructura tecnológica de grado profesional.</p>
+                                    
+                                    <div class="bg-white text-dark hover:bg-gray-100 px-6 py-3 rounded-full text-sm font-medium transition-colors inline-flex items-center gap-2">
+                                        Descubrir Facultades <i class="fas fa-arrow-right text-xs"></i>
+                                    </div>
+                                </div>
+                                <div class="relative rounded-[1.5rem] overflow-hidden">
+                                    <img src="https://images.unsplash.com/photo-1541339907198-e08756dedf3f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Universidad" class="w-full h-64 md:h-80 object-cover group-hover:scale-105 transition-transform duration-700">
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- ==========================================
+             PÁGINAS INDIVIDUALES DE NIVELES
+        =========================================== -->
+
+        <!-- PREESCOLAR -->
+        <div id="page-preescolar" class="page-view">
+            <section class="pt-24 pb-16 bg-white text-center px-4">
+                <div class="max-w-3xl mx-auto reveal">
+                    <h4 class="text-sm font-semibold tracking-widest text-primary uppercase mb-4">Educación Inicial</h4>
+                    <h1 class="text-5xl md:text-7xl font-bold tracking-tighter text-dark mb-6">Preescolar.</h1>
+                    <p class="text-xl md:text-2xl text-gray-500 font-medium tracking-tight">
+                        Donde la curiosidad natural se transforma en una pasión para toda la vida.
+                    </p>
+                </div>
+            </section>
+            <section class="py-16 bg-surface mb-20">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="rounded-[2.5rem] overflow-hidden mb-16 reveal shadow-apple">
+                        <img src="https://images.unsplash.com/photo-1587691592099-24045742c181?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80" alt="Preescolar EBVG" class="w-full h-[40vh] md:h-[60vh] object-cover">
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                        <div class="bg-white p-10 rounded-[2rem] shadow-apple reveal bento-card">
+                            <i class="fas fa-language text-3xl text-gradient-1 mb-6 block"></i>
+                            <h3 class="text-2xl font-bold tracking-tight mb-3">Inmersión Bilingüe</h3>
+                            <p class="text-gray-500 font-medium leading-relaxed">Inglés y español en un entorno cotidiano, desarrollando conexiones neuronales de forma natural.</p>
+                        </div>
+                        <div class="bg-white p-10 rounded-[2rem] shadow-apple reveal delay-100 bento-card">
+                            <i class="fas fa-shapes text-3xl text-gradient-1 mb-6 block"></i>
+                            <h3 class="text-2xl font-bold tracking-tight mb-3">Desarrollo Sensorial</h3>
+                            <p class="text-gray-500 font-medium leading-relaxed">Aulas y espacios creados específicamente para aprender explorando a través del juego y el arte.</p>
+                        </div>
+                        <div class="bg-white p-10 rounded-[2rem] shadow-apple reveal delay-200 bento-card">
+                            <i class="fas fa-heart text-3xl text-gradient-1 mb-6 block"></i>
+                            <h3 class="text-2xl font-bold tracking-tight mb-3">Vínculo Emocional</h3>
+                            <p class="text-gray-500 font-medium leading-relaxed">Acompañamiento cálido y psicológico para que cada niño construya una autoestima inquebrantable.</p>
+                        </div>
+                    </div>
+                    <div class="mt-16 text-center reveal">
+                        <button data-page="contacto" class="bg-dark hover:bg-gray-800 text-white px-8 py-4 rounded-full text-base font-medium transition-colors shadow-apple">Solicitar Admisión a Preescolar</button>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- PRIMARIA -->
+        <div id="page-primaria" class="page-view">
+            <section class="pt-24 pb-16 bg-white text-center px-4">
+                <div class="max-w-3xl mx-auto reveal">
+                    <h4 class="text-sm font-semibold tracking-widest text-primary uppercase mb-4">Educación Básica</h4>
+                    <h1 class="text-5xl md:text-7xl font-bold tracking-tighter text-dark mb-6">Primaria.</h1>
+                    <p class="text-xl md:text-2xl text-gray-500 font-medium tracking-tight">
+                        Cimientos sólidos para mentes brillantes y ciudadanos empáticos.
+                    </p>
+                </div>
+            </section>
+            <section class="py-16 bg-surface mb-20">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="rounded-[2.5rem] overflow-hidden mb-16 reveal shadow-apple">
+                        <img src="https://images.unsplash.com/photo-1427504494785-3a9ca7044f45?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80" alt="Primaria EBVG" class="w-full h-[40vh] md:h-[60vh] object-cover">
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                        <div class="bg-white p-10 rounded-[2rem] shadow-apple reveal bento-card">
+                            <i class="fas fa-square-root-alt text-3xl text-gradient-1 mb-6 block"></i>
+                            <h3 class="text-2xl font-bold tracking-tight mb-3">Pensamiento Lógico</h3>
+                            <p class="text-gray-500 font-medium leading-relaxed">Matemáticas y ciencias enseñadas a través de problemas reales, no memorización repetitiva.</p>
+                        </div>
+                        <div class="bg-white p-10 rounded-[2rem] shadow-apple reveal delay-100 bento-card">
+                            <i class="fas fa-laptop-code text-3xl text-gradient-1 mb-6 block"></i>
+                            <h3 class="text-2xl font-bold tracking-tight mb-3">Alfabetización Digital</h3>
+                            <p class="text-gray-500 font-medium leading-relaxed">Introducción a la programación básica, robótica y uso responsable de las tecnologías de la información.</p>
+                        </div>
+                        <div class="bg-white p-10 rounded-[2rem] shadow-apple reveal delay-200 bento-card">
+                            <i class="fas fa-globe text-3xl text-gradient-1 mb-6 block"></i>
+                            <h3 class="text-2xl font-bold tracking-tight mb-3">Cultura Global</h3>
+                            <p class="text-gray-500 font-medium leading-relaxed">Historia, geografía y arte impartidos con una perspectiva internacional e inclusiva.</p>
+                        </div>
+                    </div>
+                    <div class="mt-16 text-center reveal">
+                        <button data-page="contacto" class="bg-primary hover:bg-blue-700 text-white px-8 py-4 rounded-full text-base font-medium transition-colors shadow-apple">Agendar recorrido por Primaria</button>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- SECUNDARIA -->
+        <div id="page-secundaria" class="page-view">
+            <section class="pt-24 pb-16 bg-white text-center px-4">
+                <div class="max-w-3xl mx-auto reveal">
+                    <h4 class="text-sm font-semibold tracking-widest text-primary uppercase mb-4">Educación Media</h4>
+                    <h1 class="text-5xl md:text-7xl font-bold tracking-tighter text-dark mb-6">Secundaria.</h1>
+                    <p class="text-xl md:text-2xl text-gray-500 font-medium tracking-tight">
+                        Descubrimiento personal, independencia intelectual y pensamiento crítico.
+                    </p>
+                </div>
+            </section>
+            <section class="py-16 bg-surface mb-20">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="rounded-[2.5rem] overflow-hidden mb-16 reveal shadow-apple">
+                        <img src="https://images.unsplash.com/photo-1509062522246-3755977927d7?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80" alt="Secundaria EBVG" class="w-full h-[40vh] md:h-[60vh] object-cover">
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                        <div class="bg-white p-10 rounded-[2rem] shadow-apple reveal bento-card">
+                            <i class="fas fa-flask text-3xl text-gradient-1 mb-6 block"></i>
+                            <h3 class="text-2xl font-bold tracking-tight mb-3">Ciencia Aplicada</h3>
+                            <p class="text-gray-500 font-medium leading-relaxed">Laboratorios equipados donde la física, química y biología se experimentan en primera persona.</p>
+                        </div>
+                        <div class="bg-white p-10 rounded-[2rem] shadow-apple reveal delay-100 bento-card">
+                            <i class="fas fa-certificate text-3xl text-gradient-1 mb-6 block"></i>
+                            <h3 class="text-2xl font-bold tracking-tight mb-3">Certificaciones</h3>
+                            <p class="text-gray-500 font-medium leading-relaxed">Preparación intensiva para obtener certificaciones internacionales en inglés (Cambridge/TOEFL).</p>
+                        </div>
+                        <div class="bg-white p-10 rounded-[2rem] shadow-apple reveal delay-200 bento-card">
+                            <i class="fas fa-users text-3xl text-gradient-1 mb-6 block"></i>
+                            <h3 class="text-2xl font-bold tracking-tight mb-3">Tutoría Emocional</h3>
+                            <p class="text-gray-500 font-medium leading-relaxed">Acompañamiento en esta etapa crucial, previniendo el bullying y fomentando el liderazgo positivo.</p>
+                        </div>
+                    </div>
+                    <div class="mt-16 text-center reveal">
+                        <button data-page="contacto" class="bg-dark hover:bg-gray-800 text-white px-8 py-4 rounded-full text-base font-medium transition-colors shadow-apple">Conocer plan de estudios</button>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- PREPARATORIA -->
+        <div id="page-prepa" class="page-view">
+            <section class="pt-24 pb-16 bg-white text-center px-4">
+                <div class="max-w-3xl mx-auto reveal">
+                    <h4 class="text-sm font-semibold tracking-widest text-primary uppercase mb-4">Educación Media Superior</h4>
+                    <h1 class="text-5xl md:text-7xl font-bold tracking-tighter text-dark mb-6">Preparatoria.</h1>
+                    <p class="text-xl md:text-2xl text-gray-500 font-medium tracking-tight">
+                        La antesala a la vida profesional. Orientación, rigor y visión universitaria.
+                    </p>
+                </div>
+            </section>
+            <section class="py-16 bg-surface mb-20">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="rounded-[2.5rem] overflow-hidden mb-16 reveal shadow-apple">
+                        <img src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80" alt="Preparatoria EBVG" class="w-full h-[40vh] md:h-[60vh] object-cover">
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                        <div class="bg-white p-10 rounded-[2rem] shadow-apple reveal bento-card">
+                            <i class="fas fa-compass text-3xl text-gradient-1 mb-6 block"></i>
+                            <h3 class="text-2xl font-bold tracking-tight mb-3">Orientación Vocacional</h3>
+                            <p class="text-gray-500 font-medium leading-relaxed">Tests, talleres y vinculación directa con universidades para elegir la carrera ideal sin equivocaciones.</p>
+                        </div>
+                        <div class="bg-white p-10 rounded-[2rem] shadow-apple reveal delay-100 bento-card">
+                            <i class="fas fa-lightbulb text-3xl text-gradient-1 mb-6 block"></i>
+                            <h3 class="text-2xl font-bold tracking-tight mb-3">Emprendimiento</h3>
+                            <p class="text-gray-500 font-medium leading-relaxed">Desarrollo de proyectos incubados por alumnos, ferias de negocios y simuladores empresariales.</p>
+                        </div>
+                        <div class="bg-white p-10 rounded-[2rem] shadow-apple reveal delay-200 bento-card">
+                            <i class="fas fa-plane-departure text-3xl text-gradient-1 mb-6 block"></i>
+                            <h3 class="text-2xl font-bold tracking-tight mb-3">Intercambios</h3>
+                            <p class="text-gray-500 font-medium leading-relaxed">Oportunidades de estancias académicas en el extranjero para ampliar los horizontes culturales.</p>
+                        </div>
+                    </div>
+                    <div class="mt-16 text-center reveal">
+                        <button data-page="contacto" class="bg-primary hover:bg-blue-700 text-white px-8 py-4 rounded-full text-base font-medium transition-colors shadow-apple">Requisitos de Admisión Prepa</button>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- UNIVERSIDAD -->
+        <div id="page-uni" class="page-view">
+            <section class="pt-24 pb-16 bg-white text-center px-4">
+                <div class="max-w-3xl mx-auto reveal">
+                    <h4 class="text-sm font-semibold tracking-widest text-primary uppercase mb-4">Educación Superior</h4>
+                    <h1 class="text-5xl md:text-7xl font-bold tracking-tighter text-dark mb-6">Universidad.</h1>
+                    <p class="text-xl md:text-2xl text-gray-500 font-medium tracking-tight">
+                        Transformamos potencial en liderazgo profesional altamente capacitado.
+                    </p>
+                </div>
+            </section>
+            <section class="py-16 bg-surface mb-20">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="rounded-[2.5rem] overflow-hidden mb-16 reveal shadow-apple relative">
+                        <img src="https://images.unsplash.com/photo-1541339907198-e08756dedf3f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80" alt="Universidad EBVG" class="w-full h-[40vh] md:h-[60vh] object-cover">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent flex items-end p-10">
+                            <h3 class="text-4xl font-bold text-white tracking-tight">Instalaciones de Grado Profesional.</h3>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                        <div class="bg-dark text-white p-8 rounded-[2rem] shadow-apple reveal bento-card">
+                            <h3 class="text-xl font-bold tracking-tight mb-2">Escuela de Negocios</h3>
+                            <p class="text-gray-400 text-sm">Finanzas, Administración, Marketing y Comercio Internacional.</p>
+                        </div>
+                        <div class="bg-white p-8 rounded-[2rem] shadow-apple reveal delay-100 bento-card border border-gray-100">
+                            <h3 class="text-xl font-bold tracking-tight text-dark mb-2">Escuela de Ingeniería</h3>
+                            <p class="text-gray-500 text-sm">Sistemas, Robótica, Civil e Industrial con enfoque sustentable.</p>
+                        </div>
+                        <div class="bg-white p-8 rounded-[2rem] shadow-apple reveal delay-200 bento-card border border-gray-100">
+                            <h3 class="text-xl font-bold tracking-tight text-dark mb-2">Ciencias de la Salud</h3>
+                            <p class="text-gray-500 text-sm">Medicina, Nutrición y Psicología con simuladores hospitalarios.</p>
+                        </div>
+                        <div class="bg-white p-8 rounded-[2rem] shadow-apple reveal delay-300 bento-card border border-gray-100">
+                            <h3 class="text-xl font-bold tracking-tight text-dark mb-2">Humanidades</h3>
+                            <p class="text-gray-500 text-sm">Derecho, Arquitectura y Diseño Gráfico y Comunicación.</p>
+                        </div>
+                    </div>
+                    <div class="mt-16 text-center reveal">
+                        <button data-page="contacto" class="bg-dark hover:bg-gray-800 text-white px-8 py-4 rounded-full text-base font-medium transition-colors shadow-apple">Descargar Oferta Universitaria</button>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+
+        <!-- ==========================================
+             PÁGINA 4: CAMPUS E INSTALACIONES
+        =========================================== -->
+        <div id="page-instalaciones" class="page-view">
+            <!-- Header de Subpágina -->
+            <section class="pt-24 pb-16 bg-white text-center px-4">
+                <div class="max-w-3xl mx-auto reveal">
+                    <h1 class="text-5xl md:text-7xl font-bold tracking-tighter text-dark mb-6">Campus.</h1>
+                    <p class="text-xl md:text-2xl text-gray-500 font-medium tracking-tight">
+                        La arquitectura del aprendizaje. Espacios creados para inspirar innovación y bienestar.
+                    </p>
+                </div>
+            </section>
+
+            <!-- Galería Bento Clean -->
+            <section class="py-16 bg-surface">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-12 gap-6 auto-rows-[250px] md:auto-rows-[300px]">
+                        
+                        <!-- Main -->
+                        <div class="md:col-span-8 relative overflow-hidden rounded-[2rem] bento-card reveal">
+                            <img src="https://images.unsplash.com/photo-1562774053-701939374585?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="Biblioteca" class="w-full h-full object-cover">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
+                            <div class="absolute bottom-8 left-8 text-white">
+                                <h4 class="text-2xl font-bold tracking-tight">Acervo Central.</h4>
+                                <p class="text-white/80 font-medium text-sm mt-1">Biblioteca digital y zonas de silencio.</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Side 1 -->
+                        <div class="md:col-span-4 relative overflow-hidden rounded-[2rem] bento-card reveal delay-100">
+                            <img src="https://images.unsplash.com/photo-1576623696123-2868a86fc028?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Laboratorios" class="w-full h-full object-cover">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+                            <div class="absolute bottom-6 left-6 text-white">
+                                <h4 class="text-xl font-bold tracking-tight">Laboratorios.</h4>
+                                <p class="text-white/80 font-medium text-sm mt-1">Ciencias exactas.</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Side 2 -->
+                        <div class="md:col-span-4 relative overflow-hidden rounded-[2rem] bento-card reveal">
+                            <img src="https://images.unsplash.com/photo-1541534741688-6078c6bfb5c5?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Deportes" class="w-full h-full object-cover">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+                            <div class="absolute bottom-6 left-6 text-white">
+                                <h4 class="text-xl font-bold tracking-tight">Complejo Atlético.</h4>
+                            </div>
+                        </div>
+
+                        <!-- Larga abajo -->
+                        <div class="md:col-span-8 relative overflow-hidden rounded-[2rem] bento-card reveal delay-100">
+                            <img src="https://images.unsplash.com/photo-1516321497487-e288fb19713f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="Tecnología" class="w-full h-full object-cover">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+                            <div class="absolute bottom-8 left-8 text-white">
+                                <h4 class="text-2xl font-bold tracking-tight">Makerspace & Robótica.</h4>
+                                <p class="text-white/80 font-medium text-sm mt-1">Donde las ideas se materializan.</p>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- ==========================================
+             PÁGINA 5: CONTACTO Y ADMISIONES
+        =========================================== -->
+        <div id="page-contacto" class="page-view">
+            <!-- Header de Subpágina -->
+            <section class="pt-24 pb-16 bg-white text-center px-4">
+                <div class="max-w-3xl mx-auto reveal">
+                    <h1 class="text-5xl md:text-7xl font-bold tracking-tighter text-dark mb-6">Admisiones.</h1>
+                    <p class="text-xl md:text-2xl text-gray-500 font-medium tracking-tight">
+                        Dé el primer paso hacia la excelencia educativa.
+                    </p>
+                </div>
+            </section>
+
+            <section class="py-16 bg-surface mb-20">
+                <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="bg-white rounded-[2rem] shadow-apple overflow-hidden reveal flex flex-col md:flex-row border border-gray-100">
+                        
+                        <!-- Info -->
+                        <div class="md:w-5/12 bg-dark text-white p-10 relative overflow-hidden">
+                            <!-- Glow -->
+                            <div class="absolute -top-20 -left-20 w-64 h-64 bg-primary/40 rounded-full blur-[80px]"></div>
+                            
+                            <div class="relative z-10 h-full flex flex-col">
+                                <h3 class="text-2xl font-bold tracking-tight mb-4">Contacto Directo</h3>
+                                <p class="text-gray-400 font-medium text-sm mb-10 leading-relaxed">
+                                    Nuestro equipo de admisiones está disponible para resolver sus dudas y programar recorridos guiados por las instalaciones.
+                                </p>
+                                
+                                <div class="space-y-6 mt-auto">
+                                    <div class="flex items-center gap-4">
+                                        <i class="fas fa-map-marker-alt text-primary w-5 text-center"></i>
+                                        <span class="text-sm font-medium">Av. Educación 100, Distrito Escolar.</span>
+                                    </div>
+                                    <div class="flex items-center gap-4">
+                                        <i class="fas fa-phone-alt text-primary w-5 text-center"></i>
+                                        <span class="text-sm font-medium">+52 (55) 1234 - 5678</span>
+                                    </div>
+                                    <div class="flex items-center gap-4">
+                                        <i class="fas fa-envelope text-primary w-5 text-center"></i>
+                                        <span class="text-sm font-medium">admisiones@ebvg-demo.edu</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Formulario Limpio -->
+                        <div class="md:w-7/12 p-10 md:p-12">
+                            <form id="contactForm" class="space-y-6" onsubmit="event.preventDefault(); alert('Aviso: Formulario de demostración educativa. No se procesan datos reales.');">
+                                
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                                    <div class="flex flex-col">
+                                        <input type="text" class="input-apple" placeholder="Nombre completo" required>
+                                    </div>
+                                    <div class="flex flex-col">
+                                        <input type="email" class="input-apple" placeholder="Correo electrónico" required>
+                                    </div>
+                                </div>
+                                
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                                    <div class="flex flex-col">
+                                        <input type="tel" class="input-apple" placeholder="Teléfono">
+                                    </div>
+                                    <div class="flex flex-col">
+                                        <select class="input-apple text-gray-500" required>
+                                            <option value="" disabled selected>Nivel de interés</option>
+                                            <option value="kinder">Preescolar</option>
+                                            <option value="primaria">Primaria</option>
+                                            <option value="secundaria">Secundaria</option>
+                                            <option value="prepa">Preparatoria</option>
+                                            <option value="uni">Universidad</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="flex flex-col">
+                                    <textarea rows="4" class="input-apple resize-none" placeholder="¿Cómo podemos ayudarle?"></textarea>
+                                </div>
+
+                                <button type="submit" class="bg-primary hover:bg-blue-700 text-white w-full py-4 rounded-xl text-base font-semibold transition-colors shadow-apple">
+                                    Enviar solicitud
+                                </button>
+                                <p class="text-xs text-center text-gray-400 mt-4">La información proporcionada es confidencial.</p>
+                            </form>
+                        </div>
+
+                    </div>
+                </div>
+            </section>
+        </div>
+
+    </main>
+
+    <!-- Footer Minimalista -->
+    <footer class="bg-surface_dark text-gray-600 pt-16 pb-8 border-t border-gray-200 mt-auto">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
+                <div class="md:col-span-1">
+                    <span class="font-bold text-2xl text-dark tracking-tight mb-4 block">EBVG.</span>
+                    <p class="text-sm text-gray-500 font-medium">
+                        Innovación educativa sin concesiones.
+                    </p>
+                </div>
+                
+                <div>
+                    <h4 class="text-dark font-semibold mb-4 text-sm">Explorar</h4>
+                    <ul class="space-y-3 text-sm font-medium">
+                        <li><button data-page="inicio" class="nav-link text-left">Inicio</button></li>
+                        <li><button data-page="nosotros" class="nav-link text-left">Filosofía</button></li>
+                        <li><button data-page="instalaciones" class="nav-link text-left">Campus</button></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="text-dark font-semibold mb-4 text-sm">Programas</h4>
+                    <ul class="space-y-3 text-sm font-medium">
+                        <li><button data-page="preescolar" class="nav-link text-left">Preescolar</button></li>
+                        <li><button data-page="primaria" class="nav-link text-left">Primaria</button></li>
+                        <li><button data-page="secundaria" class="nav-link text-left">Secundaria</button></li>
+                        <li><button data-page="prepa" class="nav-link text-left">Preparatoria</button></li>
+                        <li><button data-page="uni" class="nav-link text-left">Universidad</button></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="text-dark font-semibold mb-4 text-sm">Contacto</h4>
+                    <ul class="space-y-3 text-sm font-medium">
+                        <li><button data-page="contacto" class="nav-link text-left">Admisiones</button></li>
+                        <li><span class="text-gray-500">+52 (55) 1234-5678</span></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-300 pt-8 flex flex-col md:flex-row justify-between items-center text-xs font-medium text-gray-500">
+                <p>&copy; 2024 Escuela EBVG. Todos los derechos reservados.</p>
+                <div class="mt-4 md:mt-0 space-x-4">
+                    <a href="#" class="hover:text-dark transition-colors">Aviso de Privacidad</a>
+                    <a href="#" class="hover:text-dark transition-colors">Términos Legales</a>
+                </div>
+            </div>
+            
+            <div class="mt-6 text-center text-[10px] text-gray-400">
+                Aviso: Este portal es un proyecto demostrativo desarrollado por estudiantes y no representa a una entidad escolar real.
+            </div>
+        </div>
+    </footer>
+
+    <!-- Lógica JavaScript -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            
+            // 1. Sistema SPA (Single Page Application)
+            const navButtons = document.querySelectorAll('button[data-page], div[data-page]');
+            const pages = document.querySelectorAll('.page-view');
+
+            function navigateTo(pageId, anchorId = null) {
+                // Ocultar todas
+                pages.forEach(page => {
+                    page.classList.remove('active');
+                });
+
+                // Mostrar la nueva
+                const targetPage = document.getElementById('page-' + pageId);
+                if (targetPage) {
+                    targetPage.classList.add('active');
+                }
+
+                // Lógica de Scroll suave hacia un ancla específica o al inicio
+                if (anchorId) {
+                    // Retraso para dar tiempo a que la página se renderice
+                    setTimeout(() => {
+                        const targetElement = document.getElementById(anchorId);
+                        if (targetElement) {
+                            const headerOffset = 100; // Espacio para el navbar fijo
+                            const elementPosition = targetElement.getBoundingClientRect().top;
+                            const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+                            
+                            window.scrollTo({
+                                top: offsetPosition,
+                                behavior: "smooth"
+                            });
+                        }
+                    }, 150);
+                } else {
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                }
+
+                // Estilo links navegación superior
+                document.querySelectorAll('header nav .nav-link').forEach(link => {
+                    if(link.getAttribute('data-page') === pageId) {
+                        link.classList.add('active-link');
+                    } else {
+                        link.classList.remove('active-link');
+                    }
+                });
+
+                setTimeout(initScrollAnimations, 100);
+            }
+
+            // Eventos clicks
+            navButtons.forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const targetId = btn.getAttribute('data-page');
+                    const anchorId = btn.getAttribute('data-target'); // Capturar si hay un ancla específica
+                    
+                    if (targetId) {
+                        navigateTo(targetId, anchorId);
+                        
+                        // Cerrar menú móvil si está abierto
+                        const mobileMenu = document.getElementById('mobile-menu');
+                        if (!mobileMenu.classList.contains('hidden')) {
+                            mobileMenu.classList.add('hidden');
+                            document.querySelector('#mobile-menu-btn i').classList.replace('fa-times', 'fa-bars');
+                        }
+                    }
+                });
+            });
+
+
+            // 2. Menú Móvil Toggle
+            const btnMenu = document.getElementById('mobile-menu-btn');
+            const mobileMenu = document.getElementById('mobile-menu');
+
+            btnMenu.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+                const icon = btnMenu.querySelector('i');
+                if (mobileMenu.classList.contains('hidden')) {
+                    icon.classList.remove('fa-times');
+                    icon.classList.add('fa-bars');
+                } else {
+                    icon.classList.remove('fa-bars');
+                    icon.classList.add('fa-times');
+                }
+            });
+
+
+            // 3. Animaciones al hacer scroll (Intersection Observer)
+            let scrollObserver;
+
+            function initScrollAnimations() {
+                if(scrollObserver) scrollObserver.disconnect();
+
+                const revealElements = document.querySelectorAll('.page-view.active .reveal');
+                revealElements.forEach(el => el.classList.remove('active'));
+
+                const options = {
+                    threshold: 0.1,
+                    rootMargin: "0px 0px -50px 0px"
+                };
+
+                scrollObserver = new IntersectionObserver((entries, observer) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('active');
+                            observer.unobserve(entry.target); 
+                        }
+                    });
+                }, options);
+
+                revealElements.forEach(el => scrollObserver.observe(el));
+            }
+
+            // Iniciar por primera vez
+            initScrollAnimations();
+        });
+    </script>
+</body>
+</html>

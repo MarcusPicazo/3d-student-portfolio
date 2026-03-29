@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="es" class="bg-black text-white antialiased">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Synapsis | Explorador Neuronal</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary: #c084fc; 
+            --secondary: #22d3ee; 
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+            background-color: #050505;
+        }
+
+        h1, h2, h3, .title-font {
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        /* Lenis Smooth Scroll config */
+        html.lenis { height: auto; }
+        .lenis.lenis-smooth { scroll-behavior: auto; }
+        .lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
+        .lenis.lenis-stopped { overflow: hidden; }
+        .lenis.lenis-scrolling iframe { pointer-events: none; }
+
+        /* Custom Cursor */
+        .custom-cursor {
+            position: fixed;
+            top: 0; left: 0;
+            width: 32px; height: 32px;
+            border: 2px solid var(--secondary);
+            border-radius: 50%;
+            background: transparent;
+            pointer-events: none;
+            z-index: 9999;
+            transform: translate(-50%, -50%);
+            transition: width 0.3s, height 0.3s, background-color 0.3s, border-color 0.3s, backdrop-filter 0.3s;
+        }
+        .custom-cursor.hovered {
+            width: 64px; height: 64px;
+            background: rgba(34, 211, 238, 0.15);
+            border-color: white;
+            backdrop-filter: blur(2px);
+        }
+
+        /* Utilidades gráficas */
+        .text-stroke {
+            -webkit-text-stroke: 1px rgba(255,255,255,0.3);
+            color: transparent;
+        }
+        
+        .bg-noise {
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            pointer-events: none;
+            z-index: 9998;
+            opacity: 0.04;
+            background: url('data:image/svg+xml;utf8,%3Csvg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"%3E%3Cfilter id="noiseFilter"%3E%3CfeTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="3" stitchTiles="stitch"/%3E%3C/filter%3E%3Crect width="100%25" height="100%25" filter="url(%23noiseFilter)"/%3E%3C/svg%3E');
+        }
+
+        /* Componentes unificados */
+        .bento-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            transition: border-color 0.3s ease, transform 0.3s ease;
+        }
+        .bento-card:hover { border-color: rgba(34, 211, 238, 0.4); transform: translateY(-5px); }
+        .bento-card.purple-glow:hover { border-color: rgba(192, 132, 252, 0.4); }
+
+        .reference-item { border-bottom: 1px solid rgba(255,255,255,0.1); transition: background 0.3s, padding-left 0.3s; }
+        .reference-item:hover { background: rgba(255,255,255,0.02); padding-left: 1.5rem; border-left: 4px solid #c084fc; }
+
+        .member-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.05); border-radius: 24px; padding: 2.5rem; transition: transform 0.3s, border-color 0.3s; }
+        .member-card:hover { transform: translateY(-10px); }
+        .card-cyan:hover { border-color: rgba(34, 211, 238, 0.5); box-shadow: 0 10px 40px -10px rgba(34, 211, 238, 0.1); }
+        .card-purple:hover { border-color: rgba(192, 132, 252, 0.5); box-shadow: 0 10px 40px -10px rgba(192, 132, 252, 0.1); }
+        .card-blue:hover { border-color: rgba(59, 130, 246, 0.5); box-shadow: 0 10px 40px -10px rgba(59, 130, 246, 0.1); }
+        .card-green:hover { border-color: rgba(16, 185, 129, 0.5); box-shadow: 0 10px 40px -10px rgba(16, 185, 129, 0.1); }
+
+        .form-input { width: 100%; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); padding: 1.25rem; border-radius: 16px; color: white; outline: none; transition: border-color 0.3s, background 0.3s; font-family: 'Inter', sans-serif; }
+        .form-input:focus { border-color: #10b981; background: rgba(255,255,255,0.05); }
+        .form-input::placeholder { color: rgba(255,255,255,0.3); }
+
+        /* Gradiente animado */
+        .gradient-bg { background: linear-gradient(-45deg, #0f172a, #2e1065, #000000, #083344); background-size: 400% 400%; animation: gradientAnim 15s ease infinite; }
+        @keyframes gradientAnim { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+        .reveal-word { opacity: 0.2; transition: opacity 0.1s; }
+    </style>
+</head>
+<body>
+
+    <div class="custom-cursor hidden md:block" id="cursor"></div>
+    <div class="bg-noise"></div>
+
+    <!-- Navegación Sticky -->
+    <nav class="fixed top-0 left-0 w-full z-50 p-6 flex justify-between items-center mix-blend-difference bg-black/10 backdrop-blur-sm border-b border-white/5">
+        <div class="text-2xl font-bold title-font tracking-tighter cursor-hover">
+            <a href="#hero" class="nav-link">SYNAPSIS</a>
+        </div>
+        <div class="hidden lg:flex gap-8 text-xs font-bold uppercase tracking-widest text-gray-400">
+            <a href="#portal" class="nav-link hover:text-cyan-400 transition cursor-hover">Portal</a>
+            <a href="#investigacion" class="nav-link hover:text-purple-400 transition cursor-hover">Investigación</a>
+            <a href="#bibliografia" class="nav-link hover:text-cyan-400 transition cursor-hover">Bibliografía</a>
+            <a href="#equipo" class="nav-link hover:text-blue-400 transition cursor-hover">Equipo</a>
+            <a href="#contacto" class="nav-link hover:text-emerald-400 transition cursor-hover">Contacto</a>
+        </div>
+    </nav>
+
+    <main id="smooth-wrapper">
+        <div id="smooth-content">
+
+            <!-- SECCIÓN 1: HERO -->
+            <section class="relative h-screen flex flex-col items-center justify-center overflow-hidden gradient-bg" id="hero">
+                <div class="absolute inset-0 bg-black/40 z-0"></div>
+                
+                <div class="z-10 text-center flex flex-col items-center justify-center w-full px-4">
+                    <p class="uppercase tracking-[0.5em] text-cyan-400 text-xs md:text-sm mb-6 hero-elem font-bold">Proyecto EBVG</p>
+                    <h1 class="text-[12vw] leading-none font-bold title-font uppercase tracking-tighter hero-elem">
+                        Explora
+                        <br>
+                        <span class="text-stroke">La Mente</span>
+                    </h1>
+                    <p class="mt-8 text-lg md:text-2xl text-gray-300 max-w-2xl font-light hero-elem">
+                        Una plataforma interactiva dedicada a desentrañar los misterios de la cognición, la memoria y el cerebro humano.
+                    </p>
+                </div>
+                
+                <div class="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center animate-bounce z-10 cursor-pointer nav-link" onclick="document.querySelector('#manifesto').scrollIntoView({behavior: 'smooth'})">
+                    <span class="text-xs uppercase tracking-widest text-gray-500 mb-2">Desliza para explorar</span>
+                    <svg class="w-6 h-6 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path></svg>
+                </div>
+            </section>
+
+            <!-- SECCIÓN 2: MANIFIESTO -->
+            <section class="py-32 px-6 md:px-20 bg-black min-h-[70vh] flex items-center" id="manifesto">
+                <div class="max-w-6xl mx-auto">
+                    <p class="text-3xl md:text-6xl font-medium title-font leading-tight text-justify" id="manifesto-text">
+                        En Synapsis mapeamos los impulsos biológicos para entender cómo pensamos. Millones de neuronas conectadas forman la red más compleja conocida. Un ciclo infinito de estímulo, aprendizaje y memoria. El cerebro no es una máquina, es un universo.
+                    </p>
+                </div>
+            </section>
+
+            <!-- SECCIÓN 3: ESTRUCTURA CEREBRAL (Bento) -->
+            <section class="py-20 px-6 md:px-20 bg-[#050505] relative z-10" id="estructura">
+                <div class="max-w-7xl mx-auto">
+                    <h3 class="text-4xl md:text-6xl font-bold title-font mb-12">ESTRUCTURA CEREBRAL</h3>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 auto-rows-[300px]">
+                        <div class="bento-card rounded-3xl p-8 md:col-span-2 md:row-span-2 flex flex-col justify-end relative overflow-hidden group cursor-hover">
+                            <div class="absolute top-0 right-0 w-64 h-64 bg-purple-600/20 rounded-full blur-3xl group-hover:bg-cyan-500/20 transition-colors duration-700"></div>
+                            <h4 class="text-3xl font-bold title-font mb-4 text-white z-10">Córtex Cerebral</h4>
+                            <p class="text-gray-400 text-lg z-10 max-w-md">La capa externa donde ocurre el procesamiento más complejo: pensamiento consciente, lenguaje, emociones y toma de decisiones en tiempo real.</p>
+                        </div>
+                        
+                        <div class="bento-card rounded-3xl p-8 flex flex-col justify-between relative overflow-hidden group cursor-hover">
+                            <div class="w-12 h-12 rounded-full border border-white/20 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                                <span class="text-cyan-400 font-bold">01</span>
+                            </div>
+                            <div>
+                                <h4 class="text-2xl font-bold title-font mb-2">Memoria</h4>
+                                <p class="text-gray-400 text-sm">El hipocampo archiva y codifica experiencias, permitiendo el aprendizaje continuo.</p>
+                            </div>
+                        </div>
+
+                        <div class="bento-card rounded-3xl p-8 flex flex-col justify-between relative overflow-hidden group cursor-hover bg-gradient-to-br from-cyan-900/40 to-transparent">
+                            <div class="w-12 h-12 rounded-full border border-white/20 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                                <span class="text-purple-400 font-bold">02</span>
+                            </div>
+                            <div>
+                                <h4 class="text-2xl font-bold title-font mb-2">Sinapsis</h4>
+                                <p class="text-gray-400 text-sm">Conexiones eléctricas y químicas que transmiten información en milisegundos.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECCIÓN 4: SCROLL HORIZONTAL (Proceso) -->
+            <section class="h-screen bg-black overflow-hidden relative" id="horizontal-section">
+                <div class="absolute top-10 left-10 md:top-20 md:left-20 z-10">
+                    <h2 class="text-2xl md:text-4xl font-bold title-font text-white/50">EL PROCESO COGNITIVO</h2>
+                </div>
+                
+                <div class="h-full flex items-center" id="horizontal-container">
+                    <div class="flex w-[300vw] gap-10 px-[10vw]" id="horizontal-wrapper">
+                        <div class="w-[80vw] md:w-[60vw] shrink-0 flex flex-col justify-center">
+                            <div class="text-8xl md:text-[150px] font-bold title-font text-transparent text-stroke opacity-30 leading-none">01</div>
+                            <h3 class="text-4xl md:text-7xl font-bold title-font mt-4 mb-6">Estímulo</h3>
+                            <p class="text-xl md:text-3xl text-gray-400 max-w-2xl font-light">Los sentidos captan información del entorno y la convierten en señales eléctricas que viajan por los nervios periféricos.</p>
+                        </div>
+                        <div class="w-[80vw] md:w-[60vw] shrink-0 flex flex-col justify-center">
+                            <div class="text-8xl md:text-[150px] font-bold title-font text-transparent text-stroke opacity-30 leading-none">02</div>
+                            <h3 class="text-4xl md:text-7xl font-bold title-font mt-4 mb-6">Procesamiento</h3>
+                            <p class="text-xl md:text-3xl text-gray-400 max-w-2xl font-light">El cerebro filtra, interpreta y asocia las nuevas señales con conocimientos previos, activando redes neuronales específicas.</p>
+                        </div>
+                        <div class="w-[80vw] md:w-[60vw] shrink-0 flex flex-col justify-center">
+                            <div class="text-8xl md:text-[150px] font-bold title-font text-transparent text-stroke opacity-30 leading-none">03</div>
+                            <h3 class="text-4xl md:text-7xl font-bold title-font mt-4 mb-6 text-cyan-400">Respuesta</h3>
+                            <p class="text-xl md:text-3xl text-gray-400 max-w-2xl font-light">Se emite una orden. Ya sea un pensamiento abstracto, un recuerdo vívido o un movimiento muscular físico ejecutado al instante.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECCIÓN 5: PORTAL INFORMATIVO -->
+            <section class="py-32 px-6 md:px-20 relative bg-[#050505] border-t border-white/5" id="portal">
+                <div class="absolute top-0 right-0 w-[500px] h-[500px] bg-cyan-900/10 rounded-full blur-[100px] pointer-events-none"></div>
+                <div class="max-w-7xl mx-auto relative z-10">
+                    <div class="mb-16">
+                        <p class="uppercase tracking-[0.3em] text-purple-400 text-sm mb-4 font-bold">Base de Conocimiento EBVG</p>
+                        <h1 class="text-5xl md:text-8xl font-bold title-font tracking-tighter mb-6 leading-tight">
+                            Archivo<br><span class="text-stroke">Biológico</span>
+                        </h1>
+                        <p class="text-xl text-gray-400 font-light max-w-2xl leading-relaxed">Explora la documentación detallada sobre los mecanismos que rigen la mente humana, desde la transmisión sináptica hasta la neuroplasticidad.</p>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div class="bento-card purple-glow rounded-3xl p-10 cursor-hover group">
+                            <div class="w-16 h-16 rounded-full border border-purple-500/30 flex items-center justify-center mb-8 bg-purple-500/10">
+                                <svg class="w-8 h-8 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                            </div>
+                            <h2 class="text-3xl font-bold title-font mb-4">Neuroplasticidad</h2>
+                            <p class="text-gray-400 leading-relaxed mb-6">El cerebro no es una estructura rígida; es un órgano dinámico. La neuroplasticidad es la capacidad del sistema nervioso para cambiar su actividad reorganizando su estructura en respuesta a estímulos.</p>
+                        </div>
+                        <div class="bento-card rounded-3xl p-10 cursor-hover group">
+                            <div class="w-16 h-16 rounded-full border border-cyan-500/30 flex items-center justify-center mb-8 bg-cyan-500/10">
+                                <svg class="w-8 h-8 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path></svg>
+                            </div>
+                            <h2 class="text-3xl font-bold title-font mb-4">Sinapsis Química</h2>
+                            <p class="text-gray-400 leading-relaxed mb-6">Mecanismo de comunicación entre neuronas. A través de neurotransmisores, las células transmiten señales vitales a través del espacio sináptico, regulando desde el movimiento hasta el estado de ánimo.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECCIÓN 6: INVESTIGACIÓN -->
+            <section class="py-32 px-6 md:px-20 bg-black relative" id="investigacion">
+                <div class="max-w-7xl mx-auto relative z-10">
+                    <p class="uppercase tracking-[0.3em] text-cyan-400 text-sm mb-4 font-bold">Línea de Estudio</p>
+                    <h1 class="text-5xl md:text-7xl font-bold title-font mb-8 text-white">Investigación & <br><span class="text-cyan-400">Adaptación</span></h1>
+                    <p class="text-xl text-gray-400 font-light leading-relaxed mb-16 max-w-4xl">
+                        Nuestra investigación se centra en mapear los mecanismos de la neuroplasticidad estructural y funcional. Buscamos comprender cómo los estímulos ambientales prolongados modifican la arquitectura del córtex cerebral a lo largo del tiempo.
+                    </p>
+
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                        <div class="bento-card rounded-3xl p-8 cursor-hover">
+                            <div class="text-4xl text-cyan-900 font-bold mb-4">01</div>
+                            <h3 class="text-2xl font-bold title-font mb-4">Análisis EEG</h3>
+                            <p class="text-gray-400">Recolección de patrones de ondas cerebrales en sujetos de prueba sometidos a estímulos cognitivos de alta intensidad.</p>
+                        </div>
+                        <div class="bento-card rounded-3xl p-8 cursor-hover">
+                            <div class="text-4xl text-cyan-900 font-bold mb-4">02</div>
+                            <h3 class="text-2xl font-bold title-font mb-4">Mapeo fMRI</h3>
+                            <p class="text-gray-400">Observación del flujo sanguíneo cerebral para identificar las áreas anatómicas específicas que muestran mayor activación.</p>
+                        </div>
+                        <div class="bento-card rounded-3xl p-8 cursor-hover">
+                            <div class="text-4xl text-cyan-900 font-bold mb-4">03</div>
+                            <h3 class="text-2xl font-bold title-font mb-4">Simulación In Silico</h3>
+                            <p class="text-gray-400">Construcción de modelos computacionales que replican la potenciación a largo plazo celular y las rutas sinápticas.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECCIÓN 7: BIBLIOGRAFÍA -->
+            <section class="py-32 px-6 md:px-20 bg-[#050505] relative" id="bibliografia">
+                <div class="max-w-5xl mx-auto relative z-10">
+                    <p class="uppercase tracking-[0.3em] text-purple-400 text-sm mb-4 font-bold">Fuentes de Información</p>
+                    <h1 class="text-5xl md:text-7xl font-bold title-font mb-12 text-white">Literatura <span class="text-purple-400">Científica</span></h1>
+                    
+                    <ul class="space-y-2">
+                        <li class="reference-item p-6 cursor-hover rounded-r-xl">
+                            <h3 class="text-xl font-bold title-font text-white mb-2">Principios de Neurociencia (5ta Edición)</h3>
+                            <p class="text-gray-400 text-sm leading-relaxed">Kandel, E. R., Schwartz, J. H., & Jessell, T. M. (2012). McGraw-Hill Medical.</p>
+                        </li>
+                        <li class="reference-item p-6 cursor-hover rounded-r-xl">
+                            <h3 class="text-xl font-bold title-font text-white mb-2">El Cerebro Plástico</h3>
+                            <p class="text-gray-400 text-sm leading-relaxed">Doidge, N. (2007). Viking Press. Estudio sobre procesos adaptativos en adultos.</p>
+                        </li>
+                        <li class="reference-item p-6 cursor-hover rounded-r-xl">
+                            <h3 class="text-xl font-bold title-font text-white mb-2">Dinámica de los Receptores NMDA</h3>
+                            <p class="text-gray-400 text-sm leading-relaxed">Malenka, R. C., & Bear, M. F. (2004). Neuron, 44(1), 5-21.</p>
+                        </li>
+                        <li class="reference-item p-6 cursor-hover rounded-r-xl">
+                            <h3 class="text-xl font-bold title-font text-white mb-2">Atlas de Anatomía Humana</h3>
+                            <p class="text-gray-400 text-sm leading-relaxed">Netter, F. H. (2019). Elsevier. Referencia para diagramas del portal interactivo.</p>
+                        </li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- SECCIÓN 8: EQUIPO -->
+            <section class="py-32 px-6 md:px-20 bg-black relative overflow-hidden" id="equipo">
+                <div class="absolute top-1/4 left-1/2 -translate-x-1/2 w-[800px] h-[300px] bg-blue-900/10 rounded-full blur-[120px] pointer-events-none"></div>
+
+                <div class="max-w-7xl mx-auto relative z-10">
+                    <h1 class="text-5xl md:text-7xl font-bold title-font mb-4 text-center">Nuestra <span class="text-blue-400">Sinapsis Humana</span></h1>
+                    <p class="text-center text-gray-400 max-w-2xl mx-auto mb-16 text-lg">
+                        Conoce a los estudiantes investigadores detrás del proyecto Synapsis. Un equipo multidisciplinario enfocado en tender puentes entre la biología celular y la divulgación científica digital.
+                    </p>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                        <div class="member-card card-cyan cursor-hover text-center">
+                            <div class="w-24 h-24 rounded-full bg-cyan-900/50 mx-auto mb-6 flex items-center justify-center border border-cyan-400/30 overflow-hidden">
+                                <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?q=80&w=250&auto=format&fit=crop" alt="Estudiante 1" class="w-full h-full object-cover opacity-80 mix-blend-luminosity">
+                            </div>
+                            <h3 class="text-xl font-bold title-font mb-1 text-white">Alejandro M.</h3>
+                            <p class="text-xs text-cyan-400 uppercase tracking-widest mb-4 font-bold">Investigación</p>
+                        </div>
+                        
+                        <div class="member-card card-purple cursor-hover text-center">
+                            <div class="w-24 h-24 rounded-full bg-purple-900/50 mx-auto mb-6 flex items-center justify-center border border-purple-400/30 overflow-hidden">
+                                <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=250&auto=format&fit=crop" alt="Estudiante 2" class="w-full h-full object-cover opacity-80 mix-blend-luminosity">
+                            </div>
+                            <h3 class="text-xl font-bold title-font mb-1 text-white">Sofía R.</h3>
+                            <p class="text-xs text-purple-400 uppercase tracking-widest mb-4 font-bold">Datos</p>
+                        </div>
+
+                        <div class="member-card card-blue cursor-hover text-center">
+                            <div class="w-24 h-24 rounded-full bg-blue-900/50 mx-auto mb-6 flex items-center justify-center border border-blue-400/30 overflow-hidden">
+                                <img src="https://images.unsplash.com/photo-1599566150163-29194dcaad36?q=80&w=250&auto=format&fit=crop" alt="Estudiante 3" class="w-full h-full object-cover opacity-80 mix-blend-luminosity">
+                            </div>
+                            <h3 class="text-xl font-bold title-font mb-1 text-white">Carlos V.</h3>
+                            <p class="text-xs text-blue-400 uppercase tracking-widest mb-4 font-bold">Ingeniería Web</p>
+                        </div>
+
+                        <div class="member-card card-green cursor-hover text-center">
+                            <div class="w-24 h-24 rounded-full bg-green-900/50 mx-auto mb-6 flex items-center justify-center border border-green-400/30 overflow-hidden">
+                                <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?q=80&w=250&auto=format&fit=crop" alt="Estudiante 4" class="w-full h-full object-cover opacity-80 mix-blend-luminosity">
+                            </div>
+                            <h3 class="text-xl font-bold title-font mb-1 text-white">Elena C.</h3>
+                            <p class="text-xs text-green-400 uppercase tracking-widest mb-4 font-bold">Diseño Científico</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECCIÓN 9: CONTACTO -->
+            <section class="py-32 px-6 md:px-20 bg-[#050505] relative flex items-center border-t border-white/5" id="contacto">
+                <div class="absolute top-1/2 left-1/4 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-emerald-900/10 rounded-full blur-[120px] pointer-events-none"></div>
+                
+                <div class="max-w-7xl mx-auto relative z-10 w-full grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
+                    <div id="contact-text">
+                        <p class="uppercase tracking-[0.3em] text-emerald-400 text-sm mb-4 font-bold">Comunicación Directa</p>
+                        <h1 class="text-5xl md:text-7xl font-bold title-font mb-6 leading-tight">Transmite tu<br><span class="text-white">Señal</span></h1>
+                        <p class="text-gray-400 text-lg mb-10 leading-relaxed max-w-md">
+                            ¿Tienes observaciones sobre nuestra investigación neurobiológica? ¿Preguntas sobre la metodología del Proyecto EBVG? Crea un puente sináptico con nosotros.
+                        </p>
+                        
+                        <div class="space-y-6">
+                            <div class="flex items-start gap-4">
+                                <div class="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center shrink-0 text-emerald-400">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                                </div>
+                                <div>
+                                    <h4 class="text-white font-bold title-font">Laboratorio Biología</h4>
+                                    <p class="text-gray-500 text-sm">Instituto EBVG, Campus Principal</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-[rgba(10,10,10,0.8)] p-8 md:p-10 rounded-[2rem] border border-white/10 backdrop-blur-xl shadow-2xl shadow-emerald-900/10" id="contact-form">
+                        <form class="space-y-6" onsubmit="event.preventDefault(); document.getElementById('success-msg').classList.remove('hidden'); this.reset();">
+                            <h3 class="text-2xl font-bold title-font mb-6">Iniciar Transmisión</h3>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div>
+                                    <label class="block text-xs uppercase tracking-widest text-gray-400 mb-2 ml-2">Nombre</label>
+                                    <input type="text" class="form-input cursor-hover" placeholder="Tu nombre..." required>
+                                </div>
+                                <div>
+                                    <label class="block text-xs uppercase tracking-widest text-gray-400 mb-2 ml-2">Email</label>
+                                    <input type="email" class="form-input cursor-hover" placeholder="correo@ejemplo.com" required>
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block text-xs uppercase tracking-widest text-gray-400 mb-2 ml-2">Mensaje</label>
+                                <textarea rows="3" class="form-input cursor-hover resize-none" placeholder="Formula aquí tu consulta..." required></textarea>
+                            </div>
+                            <button type="submit" class="w-full py-4 rounded-2xl bg-emerald-500 text-black font-bold uppercase tracking-widest hover:bg-white transition-colors duration-300 cursor-hover">
+                                Enviar Estímulo
+                            </button>
+                            <div id="success-msg" class="hidden text-center text-emerald-400 text-sm bg-emerald-900/20 py-3 rounded-xl border border-emerald-500/30">
+                                ¡Señal recibida con éxito!
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </section>
+
+            <!-- FOOTER -->
+            <footer class="bg-[#020202] pt-32 pb-10 px-6 md:px-20 border-t border-white/10 relative overflow-hidden">
+                <div class="absolute bottom-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-purple-900/10 blur-[120px] rounded-full pointer-events-none"></div>
+
+                <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 relative z-10 items-end">
+                    <div class="lg:col-span-6 mb-8 lg:mb-0">
+                        <h2 class="text-[15vw] lg:text-[8vw] font-bold title-font leading-none tracking-tighter cursor-pointer nav-link inline-block hover:text-white/80 transition-colors" onclick="document.querySelector('#hero').scrollIntoView({behavior: 'smooth'})">SYNAPSIS</h2>
+                    </div>
+                    
+                    <div class="lg:col-span-3 flex flex-col space-y-4 text-xs uppercase tracking-widest text-gray-500">
+                        <p class="text-white font-bold mb-2">Registro Operativo</p>
+                        <div class="flex justify-between items-center border-b border-white/10 pb-3">
+                            <span>ID Módulo</span>
+                            <span class="text-cyan-400 font-mono">EBVG-77</span>
+                        </div>
+                        <div class="flex justify-between items-center border-b border-white/10 pb-3">
+                            <span>Latencia</span>
+                            <span class="text-emerald-400 font-mono">12ms</span>
+                        </div>
+                        <div class="flex justify-between items-center border-b border-white/10 pb-3">
+                            <span>Nodos Activos</span>
+                            <span class="text-purple-400 font-mono">8,432</span>
+                        </div>
+                    </div>
+
+                    <div class="lg:col-span-3 flex flex-col space-y-4 text-xs uppercase tracking-widest text-gray-500">
+                        <p class="text-white font-bold mb-2">Manifiesto Base</p>
+                        <p class="leading-relaxed text-gray-400">Mapeo continuo de impulsos biológicos para la decodificación de la cognición humana y preservación de la memoria profunda.</p>
+                    </div>
+                </div>
+                
+                <div class="max-w-7xl mx-auto mt-20 pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between text-xs text-gray-600">
+                    <p>Desarrollado con fines académicos por estudiantes de EBVG &copy; 2026.</p>
+                </div>
+            </footer>
+
+        </div>
+    </main>
+
+    <!-- GSAP, ScrollTrigger, Lenis -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.29/bundled/lenis.min.js"></script>
+
+    <script>
+        // 1. Inicializar Lenis (Smooth Scroll)
+        const lenis = new Lenis({
+            duration: 1.2,
+            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+            direction: 'vertical',
+            gestureDirection: 'vertical',
+            smooth: true,
+            mouseMultiplier: 1,
+            smoothTouch: false,
+            touchMultiplier: 2,
+        });
+
+        // Manejar clicks en enlaces para hacer scroll suave hasta las secciones
+        document.querySelectorAll('.nav-link').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                const targetId = this.getAttribute('href');
+                if (targetId && targetId.startsWith('#')) {
+                    e.preventDefault();
+                    lenis.scrollTo(targetId, { offset: 0, duration: 1.5 });
+                }
+            });
+        });
+
+        // Registrar Lenis con GSAP
+        gsap.registerPlugin(ScrollTrigger);
+        lenis.on('scroll', ScrollTrigger.update);
+        gsap.ticker.add((time)=>{ lenis.raf(time * 1000); });
+        gsap.ticker.lagSmoothing(0);
+
+        // 2. Custom Cursor Lógica
+        const cursor = document.getElementById('cursor');
+        const hoverElements = document.querySelectorAll('.cursor-hover, a, button, input, textarea, select');
+
+        if (window.matchMedia("(min-width: 768px)").matches) {
+            document.addEventListener('mousemove', (e) => {
+                gsap.to(cursor, { x: e.clientX, y: e.clientY, duration: 0.1, ease: "power2.out" });
+            });
+
+            hoverElements.forEach(el => {
+                el.addEventListener('mouseenter', () => cursor.classList.add('hovered'));
+                el.addEventListener('mouseleave', () => cursor.classList.remove('hovered'));
+            });
+        }
+
+        // 3. Animaciones GSAP
+
+        // Hero Init
+        gsap.from(".hero-elem", { y: 50, opacity: 0, duration: 1.5, stagger: 0.2, ease: "expo.out", delay: 0.2 });
+
+        // Manifiesto Iluminación Textos
+        const manifesto = document.getElementById("manifesto-text");
+        const text = manifesto.innerText;
+        manifesto.innerHTML = ""; 
+        text.split(" ").forEach(word => {
+            const span = document.createElement("span");
+            span.innerText = word + " ";
+            span.className = "reveal-word inline-block";
+            manifesto.appendChild(span);
+        });
+
+        gsap.to(manifesto.querySelectorAll(".reveal-word"), {
+            opacity: 1, color: "#ffffff", stagger: 0.1,
+            scrollTrigger: { trigger: manifesto, start: "top 80%", end: "bottom 40%", scrub: 1 }
+        });
+
+        // Animaciones Genéricas Bento Cards usando Batch
+        gsap.utils.toArray('.bento-card, .member-card, .reference-item').forEach(card => {
+            gsap.from(card, {
+                y: 50, opacity: 0, duration: 0.8, ease: "power3.out",
+                scrollTrigger: { trigger: card, start: "top 85%" }
+            });
+        });
+
+        // Scroll Horizontal (Estilo Timeline)
+        const horizontalWrapper = document.getElementById("horizontal-wrapper");
+        function getScrollAmount() {
+            return -(horizontalWrapper.scrollWidth - window.innerWidth);
+        }
+
+        ScrollTrigger.create({
+            trigger: "#horizontal-section",
+            start: "top top",
+            end: () => `+=${getScrollAmount() * -1}`, 
+            pin: true,
+            animation: gsap.to(horizontalWrapper, { x: getScrollAmount, ease: "none" }),
+            scrub: 1,
+            invalidateOnRefresh: true
+        });
+
+        // Animación Contacto
+        gsap.from("#contact-text", { x: -50, opacity: 0, duration: 1, scrollTrigger: { trigger: "#contacto", start: "top 60%" }});
+        gsap.from("#contact-form", { x: 50, opacity: 0, duration: 1, scrollTrigger: { trigger: "#contacto", start: "top 60%" }});
+
+    </script>
+</body>
+</html>

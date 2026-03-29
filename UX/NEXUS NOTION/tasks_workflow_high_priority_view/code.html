@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Nexus Tasks &amp; Management</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "surface-bright": "#2c2c2c",
+              "on-secondary-container": "#d2d0cf",
+              "surface-container-low": "#131313",
+              "inverse-on-surface": "#565555",
+              "on-primary": "#1700a1",
+              "inverse-surface": "#fcf9f8",
+              "primary": "#a5a5ff",
+              "error-container": "#a70138",
+              "on-tertiary-fixed-variant": "#6c104f",
+              "surface-dim": "#0e0e0e",
+              "surface-container-high": "#201f1f",
+              "secondary": "#e5e2e1",
+              "on-secondary-fixed": "#403f3f",
+              "tertiary": "#ffa1d5",
+              "tertiary-container": "#fd8bcc",
+              "primary-fixed-dim": "#8686ff",
+              "surface-tint": "#a5a5ff",
+              "secondary-container": "#474746",
+              "on-tertiary-container": "#610246",
+              "secondary-dim": "#d6d4d3",
+              "primary-dim": "#6462ec",
+              "on-error": "#490013",
+              "on-error-container": "#ffb2b9",
+              "tertiary-fixed-dim": "#ed7ebe",
+              "on-background": "#ffffff",
+              "error-dim": "#d73357",
+              "on-tertiary": "#6e1150",
+              "on-surface-variant": "#adaaaa",
+              "on-secondary-fixed-variant": "#5c5b5b",
+              "surface-variant": "#262626",
+              "error": "#ff6e84",
+              "on-tertiary-fixed": "#350025",
+              "tertiary-dim": "#ed7ebe",
+              "on-primary-fixed": "#000000",
+              "surface": "#0e0e0e",
+              "on-surface": "#ffffff",
+              "surface-container-highest": "#262626",
+              "secondary-fixed-dim": "#d6d4d3",
+              "outline-variant": "#484847",
+              "on-primary-container": "#10007f",
+              "on-secondary": "#525151",
+              "on-primary-fixed-variant": "#16009b",
+              "secondary-fixed": "#e5e2e1",
+              "inverse-primary": "#4e4bd5",
+              "background": "#0e0e0e",
+              "tertiary-fixed": "#fd8bcc",
+              "primary-container": "#9695ff",
+              "surface-container": "#1a1919",
+              "primary-fixed": "#9695ff",
+              "surface-container-lowest": "#000000",
+              "outline": "#767575"
+            },
+            fontFamily: {
+              "headline": ["Inter"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 20;
+            font-size: 20px;
+        }
+        body {
+            background-color: #0e0e0e;
+            color: #ffffff;
+            font-family: 'Inter', sans-serif;
+        }
+        /* Custom scrollbar for deep dark theme */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #0e0e0e; }
+        ::-webkit-scrollbar-thumb { background: #262626; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #484847; }
+    </style>
+</head>
+<body class="antialiased overflow-hidden">
+<!-- SideNavBar (Execution from JSON) -->
+<aside class="fixed left-0 top-0 h-full z-40 h-screen w-64 bg-[#131313] dark:bg-[#131313] font-['Inter'] antialiased text-sm tracking-tight border-r border-transparent shadow-none">
+<div class="flex flex-col h-full py-6">
+<div class="px-6 mb-8 flex items-center gap-3">
+<div class="w-8 h-8 rounded bg-gradient-to-br from-primary to-primary-dim flex items-center justify-center">
+<span class="material-symbols-outlined text-on-primary-container" style="font-variation-settings: 'FILL' 1;">terminal</span>
+</div>
+<div>
+<h1 class="text-lg font-bold tracking-tighter text-[#A5A5FF]">Nexus</h1>
+<p class="text-[10px] text-on-surface-variant uppercase tracking-widest">Personal Workspace</p>
+</div>
+</div>
+<nav class="flex-1 space-y-1 px-2">
+<div class="flex items-center gap-3 px-4 py-2 bg-[#262626] text-[#A5A5FF] border-l-2 border-[#A5A5FF] cursor-pointer">
+<span class="material-symbols-outlined">grid_view</span>
+<span>Workspaces</span>
+</div>
+<div class="flex items-center gap-3 px-4 py-2 text-[#ADAAAA] hover:bg-[#1A1919] transition-colors cursor-pointer">
+<span class="material-symbols-outlined">star</span>
+<span>Favorites</span>
+</div>
+<div class="flex items-center gap-3 px-4 py-2 text-[#ADAAAA] hover:bg-[#1A1919] transition-colors cursor-pointer">
+<span class="material-symbols-outlined">history</span>
+<span>Recents</span>
+</div>
+<div class="pt-8 px-4 pb-2">
+<span class="text-[10px] text-on-surface-variant font-bold uppercase tracking-widest">Focus</span>
+</div>
+<div class="flex items-center gap-3 px-4 py-2 text-[#ADAAAA] hover:bg-[#1A1919] transition-colors cursor-pointer group">
+<span class="material-symbols-outlined">today</span>
+<span>Today</span>
+</div>
+<div class="flex items-center gap-3 px-4 py-2 text-[#ADAAAA] hover:bg-[#1A1919] transition-colors cursor-pointer group">
+<span class="material-symbols-outlined">event_upcoming</span>
+<span>Upcoming</span>
+</div>
+<div class="flex items-center gap-3 px-4 py-2 text-[#ADAAAA] hover:bg-[#1A1919] transition-colors cursor-pointer group">
+<span class="material-symbols-outlined text-error">priority_high</span>
+<span class="text-error">Overdue</span>
+</div>
+</nav>
+<div class="px-4 mt-auto space-y-1">
+<div class="flex items-center gap-3 px-4 py-2 text-[#ADAAAA] hover:bg-[#1A1919] transition-colors cursor-pointer">
+<span class="material-symbols-outlined">settings</span>
+<span>Settings</span>
+</div>
+<div class="flex items-center gap-3 px-4 py-2 text-[#ADAAAA] hover:bg-[#1A1919] transition-colors cursor-pointer">
+<span class="material-symbols-outlined">help_outline</span>
+<span>Help</span>
+</div>
+<div class="mt-4 px-4">
+<button class="w-full py-2 bg-surface-container-highest text-on-surface text-xs font-bold uppercase tracking-widest rounded-lg hover:bg-surface-bright transition-all active:scale-95">
+                        New Page
+                    </button>
+</div>
+</div>
+</div>
+</aside>
+<!-- TopNavBar (Execution from JSON) -->
+<header class="fixed top-0 right-0 left-64 h-14 px-6 flex items-center justify-between z-30 bg-[#0E0E0E]/70 backdrop-blur-xl border-none shadow-none font-['Inter'] text-xs font-medium uppercase tracking-widest">
+<div class="flex items-center gap-4 flex-1">
+<div class="relative w-full max-w-md group">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant group-focus-within:text-primary transition-colors">search</span>
+<input class="w-full bg-surface-container-low border-none focus:ring-1 focus:ring-primary/30 rounded-full pl-10 pr-4 py-1.5 text-xs normal-case tracking-normal" placeholder="Search tasks, notes, or blocks..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-[#ADAAAA] hover:text-white cursor-pointer transition-colors">notifications</span>
+<span class="material-symbols-outlined text-[#ADAAAA] hover:text-white cursor-pointer transition-colors" style="font-variation-settings: 'FILL' 1;">bolt</span>
+<span class="material-symbols-outlined text-[#ADAAAA] hover:text-white cursor-pointer transition-colors">settings</span>
+</div>
+<div class="w-7 h-7 rounded-full bg-surface-container-highest border border-white/5 overflow-hidden">
+<img alt="User Avatar" class="w-full h-full object-cover" data-alt="professional headshot of a person with short hair against a neutral gray background, clean lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBn0jMma1_2i87sfgo1_hLKhvjxdqFbou0o1bBcfdpPw0pmRJKrJK0w6q_XHk36XrUi02y_2KeK2Qj18oPy3l8rRMuGXszhe1QMT-ZxE0ac-LHDOxdQF8wZ0LQ8SDKSmvAvenncdQfpaFe4OfVDM0_-XLsA42p1_Kg0_VIk9SBoyUiLU1-JprendSkz6wx9hrF0O2U4CcjCWYtcWYA8R10LhH2F0XoidajHD0VD2wnpSg37DSiMKAr0jyravtH8SrVVyVSphnjVZKs"/>
+</div>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="ml-64 pt-14 h-screen overflow-y-auto bg-surface relative">
+<div class="max-w-5xl mx-auto px-12 py-12">
+<!-- Header Section with Asymmetry -->
+<div class="flex items-end justify-between mb-16">
+<div>
+<h2 class="text-[3.5rem] font-bold tracking-tighter leading-none mb-4">Task Matrix</h2>
+<p class="text-on-surface-variant max-w-sm font-light text-sm leading-relaxed">
+                        Manage your cognitive load through prioritized execution and AI-assisted triage.
+                    </p>
+</div>
+<div class="flex items-center gap-4">
+<button class="flex items-center gap-2 px-6 py-3 bg-gradient-to-br from-primary to-primary-dim text-white rounded-lg font-bold text-xs uppercase tracking-widest shadow-lg shadow-primary/10 hover:shadow-primary/20 transition-all active:scale-[0.98]">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">auto_awesome</span>
+                        AI Quick-Organize
+                    </button>
+</div>
+</div>
+<!-- Task Board Groups -->
+<div class="grid grid-cols-1 gap-12">
+<!-- High Priority Section -->
+<section>
+<div class="flex items-center gap-3 mb-6">
+<div class="w-1.5 h-6 bg-error rounded-full"></div>
+<h3 class="text-xs font-bold uppercase tracking-[0.2em] text-on-surface">High Priority</h3>
+<span class="text-[10px] bg-error/10 text-error px-2 py-0.5 rounded-full font-bold">3 TASKS</span>
+</div>
+<div class="space-y-4">
+<!-- Task Card 1 -->
+<div class="group flex items-center justify-between p-4 bg-surface-container rounded-xl hover:bg-surface-container-high transition-all border-l-2 border-transparent hover:border-primary cursor-pointer">
+<div class="flex items-center gap-4">
+<div class="w-5 h-5 border-2 border-outline-variant rounded flex items-center justify-center group-hover:border-primary transition-colors">
+<div class="w-2 h-2 bg-primary rounded-sm opacity-0 group-hover:opacity-20"></div>
+</div>
+<div>
+<h4 class="text-on-surface font-medium text-sm">Finalize Q3 Strategic Roadmap</h4>
+<div class="flex items-center gap-3 mt-1">
+<div class="flex items-center gap-1 text-[10px] text-on-surface-variant uppercase tracking-widest">
+<span class="material-symbols-outlined text-xs">description</span>
+<span>Q3-Strategy-Notes</span>
+</div>
+</div>
+</div>
+</div>
+<div class="text-right">
+<span class="text-[10px] text-error font-bold uppercase tracking-widest">Today • 5:00 PM</span>
+</div>
+</div>
+<!-- Task Card 2 -->
+<div class="group flex items-center justify-between p-4 bg-surface-container rounded-xl hover:bg-surface-container-high transition-all border-l-2 border-transparent hover:border-primary cursor-pointer">
+<div class="flex items-center gap-4">
+<div class="w-5 h-5 border-2 border-outline-variant rounded flex items-center justify-center group-hover:border-primary transition-colors"></div>
+<div>
+<h4 class="text-on-surface font-medium text-sm">Review architectural diagrams for V2 engine</h4>
+<div class="flex items-center gap-3 mt-1">
+<div class="flex items-center gap-1 text-[10px] text-on-surface-variant uppercase tracking-widest">
+<span class="material-symbols-outlined text-xs">description</span>
+<span>Infrastructure-Spec</span>
+</div>
+</div>
+</div>
+</div>
+<div class="text-right">
+<span class="text-[10px] text-error font-bold uppercase tracking-widest">Overdue • 2d</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Medium Priority Section -->
+<section>
+<div class="flex items-center gap-3 mb-6">
+<div class="w-1.5 h-6 bg-tertiary rounded-full"></div>
+<h3 class="text-xs font-bold uppercase tracking-[0.2em] text-on-surface">Medium Priority</h3>
+<span class="text-[10px] bg-tertiary/10 text-tertiary px-2 py-0.5 rounded-full font-bold">2 TASKS</span>
+</div>
+<div class="space-y-4">
+<!-- Task Card -->
+<div class="group flex items-center justify-between p-4 bg-surface-container rounded-xl hover:bg-surface-container-high transition-all border-l-2 border-transparent hover:border-primary cursor-pointer">
+<div class="flex items-center gap-4">
+<div class="w-5 h-5 border-2 border-outline-variant rounded flex items-center justify-center group-hover:border-primary transition-colors"></div>
+<div>
+<h4 class="text-on-surface font-medium text-sm">Draft interview questions for Senior Lead</h4>
+<div class="flex items-center gap-3 mt-1">
+<div class="flex items-center gap-1 text-[10px] text-on-surface-variant uppercase tracking-widest">
+<span class="material-symbols-outlined text-xs">description</span>
+<span>Hiring-Template</span>
+</div>
+</div>
+</div>
+</div>
+<div class="text-right">
+<span class="text-[10px] text-on-surface-variant font-bold uppercase tracking-widest">Tomorrow</span>
+</div>
+</div>
+<!-- Task Card -->
+<div class="group flex items-center justify-between p-4 bg-surface-container rounded-xl hover:bg-surface-container-high transition-all border-l-2 border-transparent hover:border-primary cursor-pointer">
+<div class="flex items-center gap-4">
+<div class="w-5 h-5 border-2 border-outline-variant rounded flex items-center justify-center group-hover:border-primary transition-colors"></div>
+<div>
+<h4 class="text-on-surface font-medium text-sm">Synthesize feedback from Design Sprint</h4>
+<div class="flex items-center gap-3 mt-1">
+<div class="flex items-center gap-1 text-[10px] text-on-surface-variant uppercase tracking-widest">
+<span class="material-symbols-outlined text-xs">description</span>
+<span>Sprint-Notes-May</span>
+</div>
+</div>
+</div>
+</div>
+<div class="text-right">
+<span class="text-[10px] text-on-surface-variant font-bold uppercase tracking-widest">Jun 14</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Low Priority Section -->
+<section>
+<div class="flex items-center gap-3 mb-6">
+<div class="w-1.5 h-6 bg-outline-variant rounded-full"></div>
+<h3 class="text-xs font-bold uppercase tracking-[0.2em] text-on-surface">Low Priority</h3>
+<span class="text-[10px] bg-outline-variant/10 text-outline-variant px-2 py-0.5 rounded-full font-bold">1 TASK</span>
+</div>
+<div class="space-y-4">
+<div class="group flex items-center justify-between p-4 bg-surface-container rounded-xl hover:bg-surface-container-high transition-all border-l-2 border-transparent hover:border-primary cursor-pointer">
+<div class="flex items-center gap-4">
+<div class="w-5 h-5 border-2 border-outline-variant rounded flex items-center justify-center group-hover:border-primary transition-colors"></div>
+<div>
+<h4 class="text-on-surface font-medium text-sm">Update workspace theme assets</h4>
+<div class="flex items-center gap-3 mt-1">
+<div class="flex items-center gap-1 text-[10px] text-on-surface-variant uppercase tracking-widest">
+<span class="material-symbols-outlined text-xs">description</span>
+<span>Styleguide</span>
+</div>
+</div>
+</div>
+</div>
+<div class="text-right">
+<span class="text-[10px] text-on-surface-variant font-bold uppercase tracking-widest">Next Week</span>
+</div>
+</div>
+</div>
+</section>
+</div>
+<!-- Footer Spacing -->
+<div class="h-32"></div>
+</div>
+</main>
+<!-- BottomNavBar (Execution from JSON) -->
+<nav class="fixed bottom-0 left-64 right-0 flex justify-center z-50">
+<div class="rounded-2xl mb-8 mx-auto w-fit px-2 py-2 border border-white/10 bg-[#262626]/80 backdrop-blur-2xl shadow-[0px_24px_48px_rgba(0,0,0,0.4)] flex items-center gap-2">
+<div class="flex flex-col items-center gap-1 p-2 text-[#ADAAAA] hover:bg-white/5 rounded-xl cursor-pointer transition-all active:scale-95 group">
+<span class="material-symbols-outlined group-hover:text-white">format_bold</span>
+<span class="font-['Inter'] text-[10px] font-bold uppercase tracking-widest">Format</span>
+</div>
+<div class="flex flex-col items-center gap-1 bg-[#A5A5FF] text-white rounded-xl p-2 cursor-pointer transition-all active:scale-95">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">auto_awesome</span>
+<span class="font-['Inter'] text-[10px] font-bold uppercase tracking-widest">AI</span>
+</div>
+<div class="flex flex-col items-center gap-1 p-2 text-[#ADAAAA] hover:bg-white/5 rounded-xl cursor-pointer transition-all active:scale-95 group">
+<span class="material-symbols-outlined group-hover:text-white">drag_indicator</span>
+<span class="font-['Inter'] text-[10px] font-bold uppercase tracking-widest">Block</span>
+</div>
+<div class="flex flex-col items-center gap-1 p-2 text-[#ADAAAA] hover:bg-white/5 rounded-xl cursor-pointer transition-all active:scale-95 group">
+<span class="material-symbols-outlined group-hover:text-white">open_with</span>
+<span class="font-['Inter'] text-[10px] font-bold uppercase tracking-widest">Move</span>
+</div>
+</div>
+</nav>
+<!-- Contextual Decorative Gradient -->
+<div class="fixed top-0 right-0 w-[500px] h-[500px] bg-primary/5 blur-[120px] -z-10 pointer-events-none"></div>
+<div class="fixed bottom-0 left-64 w-[300px] h-[300px] bg-tertiary/5 blur-[100px] -z-10 pointer-events-none"></div>
+</body></html>

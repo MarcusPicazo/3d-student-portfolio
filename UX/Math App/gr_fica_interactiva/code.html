@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Resolver - Interactive Graphing</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Space+Grotesk:wght@500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary-fixed-dim": "#adc6ff",
+              "surface-bright": "#393939",
+              "secondary-fixed-dim": "#e8b3ff",
+              "inverse-surface": "#e5e2e1",
+              "on-surface-variant": "#c1c6d7",
+              "tertiary-fixed": "#ffdbcc",
+              "outline-variant": "#414755",
+              "on-surface": "#e5e2e1",
+              "tertiary": "#ffb595",
+              "on-primary": "#002e69",
+              "surface": "#131313",
+              "on-error": "#690005",
+              "error-container": "#93000a",
+              "error": "#ffb4ab",
+              "secondary": "#e8b3ff",
+              "on-error-container": "#ffdad6",
+              "surface-container-low": "#1c1b1b",
+              "on-tertiary-container": "#4c1a00",
+              "on-primary-container": "#00285c",
+              "inverse-primary": "#005bc1",
+              "on-secondary-fixed-variant": "#7201a2",
+              "surface-variant": "#353534",
+              "on-primary-fixed-variant": "#004493",
+              "primary": "#adc6ff",
+              "on-tertiary-fixed-variant": "#7c2e00",
+              "background": "#131313",
+              "secondary-container": "#7508a5",
+              "on-secondary": "#510074",
+              "surface-dim": "#131313",
+              "surface-tint": "#adc6ff",
+              "surface-container-highest": "#353534",
+              "secondary-fixed": "#f6d9ff",
+              "surface-container-lowest": "#0e0e0e",
+              "primary-container": "#4b8eff",
+              "on-primary-fixed": "#001a41",
+              "on-tertiary-fixed": "#351000",
+              "inverse-on-surface": "#313030",
+              "on-tertiary": "#571e00",
+              "outline": "#8b90a0",
+              "surface-container": "#201f1f",
+              "tertiary-fixed-dim": "#ffb595",
+              "surface-container-high": "#2a2a2a",
+              "primary-fixed": "#d8e2ff",
+              "on-background": "#e5e2e1",
+              "tertiary-container": "#ef6719",
+              "on-secondary-fixed": "#310048",
+              "on-secondary-container": "#e19fff"
+            },
+            fontFamily: {
+              "headline": ["Space Grotesk"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "1rem", "lg": "2rem", "xl": "3rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .graph-grid {
+            background-image: 
+                radial-gradient(circle at 1px 1px, rgba(173, 198, 255, 0.05) 1px, transparent 0);
+            background-size: 40px 40px;
+        }
+        input[type='range'] {
+            -webkit-appearance: none;
+            background: transparent;
+        }
+        input[type='range']::-webkit-slider-runnable-track {
+            background: #2a2a2a;
+            height: 4px;
+            border-radius: 2px;
+        }
+        input[type='range']::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            height: 20px;
+            width: 20px;
+            border-radius: 50%;
+            background: #adc6ff;
+            margin-top: -8px;
+            box-shadow: 0 0 10px rgba(173, 198, 255, 0.4);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface text-on-surface font-body selection:bg-primary/30 min-h-screen flex flex-col overflow-hidden">
+<!-- TopAppBar -->
+<header class="bg-[#131313] dark:bg-[#131313] w-full top-0 px-6 py-4 flex justify-between items-center z-50">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-full bg-surface-container-high flex items-center justify-center border border-outline-variant/20 overflow-hidden">
+<img alt="User Profile Profile" class="w-full h-full object-cover" data-alt="minimalist stylized avatar of a professional scientist with glasses on a dark monochromatic background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDanj0BgAf-kxngFt8Lt6rrXz53u2uMxoEsysa2a3HoiryIDLZARggOFZkBeJKCZrtKLszu6Op1zbfQ-In98_6gDA3ZG1v0zy0Dkmqv-jxsxF4T1ltl3wqd15yVHiuGOYcHhRjdAcQHfil79V_QDG3BIPMDDPmSOcTALuIcAU-fUS8uOUJJbXyODHKcbOTXL6e7u7lJip1lvypEqIIkvLOnEAuFScmeUxy8kQ1q8KuyzFt_yB9x9tGHLujXsdiIq0HPZqez-p-VDok"/>
+</div>
+<h1 class="font-['Space_Grotesk'] font-bold tracking-tight text-xl text-[#ADC6FF] dark:text-[#ADC6FF]">Resolver</h1>
+</div>
+<div class="flex-1 flex justify-center">
+<div class="bg-surface-container-low px-4 py-1.5 rounded-full border border-outline-variant/10">
+<span class="font-headline font-bold text-primary tracking-widest text-sm">y = ax² + b</span>
+</div>
+</div>
+<button class="material-symbols-outlined text-white/70 hover:bg-white/5 transition-colors p-2 rounded-full active:scale-95 transition-transform" data-icon="settings">
+            settings
+        </button>
+</header>
+<!-- Main Graphing Canvas -->
+<main class="flex-1 relative flex flex-col items-center justify-center p-4 md:p-8">
+<!-- The Graph Area -->
+<div class="relative w-full h-full max-w-5xl bg-surface-container-lowest rounded-xl md:rounded-xl overflow-hidden shadow-[0_0_64px_rgba(0,0,0,0.5)] border border-outline-variant/5">
+<!-- Grid and Axis -->
+<div class="absolute inset-0 graph-grid"></div>
+<!-- Center Axis Lines -->
+<div class="absolute inset-0 flex items-center justify-center pointer-events-none">
+<div class="h-full w-[1px] bg-outline-variant/20 relative">
+<div class="absolute -top-6 left-1/2 -translate-x-1/2 text-[10px] text-outline font-label">Y</div>
+</div>
+<div class="w-full h-[1px] bg-outline-variant/20 relative">
+<div class="absolute -right-6 top-1/2 -translate-y-1/2 text-[10px] text-outline font-label">X</div>
+</div>
+</div>
+<!-- Mathematical Curve Simulation (SVG) -->
+<div class="absolute inset-0 flex items-center justify-center">
+<svg class="w-full h-full preserve-3d" viewbox="0 0 400 400">
+<!-- Parabola - y = 0.5x^2 - 40 -->
+<path class="drop-shadow-[0_0_8px_rgba(173,198,255,0.6)]" d="M 0 100 Q 200 400 400 100" fill="none" stroke="#adc6ff" stroke-linecap="round" stroke-width="3"></path>
+<!-- Points / Data Indicators -->
+<circle class="animate-pulse" cx="200" cy="300" fill="#e8b3ff" r="4"></circle>
+<circle cx="100" cy="150" fill="#adc6ff" opacity="0.5" r="3"></circle>
+<circle cx="300" cy="150" fill="#adc6ff" opacity="0.5" r="3"></circle>
+</svg>
+</div>
+<!-- Floating Legend (Glassmorphism) -->
+<div class="absolute top-6 right-6 bg-surface-container-high/40 backdrop-blur-xl p-4 rounded-lg border border-white/5 shadow-2xl">
+<div class="space-y-3">
+<div class="flex items-center justify-between gap-8">
+<span class="text-xs font-label uppercase tracking-tighter text-on-surface-variant">Variable A</span>
+<span class="font-headline text-primary font-bold">0.42</span>
+</div>
+<div class="flex items-center justify-between gap-8">
+<span class="text-xs font-label uppercase tracking-tighter text-on-surface-variant">Variable B</span>
+<span class="font-headline text-secondary font-bold">-12.5</span>
+</div>
+<div class="pt-2 border-t border-white/5">
+<div class="flex items-center gap-2">
+<div class="w-2 h-2 rounded-full bg-primary animate-pulse"></div>
+<span class="text-[10px] font-label text-on-surface/50">CALCULATING REAL-TIME</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Touch / Interaction Indicators -->
+<div class="absolute bottom-10 left-10 flex items-center gap-4 bg-surface-container-low/60 backdrop-blur-md px-4 py-2 rounded-full border border-white/5">
+<span class="material-symbols-outlined text-primary text-sm" data-icon="gesture">gesture</span>
+<span class="text-[10px] font-label uppercase tracking-widest text-on-surface/70">Pinch to Zoom • Drag to Pan</span>
+</div>
+</div>
+<!-- Controls Section -->
+<div class="w-full max-w-5xl mt-6 grid grid-cols-1 md:grid-cols-2 gap-6 pb-24">
+<!-- Slider A -->
+<div class="bg-surface-container-low p-6 rounded-xl border border-white/5 group hover:bg-surface-container-high transition-colors">
+<div class="flex justify-between items-center mb-4">
+<label class="font-headline text-sm font-bold text-on-surface uppercase tracking-widest">Coefficient (a)</label>
+<div class="bg-primary/10 px-3 py-1 rounded-md">
+<span class="font-headline text-primary text-sm font-bold">0.42</span>
+</div>
+</div>
+<input class="w-full cursor-pointer accent-primary" max="2" min="-2" step="0.01" type="range" value="0.42"/>
+<div class="flex justify-between mt-2 text-[10px] font-label text-outline uppercase">
+<span>-2.00</span>
+<span>Linear Shift</span>
+<span>+2.00</span>
+</div>
+</div>
+<!-- Slider B -->
+<div class="bg-surface-container-low p-6 rounded-xl border border-white/5 group hover:bg-surface-container-high transition-colors">
+<div class="flex justify-between items-center mb-4">
+<label class="font-headline text-sm font-bold text-on-surface uppercase tracking-widest">Intercept (b)</label>
+<div class="bg-secondary/10 px-3 py-1 rounded-md">
+<span class="font-headline text-secondary text-sm font-bold">-12.50</span>
+</div>
+</div>
+<input class="w-full cursor-pointer accent-secondary" max="50" min="-50" step="0.5" type="range" value="-12.5"/>
+<div class="flex justify-between mt-2 text-[10px] font-label text-outline uppercase">
+<span>-50.0</span>
+<span>Vertical Translation</span>
+<span>+50.0</span>
+</div>
+</div>
+</div>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 pb-8 pt-4 bg-[#131313]/80 backdrop-blur-xl dark:bg-[#131313]/80 shadow-[0_-8px_32px_rgba(173,198,255,0.08)] rounded-t-xl">
+<!-- Resolver Tab -->
+<a class="flex flex-col items-center justify-center text-white/50 px-5 py-2 hover:text-[#ADC6FF] transition-all active:scale-90 duration-200" href="#">
+<span class="material-symbols-outlined mb-1" data-icon="calculate">calculate</span>
+<span class="font-['Inter'] text-[10px] uppercase tracking-widest font-medium">Resolver</span>
+</a>
+<!-- Explorar Tab (Active) -->
+<a class="flex flex-col items-center justify-center bg-[#ADC6FF]/10 text-[#ADC6FF] rounded-[1.5rem] px-5 py-2 hover:text-[#ADC6FF] transition-all active:scale-90 duration-200" href="#">
+<span class="material-symbols-outlined mb-1" data-icon="explore" style="font-variation-settings: 'FILL' 1;">explore</span>
+<span class="font-['Inter'] text-[10px] uppercase tracking-widest font-medium">Explorar</span>
+</a>
+<!-- Aprender Tab -->
+<a class="flex flex-col items-center justify-center text-white/50 px-5 py-2 hover:text-[#ADC6FF] transition-all active:scale-90 duration-200" href="#">
+<span class="material-symbols-outlined mb-1" data-icon="school">school</span>
+<span class="font-['Inter'] text-[10px] uppercase tracking-widest font-medium">Aprender</span>
+</a>
+<!-- Biblioteca Tab -->
+<a class="flex flex-col items-center justify-center text-white/50 px-5 py-2 hover:text-[#ADC6FF] transition-all active:scale-90 duration-200" href="#">
+<span class="material-symbols-outlined mb-1" data-icon="menu_book">menu_book</span>
+<span class="font-['Inter'] text-[10px] uppercase tracking-widest font-medium">Biblioteca</span>
+</a>
+</nav>
+<!-- FAB for Graph Export (Contextual) -->
+<button class="fixed right-6 bottom-32 w-14 h-14 bg-gradient-to-br from-primary to-primary-container rounded-full flex items-center justify-center shadow-[0_8px_24px_rgba(173,198,255,0.3)] active:scale-90 transition-transform z-40">
+<span class="material-symbols-outlined text-on-primary" data-icon="ios_share">ios_share</span>
+</button>
+</body></html>

@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+
+<html class="light" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Materias y Equipos - TaskMaster</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "on-tertiary-container": "#4f3d00",
+              "secondary": "#00677f",
+              "secondary-container": "#00ccf9",
+              "surface-bright": "#faf8ff",
+              "on-tertiary-fixed": "#241a00",
+              "error": "#ba1a1a",
+              "on-primary-container": "#ffffff",
+              "on-surface": "#171b2a",
+              "background": "#faf8ff",
+              "secondary-fixed-dim": "#4cd6ff",
+              "surface-container-low": "#f2f3ff",
+              "on-tertiary-fixed-variant": "#584400",
+              "primary-fixed-dim": "#c1c1ff",
+              "secondary-fixed": "#b7eaff",
+              "primary": "#4744e5",
+              "surface-variant": "#dee1f6",
+              "on-primary-fixed": "#09006b",
+              "on-error": "#ffffff",
+              "tertiary": "#745b00",
+              "on-error-container": "#93000a",
+              "primary-container": "#6161ff",
+              "surface-container-highest": "#dee1f6",
+              "tertiary-fixed-dim": "#f2c000",
+              "outline": "#767587",
+              "tertiary-fixed": "#ffe08d",
+              "on-secondary": "#ffffff",
+              "on-surface-variant": "#464555",
+              "inverse-on-surface": "#eff0ff",
+              "on-primary-fixed-variant": "#2c24ce",
+              "on-primary": "#ffffff",
+              "surface": "#faf8ff",
+              "surface-container-lowest": "#ffffff",
+              "tertiary-container": "#d1a600",
+              "primary-fixed": "#e1dfff",
+              "inverse-primary": "#c1c1ff",
+              "surface-container": "#ebedff",
+              "on-background": "#171b2a",
+              "on-secondary-container": "#005266",
+              "surface-tint": "#4745e5",
+              "outline-variant": "#c7c4d8",
+              "on-tertiary": "#ffffff",
+              "surface-dim": "#d6d9ed",
+              "inverse-surface": "#2c303f",
+              "on-secondary-fixed": "#001f28",
+              "on-secondary-fixed-variant": "#004e60",
+              "surface-container-high": "#e4e7fc",
+              "error-container": "#ffdad6"
+            },
+            fontFamily: {
+              "headline": ["Plus Jakarta Sans"],
+              "body": ["Inter"],
+              "label": ["Plus Jakarta Sans"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; }
+        h1, h2, h3 { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface min-h-screen">
+<!-- SideNavBar (Authority Source: JSON) -->
+<aside class="hidden md:flex flex-col h-screen w-64 fixed left-0 top-0 bg-[#f2f3ff] dark:bg-slate-900 py-8 px-4">
+<div class="mb-10 px-4">
+<span class="text-xl font-black text-[#4744e5]">TaskMaster</span>
+</div>
+<div class="flex items-center space-x-3 px-4 mb-8">
+<div class="w-10 h-10 rounded-xl bg-primary-container overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="Portrait of a young male university student with a friendly smile, clean studio lighting, modern academic aesthetic" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCmfHBq_ajpkIclmmcxKe0PnGZDSE2lF6hin4buu7MlpNT1BLs4BI2ISmhXK7AMrQwx37QXzno65tiFu1GQY1NFoZAjLcQ-LaUswKMpO-FBVNYMWaiMwANZTVwgfJm71HUEL3Q814pz0I8DHM6JN99D2aM4SzwjhaiZsWOaMTDtfANnVzW5gVYoAiPVnX4fjG5VXiLtYF1vxNN36U7HWRoFGQ3Z2WbiCkYTLY3ikunxqKERoPmcO65lCu2qklyiiwlbGm6nce3tkA"/>
+</div>
+<div>
+<p class="text-sm font-bold font-headline leading-none">Alex Scholar</p>
+<p class="text-[10px] text-slate-500 uppercase tracking-wider mt-1">Universidad</p>
+</div>
+</div>
+<nav class="flex-1 space-y-1">
+<a class="flex items-center space-x-3 text-slate-600 dark:text-slate-400 px-4 py-3 hover:bg-[#dee1f6]/50 dark:hover:bg-slate-800/50 rounded-xl transition-all group" href="#">
+<span class="material-symbols-outlined group-active:translate-x-1">dashboard</span>
+<span class="text-sm font-medium">Dashboard</span>
+</a>
+<a class="flex items-center space-x-3 text-slate-600 dark:text-slate-400 px-4 py-3 hover:bg-[#dee1f6]/50 dark:hover:bg-slate-800/50 rounded-xl transition-all group" href="#">
+<span class="material-symbols-outlined group-active:translate-x-1">grid_view</span>
+<span class="text-sm font-medium">Mis Tableros</span>
+</a>
+<a class="flex items-center space-x-3 text-slate-600 dark:text-slate-400 px-4 py-3 hover:bg-[#dee1f6]/50 dark:hover:bg-slate-800/50 rounded-xl transition-all group" href="#">
+<span class="material-symbols-outlined group-active:translate-x-1">calendar_today</span>
+<span class="text-sm font-medium">Calendario</span>
+</a>
+<!-- Active Tab: Materias/Equipos mapping -->
+<a class="flex items-center space-x-3 bg-[#dee1f6] dark:bg-slate-800 text-[#4744e5] dark:text-[#6161FF] rounded-xl px-4 py-3 translate-x-1 transition-all" href="#">
+<span class="material-symbols-outlined">menu_book</span>
+<span class="text-sm font-medium">Materias</span>
+</a>
+<a class="flex items-center space-x-3 text-slate-600 dark:text-slate-400 px-4 py-3 hover:bg-[#dee1f6]/50 dark:hover:bg-slate-800/50 rounded-xl transition-all group" href="#">
+<span class="material-symbols-outlined group-active:translate-x-1">groups</span>
+<span class="text-sm font-medium">Equipos</span>
+</a>
+<a class="flex items-center space-x-3 text-slate-600 dark:text-slate-400 px-4 py-3 hover:bg-[#dee1f6]/50 dark:hover:bg-slate-800/50 rounded-xl transition-all group" href="#">
+<span class="material-symbols-outlined group-active:translate-x-1">trending_up</span>
+<span class="text-sm font-medium">Progreso</span>
+</a>
+</nav>
+<div class="mt-auto pt-6 border-t border-slate-200/50 dark:border-slate-800/50">
+<button class="w-full bg-primary text-white py-3 px-4 rounded-xl font-bold text-sm mb-6 flex items-center justify-center space-x-2 shadow-lg shadow-primary/20 hover:scale-95 transition-transform">
+<span class="material-symbols-outlined text-sm">add</span>
+<span>Add Task</span>
+</button>
+<div class="space-y-1">
+<a class="flex items-center space-x-3 text-slate-600 dark:text-slate-400 px-4 py-3 hover:bg-[#dee1f6]/50 rounded-xl text-sm font-medium" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span>Settings</span>
+</a>
+<a class="flex items-center space-x-3 text-slate-600 dark:text-slate-400 px-4 py-3 hover:bg-[#dee1f6]/50 rounded-xl text-sm font-medium" href="#">
+<span class="material-symbols-outlined">help_outline</span>
+<span>Help</span>
+</a>
+</div>
+</div>
+</aside>
+<!-- Main Canvas -->
+<main class="md:ml-64 p-6 md:p-10 pb-32 md:pb-10">
+<!-- TopAppBar (Authority Source: JSON) -->
+<header class="flex justify-between items-center w-full mb-10">
+<div>
+<h1 class="text-3xl font-extrabold tracking-tight text-on-surface">Materias y Equipos</h1>
+<p class="text-on-surface-variant font-body mt-1">Organiza tus clases y colaboraciones grupales.</p>
+</div>
+<div class="flex items-center space-x-4">
+<div class="relative hidden lg:block">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline">search</span>
+<input class="bg-surface-container-low border-none rounded-full py-2 pl-10 pr-6 w-64 focus:ring-2 focus:ring-primary/20 placeholder:text-outline text-sm" placeholder="Buscar materia..." type="text"/>
+</div>
+<button class="w-10 h-10 flex items-center justify-center rounded-full bg-surface-container-low text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="w-10 h-10 flex items-center justify-center rounded-full bg-surface-container-low text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined">settings</span>
+</button>
+</div>
+</header>
+<!-- Subject Pill-Clouds (Custom Component from Design System) -->
+<div class="flex flex-wrap gap-3 mb-8">
+<span class="bg-primary text-white px-5 py-1.5 rounded-full text-sm font-bold font-label cursor-pointer">Todas</span>
+<span class="bg-tertiary-fixed text-on-tertiary-fixed px-5 py-1.5 rounded-full text-sm font-bold font-label cursor-pointer hover:bg-tertiary-container hover:text-white transition-colors">Primer Semestre</span>
+<span class="bg-secondary-fixed text-on-secondary-fixed px-5 py-1.5 rounded-full text-sm font-bold font-label cursor-pointer hover:bg-secondary-container hover:text-white transition-colors">Obligatorias</span>
+<span class="bg-primary-fixed text-on-primary-fixed px-5 py-1.5 rounded-full text-sm font-bold font-label cursor-pointer hover:bg-primary-container hover:text-white transition-colors">Electivas</span>
+</div>
+<!-- Subjects Grid -->
+<section class="mb-14">
+<div class="flex items-end justify-between mb-6">
+<h2 class="text-xl font-bold font-headline">Mis Materias</h2>
+<button class="text-primary font-bold text-sm flex items-center hover:underline">Ver pensum completo <span class="material-symbols-outlined text-sm ml-1">chevron_right</span></button>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+<!-- Card: Matemáticas -->
+<div class="group relative bg-surface-container-lowest rounded-3xl p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0px_12px_32px_rgba(23,27,42,0.06)] overflow-hidden">
+<div class="absolute top-0 right-0 w-32 h-32 -mr-8 -mt-8 bg-[#4744e5]/5 rounded-full blur-2xl group-hover:bg-[#4744e5]/10 transition-all"></div>
+<div class="flex justify-between items-start mb-6">
+<div class="w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-3xl">functions</span>
+</div>
+<span class="bg-primary-fixed text-on-primary-fixed-variant text-[10px] font-black uppercase tracking-widest px-2 py-1 rounded">Activo</span>
+</div>
+<h3 class="text-xl font-bold mb-1">Matemáticas II</h3>
+<p class="text-on-surface-variant text-sm mb-4">Dr. Roberto Valdés</p>
+<div class="flex items-center justify-between mt-6 pt-6 border-t border-outline-variant/10">
+<div class="flex items-center space-x-1 text-primary">
+<span class="material-symbols-outlined text-sm">assignment</span>
+<span class="text-xs font-bold font-body">4 tareas</span>
+</div>
+<button class="opacity-0 group-hover:opacity-100 bg-primary text-white text-[10px] font-bold uppercase py-2 px-4 rounded-full transition-all flex items-center">
+                            Entrar <span class="material-symbols-outlined text-sm ml-1">arrow_forward</span>
+</button>
+</div>
+</div>
+<!-- Card: Historia -->
+<div class="group relative bg-surface-container-lowest rounded-3xl p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0px_12px_32px_rgba(23,27,42,0.06)] overflow-hidden">
+<div class="absolute top-0 right-0 w-32 h-32 -mr-8 -mt-8 bg-tertiary/5 rounded-full blur-2xl group-hover:bg-tertiary/10 transition-all"></div>
+<div class="flex justify-between items-start mb-6">
+<div class="w-12 h-12 rounded-2xl bg-tertiary/10 flex items-center justify-center text-tertiary">
+<span class="material-symbols-outlined text-3xl">history_edu</span>
+</div>
+<span class="bg-tertiary-fixed text-on-tertiary-fixed-variant text-[10px] font-black uppercase tracking-widest px-2 py-1 rounded">Activo</span>
+</div>
+<h3 class="text-xl font-bold mb-1">Historia Universal</h3>
+<p class="text-on-surface-variant text-sm mb-4">Lic. Elena Méndez</p>
+<div class="flex items-center justify-between mt-6 pt-6 border-t border-outline-variant/10">
+<div class="flex items-center space-x-1 text-tertiary">
+<span class="material-symbols-outlined text-sm">assignment</span>
+<span class="text-xs font-bold font-body">2 tareas</span>
+</div>
+<button class="opacity-0 group-hover:opacity-100 bg-tertiary text-white text-[10px] font-bold uppercase py-2 px-4 rounded-full transition-all flex items-center">
+                            Entrar <span class="material-symbols-outlined text-sm ml-1">arrow_forward</span>
+</button>
+</div>
+</div>
+<!-- Card: Biología -->
+<div class="group relative bg-surface-container-lowest rounded-3xl p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0px_12px_32px_rgba(23,27,42,0.06)] overflow-hidden">
+<div class="absolute top-0 right-0 w-32 h-32 -mr-8 -mt-8 bg-secondary/5 rounded-full blur-2xl group-hover:bg-secondary/10 transition-all"></div>
+<div class="flex justify-between items-start mb-6">
+<div class="w-12 h-12 rounded-2xl bg-secondary/10 flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined text-3xl">biotech</span>
+</div>
+<span class="bg-secondary-fixed text-on-secondary-fixed-variant text-[10px] font-black uppercase tracking-widest px-2 py-1 rounded">Activo</span>
+</div>
+<h3 class="text-xl font-bold mb-1">Biología Celular</h3>
+<p class="text-on-surface-variant text-sm mb-4">Ph.D. Alberto Sosa</p>
+<div class="flex items-center justify-between mt-6 pt-6 border-t border-outline-variant/10">
+<div class="flex items-center space-x-1 text-secondary">
+<span class="material-symbols-outlined text-sm">assignment</span>
+<span class="text-xs font-bold font-body">7 tareas</span>
+</div>
+<button class="opacity-0 group-hover:opacity-100 bg-secondary text-white text-[10px] font-bold uppercase py-2 px-4 rounded-full transition-all flex items-center">
+                            Entrar <span class="material-symbols-outlined text-sm ml-1">arrow_forward</span>
+</button>
+</div>
+</div>
+</div>
+</section>
+<!-- Equipos Section (Bento Style) -->
+<section>
+<div class="flex items-end justify-between mb-6">
+<h2 class="text-xl font-bold font-headline">Equipos de Trabajo</h2>
+<button class="bg-surface-container-high text-on-surface-variant px-4 py-2 rounded-full text-xs font-bold flex items-center hover:bg-surface-variant transition-colors">
+<span class="material-symbols-outlined text-sm mr-2">group_add</span> Crear Equipo
+                </button>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+<!-- Team Card 1 -->
+<div class="bg-surface-container-low rounded-[2rem] p-8 flex flex-col md:flex-row md:items-center gap-8 relative overflow-hidden">
+<div class="flex-1">
+<div class="flex items-center space-x-3 mb-4">
+<div class="w-3 h-3 rounded-full bg-primary"></div>
+<span class="text-[10px] font-black tracking-widest uppercase text-outline">Proyecto Semestral</span>
+</div>
+<h3 class="text-2xl font-extrabold mb-2 text-on-surface">Los Quantum Thinkers</h3>
+<p class="text-sm text-on-surface-variant font-body mb-6">Investigación sobre física cuántica aplicada a la medicina moderna.</p>
+<div class="flex -space-x-3 mb-6">
+<img class="w-10 h-10 rounded-full border-4 border-surface-container-low" data-alt="Female student profile picture, smiling, soft daylight, blurred office background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBxWMlMNgaXJJEroaf_XnUPWBND7Kq7uOFfQELdx8SFdD3b0SNpGhFXeBJaI4ZDtjWfN9n4d-EDBK53xIpXUoFjuqEmWKeUsO3wtBb5nwPZbyd2NOnI8bYIQlygRX2RHSNUpOcuZ7VQNtVArUnWCIubRCQ2tPAfczc7mBxLGb2s4PnCYx8FnkwOvQElUyVWabtCYffgJko-P41bJOVVuplZaTD15fUSFpvBZp6o5EieYhtSynCbwjwEgbnQ_QlenmOtrKl6QJI8xA"/>
+<img class="w-10 h-10 rounded-full border-4 border-surface-container-low" data-alt="Male student profile picture, looking at camera, neutral background, professional studio lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCG_BVWWd9VQEv5D2z-C6cbW_mT0M49Oco7Q4rGrvSjIR-b3mNMQ-lb7Y_dbQ8ob4jLF1n8YRj1d3WP3RyK3Qmj-spzgxDk1QOhCtoHK_f-qXThPDXhxwJEqvrH9fW0xkz5nHxFEwDI6ygk2Qz5Ev0PQGByZIExrw7lLcxhpilx5_q8lqcTZ9trJvdzipZFIZdwah4ZU7EZk61Xl4Mz2pk5fcJewoTerKhN1FIUEJtlxfhiaYJ5ewI7n2BJ-XiZgN8aNlWk3QZsGg"/>
+<img class="w-10 h-10 rounded-full border-4 border-surface-container-low" data-alt="Young professional woman, academic setting, confident look, natural lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBWssoqb5yiHVwMtZefTzTLQOqmeY0REtAWnOB0JRXVasemfflJ8u7tDcQGoSp3WYf3yjHSAueQo8ZaTBYUFrHehqc9IoYaf1lFHASmCkFZcV5sV6m3-WZ8wX82YZ_nB1ILvdbqWzqo4luHq-ElYGOZB2o_TGtjmDiI3Vp5YhoONeK8XJu9qM6qmgWDBItq85KsZLx0GjurynibA_fozsPwNRNcriN64qiExt5QgIxRKCQPD-y9vcIcvL_xJVdbwOonW1ptXLaIvw"/>
+<div class="w-10 h-10 rounded-full border-4 border-surface-container-low bg-surface-container-highest flex items-center justify-center text-[10px] font-bold text-on-surface-variant">+2</div>
+</div>
+</div>
+<div class="bg-surface-container-lowest p-5 rounded-3xl shadow-sm md:w-48">
+<p class="text-[10px] font-bold text-outline uppercase mb-3">Progreso</p>
+<div class="relative w-24 h-24 mx-auto mb-4">
+<svg class="w-full h-full transform -rotate-90">
+<circle class="text-surface-variant" cx="48" cy="48" fill="transparent" r="40" stroke="currentColor" stroke-width="8"></circle>
+<circle class="text-primary" cx="48" cy="48" fill="transparent" r="40" stroke="currentColor" stroke-dasharray="251.2" stroke-dashoffset="62.8" stroke-width="8"></circle>
+</svg>
+<div class="absolute inset-0 flex items-center justify-center font-bold text-lg">75%</div>
+</div>
+<button class="w-full py-2 bg-primary-container text-white text-xs font-bold rounded-xl hover:scale-95 transition-transform">Abrir Chat</button>
+</div>
+</div>
+<!-- Team Card 2 -->
+<div class="bg-surface-container-low rounded-[2rem] p-8 flex flex-col md:flex-row md:items-center gap-8 relative overflow-hidden">
+<div class="flex-1">
+<div class="flex items-center space-x-3 mb-4">
+<div class="w-3 h-3 rounded-full bg-secondary"></div>
+<span class="text-[10px] font-black tracking-widest uppercase text-outline">Laboratorio 4</span>
+</div>
+<h3 class="text-2xl font-extrabold mb-2 text-on-surface">BioSquad</h3>
+<p class="text-sm text-on-surface-variant font-body mb-6">Diseño de protocolos para extracción de ADN en ambientes controlados.</p>
+<div class="flex -space-x-3 mb-6">
+<img class="w-10 h-10 rounded-full border-4 border-surface-container-low" data-alt="Male student with glasses, smiling, outdoor campus setting, warm afternoon sun" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDrX04SGxFVtpbk9Xrbl56-khfO93FEiOgM9NGrVw7tOL-2w8lFIA5rozCQMk0qHL89IH7suAoL2TeD5jpWVly0-vK44EqqAczw0otdhp2QU9zKDRD80r_FMr24F8D1pnRnwZQzq3w1BCeQgKZqOkDDuftjYgV7WnrLIbC7e7OgFePdeb9kbl2LvIli-VTP4uFggBQ_C_6yJ59g6zoHjn1Lt3DeZSW5tfGmKEM9m3CeqErgl-O6itW-EvKi9sGs-xkZZwvUUiCw-Q"/>
+<img class="w-10 h-10 rounded-full border-4 border-surface-container-low" data-alt="Female student in library, soft focused books in background, natural lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB1frTe5jd03B3RhHA3w6_9VbntbLYifD3Nz1iRRz9wVMAjBCJgNVAnk3q8-hDz7adqBBqM6Z-PlE525c4BX5KauP2G4OMsrCWoAuV60p6JwiWFCyIjKYQ88TTvGMZzpth8WvWrOlkmwfw4ggLki0bVWygfbO5euTmV24weaP0FqA2uVW6CYTC5JXr31nWMhI7X06PrRZJqmViPAu3NjWCRw1eWjesYcgkNH74BNcFGmm5OtU4stumQddK5CVFeJ22iEMUEdiundA"/>
+<div class="w-10 h-10 rounded-full border-4 border-surface-container-low bg-surface-container-highest flex items-center justify-center text-[10px] font-bold text-on-surface-variant">+1</div>
+</div>
+</div>
+<div class="bg-surface-container-lowest p-5 rounded-3xl shadow-sm md:w-48">
+<p class="text-[10px] font-bold text-outline uppercase mb-3">Próximo Hito</p>
+<div class="mb-4">
+<p class="text-xs font-bold text-on-surface">Entrega Reporte</p>
+<p class="text-[10px] text-error font-medium">Mañana, 08:00 AM</p>
+</div>
+<div class="w-full h-1.5 bg-surface-variant rounded-full overflow-hidden mb-4">
+<div class="bg-secondary w-1/3 h-full"></div>
+</div>
+<button class="w-full py-2 bg-secondary-container text-on-secondary-container text-xs font-bold rounded-xl hover:scale-95 transition-transform">Tablero</button>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- BottomNavBar (Authority Source: JSON - Mobile Only) -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full h-20 bg-[#faf8ff]/80 dark:bg-slate-950/80 backdrop-blur-2xl flex justify-around items-center px-6 pb-safe z-50 shadow-[0px_-12px_32px_rgba(23,27,42,0.06)]">
+<a class="flex flex-col items-center justify-center text-slate-400 dark:text-slate-500" href="#">
+<span class="material-symbols-outlined">home</span>
+<span class="text-[10px] font-bold uppercase mt-1">Home</span>
+</a>
+<!-- Active Tab: Materias (Boards mapping) -->
+<a class="flex flex-col items-center justify-center bg-[#6161FF] text-white rounded-full w-12 h-12 -mt-6 shadow-lg shadow-[#6161FF]/40 scale-90 duration-150" href="#">
+<span class="material-symbols-outlined">leaderboard</span>
+<span class="hidden">Boards</span>
+</a>
+<a class="flex flex-col items-center justify-center text-slate-400 dark:text-slate-500" href="#">
+<span class="material-symbols-outlined">add_circle</span>
+<span class="text-[10px] font-bold uppercase mt-1">Add</span>
+</a>
+<a class="flex flex-col items-center justify-center text-slate-400 dark:text-slate-500" href="#">
+<span class="material-symbols-outlined">calendar_month</span>
+<span class="text-[10px] font-bold uppercase mt-1">Calendar</span>
+</a>
+<a class="flex flex-col items-center justify-center text-slate-400 dark:text-slate-500" href="#">
+<span class="material-symbols-outlined">analytics</span>
+<span class="text-[10px] font-bold uppercase mt-1">Stats</span>
+</a>
+</nav>
+</body></html>

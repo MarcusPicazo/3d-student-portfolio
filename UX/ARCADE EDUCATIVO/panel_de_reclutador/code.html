@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>NEON_ARCADE // RECRUITER_PANEL</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700;900&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "on-tertiary-fixed-variant": "#5700c9",
+            "surface-container-highest": "#353534",
+            "inverse-surface": "#e5e2e1",
+            "primary-fixed-dim": "#00dbe7",
+            "tertiary-container": "#e3d4ff",
+            "tertiary": "#fcf5ff",
+            "outline": "#849495",
+            "on-error": "#690005",
+            "tertiary-fixed": "#e9ddff",
+            "primary-container": "#00f2ff",
+            "surface-variant": "#353534",
+            "primary": "#e1fdff",
+            "on-error-container": "#ffdad6",
+            "on-tertiary-container": "#7318ff",
+            "on-primary-fixed-variant": "#004f54",
+            "secondary": "#fface8",
+            "primary-fixed": "#74f5ff",
+            "on-secondary-fixed": "#3a0033",
+            "inverse-primary": "#00696f",
+            "on-tertiary": "#3c0090",
+            "on-secondary-fixed-variant": "#840076",
+            "error": "#ffb4ab",
+            "on-primary-container": "#006a71",
+            "on-surface": "#e5e2e1",
+            "on-tertiary-fixed": "#23005b",
+            "surface-dim": "#131313",
+            "on-secondary": "#5e0053",
+            "surface-container-low": "#1c1b1b",
+            "on-primary": "#00363a",
+            "error-container": "#93000a",
+            "secondary-fixed": "#ffd7f0",
+            "surface-container-lowest": "#0e0e0e",
+            "tertiary-fixed-dim": "#d1bcff",
+            "surface-tint": "#00dbe7",
+            "on-secondary-container": "#520049",
+            "outline-variant": "#3a494b",
+            "background": "#131313",
+            "surface": "#131313",
+            "secondary-fixed-dim": "#fface8",
+            "on-background": "#e5e2e1",
+            "secondary-container": "#ff24e4",
+            "surface-container-high": "#2a2a2a",
+            "inverse-on-surface": "#313030",
+            "surface-bright": "#3a3939",
+            "on-primary-fixed": "#002022"
+          },
+          fontFamily: {
+            "headline": ["Space Grotesk"],
+            "body": ["Inter"],
+            "label": ["Inter"]
+          },
+          borderRadius: {"DEFAULT": "0rem", "lg": "0rem", "xl": "0rem", "full": "9999px"},
+        },
+      },
+    }
+  </script>
+<style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    }
+    .scanline-overlay {
+      background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+      background-size: 100% 2px, 3px 100%;
+      pointer-events: none;
+    }
+    .cyber-grid {
+      background-image: linear-gradient(to right, rgba(0, 242, 255, 0.05) 1px, transparent 1px),
+                        linear-gradient(to bottom, rgba(0, 242, 255, 0.05) 1px, transparent 1px);
+      background-size: 40px 40px;
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface-container-lowest text-on-surface font-body selection:bg-primary-container selection:text-on-primary-container min-h-screen">
+<!-- SCANLINE LAYER -->
+<div class="fixed inset-0 scanline-overlay z-[100] opacity-30 pointer-events-none"></div>
+<!-- TOP APP BAR -->
+<header class="fixed top-0 w-full z-50 flex justify-between items-center px-6 py-4 bg-black/40 backdrop-blur-xl border-b border-[#00F2FF]/20 shadow-[0_0_20px_rgba(0,242,255,0.1)]">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-[#00F2FF]" data-icon="terminal">terminal</span>
+<h1 class="text-[#00F2FF] font-black tracking-tighter drop-shadow-[0_0_8px_rgba(0,242,255,0.8)] font-headline uppercase text-sm">NEON_ARCADE</h1>
+</div>
+<nav class="hidden md:flex items-center gap-8 font-headline tracking-[0.05em] uppercase text-sm">
+<a class="text-[#E5E2E1]/60 hover:text-[#00F2FF] transition-all duration-300" href="#">HOME</a>
+<a class="text-[#E5E2E1]/60 hover:text-[#00F2FF] transition-all duration-300" href="#">ARCADE</a>
+<a class="text-[#00F2FF] border-b-2 border-[#00F2FF] pb-1" href="#">RECRUITER_CORE</a>
+</nav>
+<div class="flex items-center gap-4">
+<button class="text-[#E5E2E1]/60 hover:text-secondary-container transition-colors">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<div class="w-8 h-8 bg-surface-container-highest border border-primary-container/30 flex items-center justify-center">
+<span class="text-[10px] font-headline text-primary-container">C01</span>
+</div>
+</div>
+</header>
+<!-- MAIN CANVAS -->
+<main class="pt-24 pb-32 px-6 max-w-7xl mx-auto cyber-grid min-h-screen">
+<!-- DASHBOARD HEADER -->
+<section class="mb-12 flex flex-col md:flex-row md:items-end justify-between gap-6">
+<div>
+<h2 class="text-4xl font-black font-headline text-on-surface tracking-tight mb-2">RECRUITER_PANEL <span class="text-primary-container text-xl align-top opacity-50">V.4.0</span></h2>
+<p class="text-on-surface-variant font-label text-sm uppercase tracking-widest">System Status: <span class="text-primary-container">OPTIMIZED_EFFICIENCY</span></p>
+</div>
+<div class="flex gap-3">
+<button class="bg-surface-container-high hover:bg-surface-bright text-on-surface px-4 py-2 flex items-center gap-2 border border-outline-variant transition-all font-headline text-xs tracking-widest uppercase active:scale-95">
+<span class="material-symbols-outlined text-sm" data-icon="download">download</span> EXPORT_CSV
+        </button>
+<button class="bg-primary-container text-on-primary px-6 py-2 flex items-center gap-2 shadow-[0_0_15px_rgba(0,242,255,0.4)] transition-all font-headline text-xs font-bold tracking-widest uppercase active:scale-95">
+<span class="material-symbols-outlined text-sm" data-icon="picture_as_pdf">picture_as_pdf</span> EXPORT_PDF
+        </button>
+</div>
+</section>
+<!-- SEARCH & FILTERS -->
+<section class="mb-8 grid grid-cols-1 md:grid-cols-12 gap-4">
+<div class="md:col-span-6 relative">
+<span class="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-outline" data-icon="search">search</span>
+<input class="w-full bg-surface-container-low border-b-2 border-primary-container/30 focus:border-primary-container text-on-surface py-3 pl-12 pr-4 font-headline placeholder:text-outline/50 outline-none transition-all" placeholder="SEARCH_TALENT_DATABASE..." type="text"/>
+<div class="absolute right-2 top-0 bottom-0 flex items-center gap-1">
+<span class="h-1 w-1 bg-primary-container"></span>
+<span class="h-1 w-1 bg-primary-container"></span>
+</div>
+</div>
+<div class="md:col-span-3">
+<select class="w-full bg-surface-container-low border border-outline-variant text-on-surface py-3 px-4 font-headline text-xs uppercase tracking-wider outline-none focus:border-secondary-container appearance-none">
+<option>LANGUAGE: ALL_SYSTEMS</option>
+<option>C++ / VULKAN</option>
+<option>C# / UNITY</option>
+<option>GD_SCRIPT / GODOT</option>
+<option>RUST / BEVY</option>
+</select>
+</div>
+<div class="md:col-span-3">
+<select class="w-full bg-surface-container-low border border-outline-variant text-on-surface py-3 px-4 font-headline text-xs uppercase tracking-wider outline-none focus:border-secondary-container appearance-none">
+<option>ENGINE: ALL_MODELS</option>
+<option>UNREAL_ENGINE_5</option>
+<option>CUSTOM_PROPRIETARY</option>
+<option>UNITY_ULTIMATE</option>
+</select>
+</div>
+</section>
+<!-- BENTO GRID CONTENT -->
+<div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
+<!-- SAVED GAMES GRID (Main Focus) -->
+<div class="lg:col-span-3 space-y-6">
+<div class="flex items-center justify-between border-l-4 border-primary-container pl-4">
+<h3 class="font-headline font-bold uppercase tracking-tighter text-xl">SAVED_GAMES_CORE</h3>
+<span class="text-xs font-label text-outline uppercase tracking-widest">COUNT: 04_ACTIVE</span>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<!-- GAME CARD 1 -->
+<div class="bg-surface-container-low border border-outline-variant/30 relative group">
+<div class="absolute top-0 right-0 p-2 opacity-0 group-hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined text-secondary-container" data-icon="bookmark" style="font-variation-settings: 'FILL' 1;">bookmark</span>
+</div>
+<div class="aspect-video w-full overflow-hidden bg-surface-container-highest">
+<img class="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-500 scale-105 group-hover:scale-100" data-alt="Cyberpunk city street at night with glowing purple and cyan neon signs reflecting on wet asphalt" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCCevwcplfweHjU2rAK8Q5jr5vDHVkWs_BHTja_lg_cNqLv49N2T7Uw-q8yaXXAYKrEDB-s9HMRsqWVoxStIoR93ADAV3NKb9CnpxOMFLbnxyknduDCF2o2tpNHApKUhf12Y1bkJURWiuq7wvzQnt9nFalu1O0uZJ_Zomvf4IwZ5RP0sdXZUEt9Or2KPsoSayFt9Wg3YSVQ_198iO-BojCEXzM0qH0JEILItQg9zVgIFO8FUiqNDYsviw9jCgNWB_x4iWSoT6AdkQAN"/>
+</div>
+<div class="p-4 border-t border-primary-container/20">
+<div class="flex justify-between items-start mb-2">
+<h4 class="font-headline font-bold text-lg leading-tight">NEURAL_DRIFT_2099</h4>
+<div class="flex">
+<span class="material-symbols-outlined text-primary-container text-sm" data-icon="star" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-primary-container text-sm" data-icon="star" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-primary-container text-sm" data-icon="star" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-primary-container text-sm" data-icon="star" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-outline/30 text-sm" data-icon="star">star</span>
+</div>
+</div>
+<div class="flex gap-2 mb-4">
+<span class="text-[9px] bg-secondary-container/10 text-secondary-container px-2 py-0.5 font-bold tracking-widest border border-secondary-container/20">UE5_ENGINE</span>
+<span class="text-[9px] bg-primary-container/10 text-primary-container px-2 py-0.5 font-bold tracking-widest border border-primary-container/20">C++_ADVANCED</span>
+</div>
+<div class="flex items-center justify-between pt-4 border-t border-outline-variant/10">
+<div class="flex items-center gap-2">
+<div class="w-6 h-6 bg-surface-bright"></div>
+<span class="text-[10px] font-headline uppercase text-on-surface-variant tracking-wider">DEV: J_VOX_88</span>
+</div>
+<button class="text-[10px] font-headline text-primary-container hover:underline tracking-tighter uppercase">VIEW_BUILD_SPECS</button>
+</div>
+</div>
+</div>
+<!-- GAME CARD 2 -->
+<div class="bg-surface-container-low border border-outline-variant/30 relative group">
+<div class="aspect-video w-full overflow-hidden bg-surface-container-highest">
+<img class="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-500 scale-105 group-hover:scale-100" data-alt="Abstract digital network visualization with flowing data streams in electric pink and cobalt blue on dark background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCFXC-pXjr4z7bbkmumcxSbI7lf78W5gCMCJmndTxRiCeQ4rug1RaMnFFF1NMrsGKJGCA0h8opWmrgZnfsricmBaI143Tl8AkAOp3D4F2bk4-LuVqyyRmkeCO-XnUNw89i-md3L-okuy1H7xwCG1V8i_pJEdfX7CPvbV43tJarHtejzTG7hXjSUcmoNjfWxTt4kLRq4wBZR7PjoB0GJ5e9MiBjW3PPalSOUM3YcH8opHY2GBz1ItnE1KryVand82DfCd02bXC0Sf4yw"/>
+</div>
+<div class="p-4 border-t border-primary-container/20">
+<div class="flex justify-between items-start mb-2">
+<h4 class="font-headline font-bold text-lg leading-tight">VOID_PROTOCOL</h4>
+<div class="flex">
+<span class="material-symbols-outlined text-primary-container text-sm" data-icon="star" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-primary-container text-sm" data-icon="star" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-primary-container text-sm" data-icon="star" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-primary-container text-sm" data-icon="star" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-primary-container text-sm" data-icon="star" style="font-variation-settings: 'FILL' 1;">star</span>
+</div>
+</div>
+<div class="flex gap-2 mb-4">
+<span class="text-[9px] bg-secondary-container/10 text-secondary-container px-2 py-0.5 font-bold tracking-widest border border-secondary-container/20">GODOT_4</span>
+<span class="text-[9px] bg-primary-container/10 text-primary-container px-2 py-0.5 font-bold tracking-widest border border-primary-container/20">RUST_WASM</span>
+</div>
+<div class="flex items-center justify-between pt-4 border-t border-outline-variant/10">
+<div class="flex items-center gap-2">
+<div class="w-6 h-6 bg-surface-bright"></div>
+<span class="text-[10px] font-headline uppercase text-on-surface-variant tracking-wider">DEV: X_RAY_0</span>
+</div>
+<button class="text-[10px] font-headline text-primary-container hover:underline tracking-tighter uppercase">VIEW_BUILD_SPECS</button>
+</div>
+</div>
+</div>
+<!-- MORE GAMES INDICATOR -->
+<div class="md:col-span-2 py-8 flex flex-col items-center justify-center border-2 border-dashed border-outline-variant/20 hover:border-primary-container/30 transition-all group cursor-pointer">
+<span class="material-symbols-outlined text-outline group-hover:text-primary-container mb-2" data-icon="add_circle">add_circle</span>
+<span class="font-headline text-xs tracking-widest text-outline uppercase group-hover:text-primary-container transition-colors">IMPORT_EXTERNAL_BUILD_MANIFEST</span>
+</div>
+</div>
+</div>
+<!-- SIDEBAR TOOLS (Notes & Favorites) -->
+<aside class="space-y-6">
+<!-- FAVORITE STUDENTS -->
+<div class="bg-surface-container-low border-r-4 border-secondary-container p-4">
+<div class="flex items-center gap-2 mb-4">
+<span class="material-symbols-outlined text-secondary-container text-sm" data-icon="group">group</span>
+<h3 class="font-headline font-bold text-sm tracking-widest uppercase">TOP_STUDENTS</h3>
+</div>
+<div class="space-y-4">
+<div class="flex items-center justify-between p-2 bg-surface-container-lowest border border-outline-variant/10">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 bg-surface-bright flex items-center justify-center text-[10px] font-headline border-l-2 border-primary-container">AZ</div>
+<div>
+<p class="text-[11px] font-bold font-headline uppercase leading-none">A_ZUKO_01</p>
+<p class="text-[9px] text-outline font-label uppercase mt-1">C++ SPECIALIST</p>
+</div>
+</div>
+<span class="material-symbols-outlined text-secondary-container text-xs" data-icon="star" style="font-variation-settings: 'FILL' 1;">star</span>
+</div>
+<div class="flex items-center justify-between p-2 bg-surface-container-lowest border border-outline-variant/10">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 bg-surface-bright flex items-center justify-center text-[10px] font-headline border-l-2 border-primary-container">MV</div>
+<div>
+<p class="text-[11px] font-bold font-headline uppercase leading-none">M_VAULT</p>
+<p class="text-[9px] text-outline font-label uppercase mt-1">SHADERS / GLSL</p>
+</div>
+</div>
+<span class="material-symbols-outlined text-secondary-container text-xs" data-icon="star" style="font-variation-settings: 'FILL' 1;">star</span>
+</div>
+</div>
+</div>
+<!-- PRIVATE NOTES -->
+<div class="bg-surface-container-high p-4 flex flex-col h-[400px]">
+<div class="flex items-center gap-2 mb-4 border-b border-outline-variant/20 pb-2">
+<span class="material-symbols-outlined text-primary-container text-sm" data-icon="sticky_note_2">sticky_note_2</span>
+<h3 class="font-headline font-bold text-sm tracking-widest uppercase">ENCRYPTED_NOTES</h3>
+</div>
+<textarea class="flex-grow bg-transparent border-none text-xs font-mono text-on-surface-variant resize-none focus:ring-0 placeholder:text-outline/20 leading-relaxed" placeholder="ACCESSING_ENCRYPTED_BUFFER...
+&gt; Candidate A_ZUKO shows high logic efficiency in Module 4.
+&gt; Recommendation: FAST_TRACK to Interview Phase.
+&gt; Technical debt observed in early repos. Verify current practices."></textarea>
+<div class="mt-4 flex items-center justify-between">
+<span class="text-[9px] text-outline font-mono">AUTOSAVE: ACTIVE</span>
+<div class="flex gap-1">
+<div class="w-1.5 h-1.5 bg-primary-container animate-pulse"></div>
+<div class="w-1.5 h-1.5 bg-primary-container/40"></div>
+<div class="w-1.5 h-1.5 bg-primary-container/20"></div>
+</div>
+</div>
+</div>
+</aside>
+</div>
+<!-- RECENT ACTIVITY LOG -->
+<section class="mt-12 bg-black/20 p-6 border border-outline-variant/20 backdrop-blur-md">
+<div class="flex items-center gap-4 mb-6">
+<div class="h-[1px] flex-grow bg-gradient-to-r from-transparent via-primary-container/50 to-transparent"></div>
+<h3 class="font-headline text-xs font-black tracking-[0.4em] uppercase text-on-surface/50">SYSTEM_LOG_OUTPUT</h3>
+<div class="h-[1px] flex-grow bg-gradient-to-r from-transparent via-primary-container/50 to-transparent"></div>
+</div>
+<div class="space-y-3 font-mono text-[11px]">
+<div class="flex gap-4 text-on-surface-variant">
+<span class="text-primary-container shrink-0">[14:02:11]</span>
+<span>QUERY_SUCCESS: EXPORT_REQUEST initiated for 45 profiles.</span>
+</div>
+<div class="flex gap-4 text-on-surface-variant">
+<span class="text-primary-container shrink-0">[13:58:45]</span>
+<span class="text-secondary-container">NOTICE: New build manifest detected for J_VOX_88.</span>
+</div>
+<div class="flex gap-4 text-on-surface-variant">
+<span class="text-primary-container shrink-0">[13:42:01]</span>
+<span>SESSION_STABLE: Recruiter Commander_01 access validated.</span>
+</div>
+</div>
+</section>
+</main>
+<!-- BOTTOM NAV BAR -->
+<footer class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 pb-safe h-20 bg-[#0E0E0E]/80 backdrop-blur-2xl border-t border-[#00F2FF]/20 shadow-[0_-4px_20px_rgba(0,242,255,0.1)]">
+<a class="flex flex-col items-center justify-center text-[#E5E2E1]/40 p-2 hover:bg-[#00F2FF]/5" href="#">
+<span class="material-symbols-outlined text-2xl" data-icon="person_filled">person_filled</span>
+<span class="font-headline text-[10px] font-bold tracking-widest mt-1">PROFILE</span>
+</a>
+<a class="flex flex-col items-center justify-center text-[#00F2FF] bg-[#00F2FF]/10 rounded-none p-2 shadow-[inset_0_0_10px_rgba(0,242,255,0.2)]" href="#">
+<span class="material-symbols-outlined text-2xl" data-icon="settings">settings</span>
+<span class="font-headline text-[10px] font-bold tracking-widest mt-1">SETTINGS</span>
+</a>
+<a class="flex flex-col items-center justify-center text-[#E5E2E1]/40 p-2 hover:bg-[#00F2FF]/5" href="#">
+<span class="material-symbols-outlined text-2xl" data-icon="star">star</span>
+<span class="font-headline text-[10px] font-bold tracking-widest mt-1">FAVORITES</span>
+</a>
+</footer>
+</body></html>

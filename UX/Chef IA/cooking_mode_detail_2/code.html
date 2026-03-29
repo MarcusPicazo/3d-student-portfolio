@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>SmartChef AI - Cooking Mode</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&amp;family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "surface-variant": "#e0e3e5",
+              "surface-tint": "#006d36",
+              "inverse-on-surface": "#eff1f3",
+              "tertiary": "#895024",
+              "primary-fixed-dim": "#4de082",
+              "on-tertiary-container": "#794418",
+              "outline": "#6d7b6d",
+              "outline-variant": "#bccabb",
+              "tertiary-container": "#ffb47f",
+              "on-tertiary-fixed-variant": "#6c3a0f",
+              "error-container": "#ffdad6",
+              "on-surface-variant": "#3d4a3e",
+              "surface-dim": "#d8dadc",
+              "primary-container": "#4ade80",
+              "on-tertiary": "#ffffff",
+              "on-background": "#191c1e",
+              "on-primary-fixed": "#00210c",
+              "secondary-container": "#fd933d",
+              "surface-container": "#eceef0",
+              "on-error": "#ffffff",
+              "surface-container-low": "#f2f4f6",
+              "secondary": "#944a00",
+              "tertiary-fixed-dim": "#ffb784",
+              "on-secondary-container": "#693300",
+              "primary-fixed": "#6dfe9c",
+              "on-secondary": "#ffffff",
+              "on-primary-container": "#005e2d",
+              "on-error-container": "#93000a",
+              "inverse-primary": "#4de082",
+              "secondary-fixed-dim": "#ffb783",
+              "surface-container-highest": "#e0e3e5",
+              "on-secondary-fixed-variant": "#713700",
+              "background": "#f7f9fb",
+              "on-primary": "#ffffff",
+              "surface-container-high": "#e6e8ea",
+              "surface-bright": "#f7f9fb",
+              "error": "#ba1a1a",
+              "primary": "#006d36",
+              "surface": "#f7f9fb",
+              "on-primary-fixed-variant": "#005227",
+              "on-surface": "#191c1e",
+              "on-secondary-fixed": "#301400",
+              "on-tertiary-fixed": "#301400",
+              "tertiary-fixed": "#ffdcc6",
+              "surface-container-lowest": "#ffffff",
+              "inverse-surface": "#2d3133",
+              "secondary-fixed": "#ffdcc5"
+            },
+            fontFamily: {
+              "headline": ["Manrope"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "1rem", "lg": "2rem", "xl": "3rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+      .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      }
+      .hide-scrollbar::-webkit-scrollbar { display: none; }
+      .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+</head>
+<body class="bg-surface font-body text-on-surface antialiased">
+<!-- Top Navigation (Shared Component Integration) -->
+<header class="fixed top-0 w-full z-50 bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl flex justify-between items-center px-6 py-4 w-full">
+<div class="flex items-center gap-3">
+<button class="p-2 -ml-2 hover:opacity-80 transition-opacity active:transition-transform scale-95">
+<span class="material-symbols-outlined text-emerald-800 dark:text-emerald-200 text-xl">arrow_back_ios_new</span>
+</button>
+<h1 class="font-manrope font-bold text-lg text-emerald-700 dark:text-emerald-400">Cooking Mode</h1>
+</div>
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-slate-500 dark:text-slate-400 hover:opacity-80 transition-opacity">notifications_none</span>
+<div class="w-8 h-8 rounded-full bg-surface-container-high overflow-hidden">
+<img alt="User Profile" data-alt="Close-up professional portrait of a friendly smiling chef in a clean white kitchen setting with soft natural light" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAC4VET-9mN7Hc2yzSQnqanOxK9nmYM_m8Cr51hCFNSAb5Ac5ZPxPmxA94xqKUkKbZWkHmKM9t9UCBSsOHxLiZwj1tn0oeMxHVE29mQO9aZjqk-amhGQ__OVU8IraxpbVDc_PMKBDz6L2xapTuMSE-FL7CR4njLHg42Y3W77RpN2jAloZ81d33cPj-gD6wb-zhCo_HSVLaMtAZxtugtMI_-Cg2iehk42YueW15WOvsnJOROl98tic4fIXqaFZOs7Kan4tOHGYIzJN8"/>
+</div>
+</div>
+</header>
+<main class="pt-20 pb-32">
+<!-- Hero Section -->
+<section class="px-6 mb-12">
+<div class="relative w-full aspect-[4/5] rounded-xl overflow-hidden shadow-xl mb-6">
+<img alt="Gourmet Bowl" class="w-full h-full object-cover" data-alt="Exquisite macro photography of a vibrant Buddha bowl with roasted chickpeas, avocado slices, and microgreens on a matte ceramic plate" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDlT4PFMnasKoU2dGL32DEwiUyMNPkCKn-dc7dpE8pzxrA51NNTmjiF3gupWLCnkyw0aidXOH0As8SFgQJaMOrdhZInS8dJJDc0bKnTKsqTRFYg-LMHbVlaS-UstkZyePHZJoF8n_DX6wjlVy4-tbaTTNepb2QRZCuSLiRD_8nolbDJcEQuv7NoPwIkuArNAUBno8o2UiefytAFjMcHKEQh8jfOCyb2WCLBosbLKWEoWwFSr-kodynLKuS0jT9BR1Ng2OGjPlxLzzc"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
+<div class="absolute bottom-8 left-8 right-8">
+<span class="inline-block bg-primary-container text-on-primary-container font-label text-xs font-bold px-3 py-1 rounded-full mb-3 tracking-wider">PREMIUM RECIPE</span>
+<h2 class="font-headline text-4xl font-extrabold text-white leading-tight">Miso-Glazed Roasted Salmon &amp; Greens</h2>
+</div>
+</div>
+<div class="flex items-center justify-between py-4 bg-surface-container-low rounded-lg px-6">
+<div class="text-center">
+<p class="text-xs text-on-surface-variant font-medium mb-1">PREP</p>
+<p class="font-headline font-bold text-lg">15 min</p>
+</div>
+<div class="w-px h-8 bg-outline-variant/30"></div>
+<div class="text-center">
+<p class="text-xs text-on-surface-variant font-medium mb-1">COOK</p>
+<p class="font-headline font-bold text-lg">25 min</p>
+</div>
+<div class="w-px h-8 bg-outline-variant/30"></div>
+<div class="text-center">
+<p class="text-xs text-on-surface-variant font-medium mb-1">CALORIES</p>
+<p class="font-headline font-bold text-lg">480 kcal</p>
+</div>
+</div>
+</section>
+<!-- Ingredients Section -->
+<section class="mb-12">
+<div class="px-6 flex items-center justify-between mb-4">
+<h3 class="font-headline text-2xl font-bold tracking-tight">Ingredients</h3>
+<span class="text-sm font-medium text-primary flex items-center gap-1">
+<span class="material-symbols-outlined text-lg">shopping_basket</span>
+                    Check Pantry
+                </span>
+</div>
+<div class="flex overflow-x-auto gap-3 px-6 hide-scrollbar">
+<!-- Available Chips -->
+<div class="flex-shrink-0 bg-surface-container-lowest border border-outline-variant/10 rounded-sm px-5 py-3 flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-primary-container"></span>
+<span class="text-sm font-semibold">Fresh Salmon</span>
+</div>
+<div class="flex-shrink-0 bg-surface-container-lowest border border-outline-variant/10 rounded-sm px-5 py-3 flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-primary-container"></span>
+<span class="text-sm font-semibold">Miso Paste</span>
+</div>
+<!-- Missing Chips -->
+<div class="flex-shrink-0 bg-error-container/20 border border-error/10 rounded-sm px-5 py-3 flex flex-col gap-1">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-error"></span>
+<span class="text-sm font-semibold text-error">Baby Bok Choy</span>
+</div>
+<button class="text-[10px] font-bold text-secondary text-left uppercase tracking-tighter">Buy now</button>
+</div>
+<div class="flex-shrink-0 bg-surface-container-lowest border border-outline-variant/10 rounded-sm px-5 py-3 flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-primary-container"></span>
+<span class="text-sm font-semibold">Sesame Oil</span>
+</div>
+<div class="flex-shrink-0 bg-error-container/20 border border-error/10 rounded-sm px-5 py-3 flex flex-col gap-1">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-error"></span>
+<span class="text-sm font-semibold text-error">Mirin</span>
+</div>
+<button class="text-[10px] font-bold text-secondary text-left uppercase tracking-tighter">Buy now</button>
+</div>
+</div>
+</section>
+<!-- Cooking Mode Section -->
+<section class="px-6 space-y-6">
+<h3 class="font-headline text-2xl font-bold tracking-tight mb-4">Step-by-Step</h3>
+<!-- Step 1: Active -->
+<div class="bg-surface-container-lowest rounded-lg p-8 shadow-[0_20px_40px_rgba(0,0,0,0.04)] ring-2 ring-primary-container ring-offset-4 ring-offset-surface border-none">
+<div class="flex items-center justify-between mb-6">
+<span class="font-headline font-black text-5xl text-primary/10">01</span>
+<div class="bg-primary-container/20 px-3 py-1 rounded-full">
+<span class="text-xs font-bold text-on-primary-container uppercase tracking-widest">Active Step</span>
+</div>
+</div>
+<h4 class="font-headline text-2xl font-bold mb-4 leading-tight">Prepare the Miso Glaze</h4>
+<p class="text-on-surface-variant leading-relaxed text-lg mb-6">
+                    In a small bowl, whisk together the miso paste, mirin, honey, and sesame oil until the mixture is smooth and glossy. 
+                </p>
+<div class="flex items-center gap-3 p-4 bg-surface-container-low rounded-sm">
+<span class="material-symbols-outlined text-primary" data-weight="fill">schedule</span>
+<span class="text-sm font-bold text-on-surface">3:00 minute timer</span>
+<button class="ml-auto bg-primary text-on-primary px-4 py-1 rounded-full text-xs font-bold">START</button>
+</div>
+</div>
+<!-- Step 2: Next -->
+<div class="bg-surface-container-low opacity-60 rounded-lg p-8 transition-all hover:opacity-100">
+<div class="flex items-center justify-between mb-6">
+<span class="font-headline font-black text-5xl text-on-surface-variant/20">02</span>
+</div>
+<h4 class="font-headline text-2xl font-bold mb-4 leading-tight">Marinate the Salmon</h4>
+<p class="text-on-surface-variant leading-relaxed text-lg">
+                    Place the salmon fillets in a shallow dish. Pour the glaze over the fillets, ensuring they are evenly coated. Let them rest for at least 10 minutes.
+                </p>
+</div>
+<!-- Step 3: Upcoming -->
+<div class="bg-surface-container-low opacity-40 rounded-lg p-8">
+<div class="flex items-center justify-between mb-6">
+<span class="font-headline font-black text-5xl text-on-surface-variant/20">03</span>
+</div>
+<h4 class="font-headline text-2xl font-bold mb-4 leading-tight">Roast the Bok Choy</h4>
+<p class="text-on-surface-variant leading-relaxed text-lg">
+                    Toss the halved bok choy with a splash of oil and sea salt. Arrange on a baking sheet and roast until the edges are crispy and golden.
+                </p>
+</div>
+</section>
+</main>
+<!-- Navigation / Action Shell -->
+<div class="fixed bottom-0 left-0 w-full z-50">
+<!-- Floating Next Action -->
+<div class="px-6 pb-6">
+<button class="w-full bg-secondary-container hover:bg-secondary-container/90 text-on-secondary-container font-headline font-extrabold text-xl py-6 rounded-full shadow-[0_20px_40px_rgba(253,147,61,0.3)] flex items-center justify-center gap-3 transition-transform active:scale-95">
+                Next Step
+                <span class="material-symbols-outlined text-3xl text-2xl">arrow_forward_ios</span>
+</button>
+</div>
+<!-- Bottom Navigation Bar (Shared Component Style) -->
+<nav class="bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl rounded-t-[32px] px-4 pb-6 pt-3 flex justify-around items-center shadow-[0_-20px_40px_rgba(0,0,0,0.04)]">
+<a class="flex flex-col items-center justify-center bg-emerald-100 dark:bg-emerald-900/40 text-emerald-900 dark:text-emerald-100 rounded-full px-5 py-2 transition-all duration-300" href="#">
+<span class="material-symbols-outlined" data-weight="fill">home_app_logo</span>
+<span class="font-inter text-[11px] font-semibold tracking-wide">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center text-slate-500 dark:text-slate-400 px-5 py-2 hover:bg-slate-100 dark:hover:bg-slate-800/50 rounded-full transition-all" href="#">
+<span class="material-symbols-outlined">favorite</span>
+<span class="font-inter text-[11px] font-semibold tracking-wide">Saved</span>
+</a>
+<a class="flex flex-col items-center justify-center text-slate-500 dark:text-slate-400 px-5 py-2 hover:bg-slate-100 dark:hover:bg-slate-800/50 rounded-full transition-all" href="#">
+<span class="material-symbols-outlined">qr_code_scanner</span>
+<span class="font-inter text-[11px] font-semibold tracking-wide">Scan</span>
+</a>
+<a class="flex flex-col items-center justify-center text-slate-500 dark:text-slate-400 px-5 py-2 hover:bg-slate-100 dark:hover:bg-slate-800/50 rounded-full transition-all" href="#">
+<span class="material-symbols-outlined">account_circle</span>
+<span class="font-inter text-[11px] font-semibold tracking-wide">Profile</span>
+</a>
+</nav>
+</div>
+</body></html>

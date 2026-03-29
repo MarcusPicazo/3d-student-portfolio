@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "inverse-on-surface": "#2e3037",
+              "on-surface": "#e1e2eb",
+              "on-primary": "#490080",
+              "primary-container": "#b76dff",
+              "on-tertiary": "#432c00",
+              "on-tertiary-container": "#3a2600",
+              "on-tertiary-fixed-variant": "#604100",
+              "surface-container": "#1d2026",
+              "on-primary-fixed": "#2c0051",
+              "inverse-surface": "#e1e2eb",
+              "primary-fixed": "#f0dbff",
+              "secondary-fixed": "#d8e2ff",
+              "surface-container-high": "#272a31",
+              "tertiary-fixed-dim": "#fabc4e",
+              "error": "#ffb4ab",
+              "on-secondary-container": "#e6ecff",
+              "primary": "#ddb7ff",
+              "on-primary-container": "#400071",
+              "secondary-container": "#0566d9",
+              "error-container": "#93000a",
+              "tertiary-fixed": "#ffdead",
+              "surface-container-lowest": "#0b0e14",
+              "on-secondary": "#002e6a",
+              "on-secondary-fixed-variant": "#004395",
+              "tertiary": "#fabc4e",
+              "on-error": "#690005",
+              "tertiary-container": "#bd871a",
+              "secondary": "#adc6ff",
+              "surface-bright": "#363940",
+              "on-background": "#e1e2eb",
+              "surface-dim": "#10131a",
+              "surface": "#10131a",
+              "on-primary-fixed-variant": "#6900b3",
+              "on-tertiary-fixed": "#281900",
+              "inverse-primary": "#842bd2",
+              "surface-container-low": "#191c22",
+              "on-error-container": "#ffdad6",
+              "surface-variant": "#32353c",
+              "on-secondary-fixed": "#001a42",
+              "outline-variant": "#4d4354",
+              "primary-fixed-dim": "#ddb7ff",
+              "surface-tint": "#ddb7ff",
+              "surface-container-highest": "#32353c",
+              "on-surface-variant": "#cfc2d6",
+              "secondary-fixed-dim": "#adc6ff",
+              "outline": "#988d9f",
+              "background": "#10131a"
+            },
+            fontFamily: {
+              "headline": ["Space Grotesk"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            display: inline-block;
+            line-height: 1;
+            text-transform: none;
+            letter-spacing: normal;
+            word-wrap: normal;
+            white-space: nowrap;
+            direction: ltr;
+        }
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #4d4354; border-radius: 10px; }
+        .glass-panel {
+            background: rgba(29, 32, 38, 0.4);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+        }
+        .glow-active {
+            box-shadow: 0 0 20px rgba(168, 85, 247, 0.25);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface font-body overflow-hidden">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 flex items-center justify-between px-6 py-2 bg-slate-900/20 backdrop-blur-3xl tonal-transition bg-slate-900/40 flat no shadows with 1px inner-glow-white/5 h-14">
+<div class="flex items-center gap-8">
+<span class="text-xl font-bold tracking-tighter text-purple-400 italic font-['Space_Grotesk']">Aether</span>
+<div class="flex items-center gap-6">
+<a class="font-['Space_Grotesk'] tracking-tight text-slate-400 hover:text-slate-200 transition-colors" href="#">Extensions</a>
+<a class="font-['Space_Grotesk'] tracking-tight text-slate-400 hover:text-slate-200 transition-colors" href="#">History</a>
+<a class="font-['Space_Grotesk'] tracking-tight text-slate-400 hover:text-slate-200 transition-colors" href="#">Downloads</a>
+</div>
+</div>
+<!-- Glassmorphic URL Bar -->
+<div class="absolute left-1/2 -translate-x-1/2 w-full max-w-xl">
+<div class="relative flex items-center bg-surface-container-high rounded-full px-4 py-1.5 border border-outline-variant/15 group focus-within:border-secondary transition-all">
+<span class="material-symbols-outlined text-sm text-on-surface-variant mr-3">lock</span>
+<span class="text-sm font-label text-on-surface/80">https://tech-future.com/ai-ethics</span>
+<div class="ml-auto flex items-center gap-2">
+<span class="material-symbols-outlined text-sm text-on-surface-variant cursor-pointer hover:text-primary transition-colors">refresh</span>
+<span class="material-symbols-outlined text-sm text-on-surface-variant cursor-pointer hover:text-primary transition-colors">star</span>
+</div>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="p-2 rounded-full hover:bg-white/5 hover:backdrop-blur-lg transition-all">
+<span class="material-symbols-outlined text-on-surface-variant">settings</span>
+</button>
+<button class="p-1 rounded-full border border-outline-variant/30 hover:bg-white/5 transition-all">
+<span class="material-symbols-outlined text-primary">account_circle</span>
+</button>
+</div>
+</header>
+<!-- SideNavBar -->
+<aside class="fixed left-0 top-0 h-full z-40 flex flex-col pt-16 pb-4 bg-slate-950/80 backdrop-blur-2xl w-64 border-r border-white/5 shadow-[10px_0_30px_-15px_rgba(168,85,247,0.1)]">
+<div class="px-6 mb-8 hidden">
+<span class="text-purple-500 font-['Space_Grotesk'] text-sm tracking-wide uppercase">Aether Browser</span>
+</div>
+<nav class="flex-1 space-y-1">
+<div class="px-4 py-3 bg-purple-500/10 text-purple-400 border-l-4 border-purple-500 shadow-[0_0_15px_rgba(168,85,247,0.2)] flex items-center gap-4 cursor-pointer translate-x-1 transition-all duration-300">
+<span class="material-symbols-outlined" data-icon="tab">tab</span>
+<span class="font-['Space_Grotesk'] text-sm tracking-wide uppercase">Current Tab</span>
+</div>
+<div class="text-slate-500 hover:text-slate-300 px-4 py-3 flex items-center gap-4 cursor-pointer hover:bg-white/5 transition-all duration-300">
+<span class="material-symbols-outlined" data-icon="layers">layers</span>
+<span class="font-['Space_Grotesk'] text-sm tracking-wide uppercase">Workspace Alpha</span>
+</div>
+<div class="text-slate-500 hover:text-slate-300 px-4 py-3 flex items-center gap-4 cursor-pointer hover:bg-white/5 transition-all duration-300">
+<span class="material-symbols-outlined" data-icon="science">science</span>
+<span class="font-['Space_Grotesk'] text-sm tracking-wide uppercase">Research</span>
+</div>
+<div class="text-slate-500 hover:text-slate-300 px-4 py-3 flex items-center gap-4 cursor-pointer hover:bg-white/5 transition-all duration-300">
+<span class="material-symbols-outlined" data-icon="movie">movie</span>
+<span class="font-['Space_Grotesk'] text-sm tracking-wide uppercase">Entertainment</span>
+</div>
+<div class="text-slate-500 hover:text-slate-300 px-4 py-3 flex items-center gap-4 cursor-pointer hover:bg-white/5 transition-all duration-300">
+<span class="material-symbols-outlined" data-icon="tune">tune</span>
+<span class="font-['Space_Grotesk'] text-sm tracking-wide uppercase">Settings</span>
+</div>
+</nav>
+<div class="px-4 mt-auto space-y-1 border-t border-white/5 pt-4">
+<div class="text-slate-500 hover:text-slate-300 px-4 py-2 flex items-center gap-4 cursor-pointer hover:bg-white/5 transition-all rounded">
+<span class="material-symbols-outlined text-sm" data-icon="grid_view">grid_view</span>
+<span class="font-['Space_Grotesk'] text-xs tracking-wide uppercase">Workspaces</span>
+</div>
+<div class="text-slate-500 hover:text-slate-300 px-4 py-2 flex items-center gap-4 cursor-pointer hover:bg-white/5 transition-all rounded">
+<span class="material-symbols-outlined text-sm" data-icon="help_outline">help_outline</span>
+<span class="font-['Space_Grotesk'] text-xs tracking-wide uppercase">Help</span>
+</div>
+<button class="w-full mt-4 bg-primary text-on-primary font-bold py-2 rounded shadow-lg shadow-primary/20 hover:scale-105 transition-transform">
+                New Tab
+            </button>
+</div>
+</aside>
+<!-- Main Content (Article View) -->
+<main class="ml-64 mr-80 pt-20 pb-12 px-12 overflow-y-auto h-screen bg-surface-container-lowest">
+<div class="max-w-3xl mx-auto">
+<header class="mb-12">
+<div class="flex items-center gap-2 mb-4">
+<span class="bg-surface-container-highest text-primary text-[10px] font-bold tracking-widest uppercase px-2 py-0.5 rounded-sm">Long Read</span>
+<span class="text-on-surface-variant text-xs font-label">March 24, 2024</span>
+</div>
+<h1 class="font-headline text-5xl font-bold tracking-tight text-on-surface mb-6 leading-tight">The Moral Calculus: Ethics in the Age of Autonomous AI</h1>
+<div class="flex items-center gap-4 border-b border-outline-variant/10 pb-8">
+<img class="w-10 h-10 rounded-full object-cover" data-alt="portrait of a professional technology journalist in a modern office setting with soft natural light" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAUX9Gf2q9mIqRj-3RcA7DC8C98EsbyT__NDZXQa-SZEkCtkTES2dSQSGXJCwhdzlktX28w9o3tF7auoqjW6MBGjUQzGqRT7_tGgNhvUOnMzpRkZRi72tsPXgPD3JDSU7zv0xguPOcHq_frSwWAWmrNDCouBU61x6QmaiS2Vdf3zHqvjspW6eaGWiSt03gQnqvU90aAv_bRjuzxoRsdIFjhzHQTXw7FLNAKeI3w7VPW6d6W4KOO2YSKdun7fnHBqgUlvIf07gjIMIQ"/>
+<div>
+<div class="text-sm font-bold text-on-surface">Dr. Julian Vane</div>
+<div class="text-xs text-on-surface-variant">Senior Ethics Researcher at Aether Labs</div>
+</div>
+</div>
+</header>
+<article class="space-y-8 text-on-surface/90 leading-relaxed text-lg font-body">
+<img alt="AI Neural Network" class="w-full h-80 object-cover rounded-xl mb-8" data-alt="abstract visualization of a shimmering neural network with purple and blue light filaments on a dark background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBbj9SmlIrEn2IfWc6L6n_1U_pQzEAUBccRdELrG7-Qp6Dvq1gNKS9LPhyPd0NCjGVLuRHnalYnge4M0CzernfWM2jsBpZS6YUj8t0h3MjMg0-_adA9Mzv5qvWhZhDpsXFQ-wfMGN2mDWcksb8zp0w73bsBcP4IwA-F6BL-1jAHkKmWPCm5JH5ikmQkse4s3H-PP_27saJWHxTwrA4nIQleAzQkXRHroqNM_h5xPKe32HLeYVhKEAC_nnnZg84nDUmMBnj00ilFU_A"/>
+<p>As we stand at the precipice of a new era in computational intelligence, the questions we ask are no longer limited to "what can we build?" but "what should we allow?" The integration of generative models into critical infrastructure has moved from theoretical exercise to daily reality.</p>
+<h2 class="font-headline text-2xl font-bold text-primary mt-12 mb-4">The Transparency Paradox</h2>
+<p>One of the most significant hurdles in AI ethics is the "black box" nature of deep learning. When a system makes a life-altering decision—be it in medical diagnostics or judicial sentencing—the inability to trace the exact logic path creates a fundamental gap in accountability.</p>
+<div class="bg-surface-container border-l-4 border-primary p-6 my-8 italic text-on-surface-variant">
+                    "Intelligence without accountability is not progress; it is a liability wrapped in an algorithm."
+                </div>
+<p>Legislative frameworks like the EU AI Act are attempting to bridge this gap, but the speed of innovation consistently outpaces the speed of policy. We are essentially building the plane while flying it, often without a flight plan.</p>
+<h2 class="font-headline text-2xl font-bold text-primary mt-12 mb-4">Algorithmic Bias</h2>
+<p>Data is the lifeblood of AI, but data is rarely neutral. Historical biases present in training sets are not merely mirrored; they are often amplified. Addressing this requires more than better math—it requires a diverse cohort of developers and philosophers working in tandem.</p>
+</article>
+</div>
+</main>
+<!-- NavigationDrawer (AI Command Center / AI Panel) -->
+<aside class="fixed right-0 top-0 h-full z-40 flex flex-col pt-16 bg-slate-900/40 backdrop-blur-3xl w-80 border-l border-white/10 flat no shadows">
+<div class="px-6 py-4 flex items-center justify-between border-b border-white/5">
+<div>
+<h2 class="text-blue-400 font-black font-['Inter'] text-xs uppercase tracking-widest">AI Command Center</h2>
+<p class="text-[10px] text-slate-500 font-semibold font-['Inter']">Contextual Intelligence Active</p>
+</div>
+<span class="material-symbols-outlined text-blue-400 text-lg" style="font-variation-settings: 'FILL' 1;">auto_awesome</span>
+</div>
+<nav class="flex border-b border-white/5">
+<button class="flex-1 py-3 text-blue-400 border-b-2 border-blue-500 text-xs font-semibold font-['Inter'] transition-all">Summarize</button>
+<button class="flex-1 py-3 text-slate-500 hover:text-blue-300 text-xs font-semibold font-['Inter'] transition-all">Chat</button>
+<button class="flex-1 py-3 text-slate-500 hover:text-blue-300 text-xs font-semibold font-['Inter'] transition-all">Explain</button>
+</nav>
+<div class="flex-1 overflow-y-auto p-6 space-y-6">
+<section>
+<h3 class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-4">Smart Summary</h3>
+<div class="space-y-4">
+<div class="flex gap-3 group">
+<span class="material-symbols-outlined text-blue-400 text-sm mt-0.5">adjust</span>
+<p class="text-sm text-on-surface-variant leading-relaxed">Transition from "can build" to "should allow" in modern AI development.</p>
+</div>
+<div class="flex gap-3 group">
+<span class="material-symbols-outlined text-blue-400 text-sm mt-0.5">adjust</span>
+<p class="text-sm text-on-surface-variant leading-relaxed">The "Black Box" problem remains a critical barrier for accountability in healthcare and law.</p>
+</div>
+<div class="flex gap-3 group">
+<span class="material-symbols-outlined text-blue-400 text-sm mt-0.5">adjust</span>
+<p class="text-sm text-on-surface-variant leading-relaxed">Systemic bias in training data requires interdisciplinary solutions beyond code.</p>
+</div>
+</div>
+</section>
+<section class="pt-6 border-t border-white/5">
+<h3 class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-4">Key Entities</h3>
+<div class="flex flex-wrap gap-2">
+<span class="px-2 py-1 bg-surface-container-highest rounded-sm text-[10px] text-primary border border-primary/20">EU AI Act</span>
+<span class="px-2 py-1 bg-surface-container-highest rounded-sm text-[10px] text-primary border border-primary/20">Deep Learning</span>
+<span class="px-2 py-1 bg-surface-container-highest rounded-sm text-[10px] text-primary border border-primary/20">Algorithmic Bias</span>
+</div>
+</section>
+<section class="bg-blue-500/5 p-4 rounded-xl border border-blue-500/10">
+<div class="flex items-center gap-2 mb-2">
+<span class="material-symbols-outlined text-blue-400 text-sm">lightbulb</span>
+<span class="text-[10px] font-bold text-blue-400 uppercase">Suggested Question</span>
+</div>
+<p class="text-xs text-on-surface-variant italic">"How does the author suggest we mitigate historical biases in data?"</p>
+</section>
+</div>
+<div class="p-4 mt-auto border-t border-white/5 bg-slate-900/40">
+<div class="relative flex items-center">
+<input class="w-full bg-surface-container-low border-b border-outline-variant/40 focus:border-primary focus:ring-0 text-sm py-2 px-3 placeholder:text-slate-600 transition-all" placeholder="Chat with this page..." type="text"/>
+<button class="absolute right-2 text-blue-400 hover:text-blue-300 transition-colors">
+<span class="material-symbols-outlined text-lg">send</span>
+</button>
+</div>
+</div>
+</aside>
+</body></html>

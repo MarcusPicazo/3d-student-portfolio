@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700;900&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "on-tertiary-fixed-variant": "#5700c9",
+              "surface-container-highest": "#353534",
+              "inverse-surface": "#e5e2e1",
+              "primary-fixed-dim": "#00dbe7",
+              "tertiary-container": "#e3d4ff",
+              "tertiary": "#fcf5ff",
+              "outline": "#849495",
+              "on-error": "#690005",
+              "tertiary-fixed": "#e9ddff",
+              "primary-container": "#00f2ff",
+              "surface-variant": "#353534",
+              "primary": "#e1fdff",
+              "on-error-container": "#ffdad6",
+              "on-tertiary-container": "#7318ff",
+              "on-primary-fixed-variant": "#004f54",
+              "secondary": "#fface8",
+              "primary-fixed": "#74f5ff",
+              "on-secondary-fixed": "#3a0033",
+              "inverse-primary": "#00696f",
+              "on-tertiary": "#3c0090",
+              "on-secondary-fixed-variant": "#840076",
+              "error": "#ffb4ab",
+              "on-primary-container": "#006a71",
+              "on-surface": "#e5e2e1",
+              "on-tertiary-fixed": "#23005b",
+              "surface-dim": "#131313",
+              "on-secondary": "#5e0053",
+              "surface-container-low": "#1c1b1b",
+              "on-primary": "#00363a",
+              "error-container": "#93000a",
+              "secondary-fixed": "#ffd7f0",
+              "surface-container-lowest": "#0e0e0e",
+              "tertiary-fixed-dim": "#d1bcff",
+              "surface-tint": "#00dbe7",
+              "on-secondary-container": "#520049",
+              "outline-variant": "#3a494b",
+              "background": "#131313",
+              "surface-container": "#201f1f",
+              "on-surface-variant": "#b9cacb",
+              "surface": "#131313",
+              "secondary-fixed-dim": "#fface8",
+              "on-background": "#e5e2e1",
+              "secondary-container": "#ff24e4",
+              "surface-container-high": "#2a2a2a",
+              "inverse-on-surface": "#313030",
+              "surface-bright": "#3a3939",
+              "on-primary-fixed": "#002022"
+            },
+            fontFamily: {
+              "headline": ["Space Grotesk"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0rem", "lg": "0rem", "xl": "0rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+        .scanline {
+            width: 100%;
+            height: 2px;
+            background: rgba(0, 242, 255, 0.05);
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 50;
+            pointer-events: none;
+            animation: scanline 8s linear infinite;
+        }
+        @keyframes scanline {
+            0% { top: -10%; }
+            100% { top: 110%; }
+        }
+        .crt-overlay {
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03));
+            background-size: 100% 3px, 3px 100%;
+            pointer-events: none;
+        }
+        .perspective-corridor {
+            perspective: 1200px;
+        }
+        .tilt-card {
+            transform: rotateX(15deg) rotateY(-5deg);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface-container-lowest text-on-surface font-body selection:bg-primary-container selection:text-on-primary-container overflow-hidden">
+<!-- Global CRT & Scanline Overlay -->
+<div class="fixed inset-0 crt-overlay z-[100] pointer-events-none"></div>
+<div class="scanline"></div>
+<!-- Background 3D Perspective Corridor -->
+<div class="fixed inset-0 perspective-corridor z-0 overflow-hidden bg-surface-container-lowest">
+<div class="absolute inset-0 opacity-40" data-alt="Deep perspective of a dark futuristic corridor with glowing cyan and magenta geometric neon light lines along walls and floor" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDsVb0cxwrDJbeScGTHOZbbT59C2_v34Ss8f7_67jPxA3OmeMOPVY_U4APDhcdjWnqo0HcYgQeiW8dZnGtfPgkCsa4Q5mx_r_CMrUJjCg5mViDAeJxy1ud6nhmCQW4lVMyusUuIqY94fGT4221CwIbBAZdHJTmKJYaJ29N_ulUrLlevgi5zDvk1kas5y2qgTJoRLfIhEFM8vsYu0E5elYAjI8q7Cghb0xteda_RNMqKwp6KnY8HJ-aQsv0SBtNrXm5avXOguBuGYvzz'); background-size: cover; background-position: center;">
+</div>
+<!-- Light Leaks & Atmosphere -->
+<div class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest via-transparent to-surface-container-lowest opacity-90"></div>
+<div class="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,#0E0E0E_80%)]"></div>
+<!-- Animated Grid Floor -->
+<div class="absolute bottom-0 left-[-50%] right-[-50%] h-[884px] bg-[linear-gradient(to_right,rgba(0,242,255,0.05)_1px,transparent_1px),linear-gradient(to_bottom,rgba(0,242,255,0.05)_1px,transparent_1px)] bg-[size:60px_60px] [transform:rotateX(75deg)_translateZ(-200px)]"></div>
+</div>
+<!-- UI Layer -->
+<main class="relative z-10 flex flex-col items-center justify-center min-h-screen px-6">
+<!-- Header Brand Anchor (TopAppBar Logic Applied) -->
+<div class="fixed top-0 w-full z-50 flex justify-between items-center px-6 py-4 bg-black/40 backdrop-blur-xl border-b border-[#00F2FF]/20">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary-container" style="font-variation-settings: 'FILL' 1;">terminal</span>
+<span class="text-primary-container font-headline font-black tracking-tighter drop-shadow-[0_0_8px_rgba(0,242,255,0.8)] uppercase">NEON_ARCADE</span>
+</div>
+<div class="flex items-center gap-6">
+<span class="font-headline text-[10px] tracking-[0.2em] text-on-surface-variant uppercase">SYSTEM_STABLE: 100%</span>
+<div class="w-3 h-3 bg-primary-container shadow-[0_0_10px_#00F2FF]"></div>
+</div>
+</div>
+<!-- Main Hero Content -->
+<div class="text-center max-w-4xl space-y-8 tilt-card">
+<!-- Metadata Tags -->
+<div class="flex items-center justify-center gap-4 mb-4">
+<div class="px-3 py-1 bg-surface-container-high border-l-2 border-secondary-container">
+<span class="text-[10px] font-headline font-bold text-secondary tracking-widest uppercase">STORY_MODE: ACTIVE</span>
+</div>
+<div class="px-3 py-1 bg-surface-container-high border-l-2 border-primary-container">
+<span class="text-[10px] font-headline font-bold text-primary-container tracking-widest uppercase">V.2.0.24</span>
+</div>
+</div>
+<!-- Main Title -->
+<div class="relative inline-block group">
+<h1 class="font-headline text-5xl md:text-8xl font-black tracking-tighter text-on-surface uppercase relative z-10">
+                    Arcade Educativo
+                    <span class="block text-primary-container drop-shadow-[0_0_15px_rgba(0,242,255,0.6)]">Portfolio Edition</span>
+</h1>
+<!-- Decorative L-Brackets -->
+<div class="absolute -top-6 -left-6 w-8 h-8 border-t-4 border-l-4 border-secondary-container"></div>
+<div class="absolute -bottom-6 -right-6 w-8 h-8 border-b-4 border-r-4 border-secondary-container"></div>
+</div>
+<p class="font-headline text-lg md:text-xl text-on-surface-variant tracking-[0.15em] uppercase">
+                Insert Coin to Hire <span class="text-secondary tracking-normal">_</span>
+</p>
+<!-- CTA Section -->
+<div class="pt-12 flex flex-col items-center gap-6">
+<button class="group relative px-12 py-5 bg-primary-container text-on-primary font-headline font-black text-2xl tracking-[0.2em] hover:bg-white transition-all duration-200 active:scale-95 shadow-[0_0_30px_rgba(0,242,255,0.4)]">
+<span class="relative z-10 uppercase">START</span>
+<div class="absolute inset-0 bg-secondary-container opacity-0 group-hover:opacity-10 transition-opacity"></div>
+<!-- Outer Glitch Squares -->
+<div class="absolute -top-1 -left-1 w-2 h-2 bg-on-surface"></div>
+<div class="absolute -bottom-1 -right-1 w-2 h-2 bg-on-surface"></div>
+</button>
+<!-- Technical Footer for Hero -->
+<div class="grid grid-cols-3 gap-8 pt-16">
+<div class="text-left border-l border-outline-variant/30 pl-4">
+<span class="block text-[10px] text-on-surface-variant font-bold uppercase mb-1">Latency</span>
+<span class="font-headline text-sm text-primary-container">12ms</span>
+</div>
+<div class="text-left border-l border-outline-variant/30 pl-4">
+<span class="block text-[10px] text-on-surface-variant font-bold uppercase mb-1">Architecture</span>
+<span class="font-headline text-sm text-primary-container">CORE_V3</span>
+</div>
+<div class="text-left border-l border-outline-variant/30 pl-4">
+<span class="block text-[10px] text-on-surface-variant font-bold uppercase mb-1">Status</span>
+<span class="font-headline text-sm text-primary-container">READY</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Glassmorphism Side Module (Floating Data) -->
+<div class="hidden lg:flex fixed left-12 top-1/2 -translate-y-1/2 flex-col gap-4">
+<div class="p-6 bg-surface-bright/40 backdrop-blur-xl border border-outline-variant/20 w-48">
+<div class="flex justify-between items-center mb-4">
+<span class="text-[9px] font-bold text-on-surface-variant uppercase tracking-widest">Sensors</span>
+<span class="material-symbols-outlined text-[14px] text-primary-container">visibility</span>
+</div>
+<div class="space-y-3">
+<div class="h-1 bg-surface-container-high w-full">
+<div class="h-full bg-secondary-container w-3/4"></div>
+</div>
+<div class="h-1 bg-surface-container-high w-full">
+<div class="h-full bg-primary-container w-1/2"></div>
+</div>
+</div>
+</div>
+<div class="p-6 bg-surface-bright/40 backdrop-blur-xl border border-outline-variant/20 w-48">
+<span class="text-[9px] font-bold text-on-surface-variant uppercase tracking-widest block mb-2">Location</span>
+<span class="text-xs font-headline text-on-surface">SECTOR_7G</span>
+</div>
+</div>
+<!-- Right Side Data Feed -->
+<div class="hidden lg:block fixed right-12 top-1/2 -translate-y-1/2 w-px h-64 bg-gradient-to-b from-transparent via-primary-container/40 to-transparent">
+<div class="absolute top-0 -right-2 text-[10px] font-headline text-primary-container [writing-mode:vertical-rl]">SYNCING_DATA_STREAM</div>
+<div class="absolute bottom-0 -right-2 text-[10px] font-headline text-secondary [writing-mode:vertical-rl]">ENCRYPTION_ACTIVE</div>
+</div>
+</main>
+<!-- Bottom Nav Bar (JSON Component Applied) -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 pb-safe h-20 bg-[#0E0E0E]/80 backdrop-blur-2xl border-t border-[#00F2FF]/20 shadow-[0_-4px_20px_rgba(0,242,255,0.1)]">
+<!-- Favorites (Inactive) -->
+<a class="flex flex-col items-center justify-center text-[#E5E2E1]/40 p-2 hover:bg-[#00F2FF]/5 group transition-all duration-75 active:scale-90" href="#">
+<span class="material-symbols-outlined mb-1" data-icon="star">star</span>
+<span class="font-headline text-[10px] font-bold tracking-widest uppercase">FAVORITES</span>
+</a>
+<!-- Profile (Active State mapped to 'Start/Entry' context as primary profile viewing) -->
+<a class="flex flex-col items-center justify-center text-[#00F2FF] bg-[#00F2FF]/10 rounded-none p-2 shadow-[inset_0_0_10px_rgba(0,242,255,0.2)] group transition-all duration-75 active:scale-90" href="#">
+<span class="material-symbols-outlined mb-1" data-icon="person_filled" style="font-variation-settings: 'FILL' 1;">person_filled</span>
+<span class="font-headline text-[10px] font-bold tracking-widest uppercase">PROFILE</span>
+</a>
+<!-- Settings (Inactive) -->
+<a class="flex flex-col items-center justify-center text-[#E5E2E1]/40 p-2 hover:bg-[#00F2FF]/5 group transition-all duration-75 active:scale-90" href="#">
+<span class="material-symbols-outlined mb-1" data-icon="settings">settings</span>
+<span class="font-headline text-[10px] font-bold tracking-widest uppercase">SETTINGS</span>
+</a>
+</nav>
+<!-- Background Elements -->
+<div class="fixed top-20 right-20 w-96 h-96 bg-secondary-container/10 blur-[120px] rounded-full pointer-events-none"></div>
+<div class="fixed bottom-20 left-20 w-96 h-96 bg-primary-container/10 blur-[120px] rounded-full pointer-events-none"></div>
+</body></html>

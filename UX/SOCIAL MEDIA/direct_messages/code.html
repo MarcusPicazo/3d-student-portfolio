@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Nexus - Messages</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Manrope:wght@600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "on-secondary-fixed-variant": "#474649",
+                        "background": "#f9f9fe",
+                        "error-container": "#ffdad6",
+                        "surface-container": "#ededf2",
+                        "on-primary-fixed": "#001a41",
+                        "tertiary-container": "#c64f00",
+                        "tertiary-fixed-dim": "#ffb595",
+                        "outline-variant": "#c1c6d7",
+                        "on-secondary-fixed": "#1b1b1d",
+                        "on-background": "#1a1c1f",
+                        "surface-container-low": "#f3f3f8",
+                        "surface": "#f9f9fe",
+                        "on-primary": "#ffffff",
+                        "on-secondary-container": "#636264",
+                        "primary-container": "#0070eb",
+                        "inverse-surface": "#2e3034",
+                        "secondary-fixed-dim": "#c8c6c8",
+                        "on-error-container": "#93000a",
+                        "inverse-primary": "#adc6ff",
+                        "on-tertiary": "#ffffff",
+                        "surface-tint": "#005bc1",
+                        "primary": "#0058bc",
+                        "on-error": "#ffffff",
+                        "on-secondary": "#ffffff",
+                        "surface-dim": "#d9dade",
+                        "surface-container-high": "#e8e8ed",
+                        "surface-container-highest": "#e2e2e7",
+                        "surface-container-lowest": "#ffffff",
+                        "on-surface-variant": "#414755",
+                        "primary-fixed-dim": "#adc6ff",
+                        "secondary": "#5f5e60",
+                        "on-tertiary-fixed": "#351000",
+                        "secondary-container": "#e2dfe1",
+                        "on-primary-fixed-variant": "#004493",
+                        "secondary-fixed": "#e4e2e4",
+                        "inverse-on-surface": "#f0f0f5",
+                        "surface-bright": "#f9f9fe",
+                        "on-surface": "#1a1c1f",
+                        "outline": "#717786",
+                        "tertiary": "#9e3d00",
+                        "error": "#ba1a1a",
+                        "on-primary-container": "#fefcff",
+                        "surface-variant": "#e2e2e7",
+                        "primary-fixed": "#d8e2ff",
+                        "on-tertiary-fixed-variant": "#7c2e00",
+                        "on-tertiary-container": "#fffbff",
+                        "tertiary-fixed": "#ffdbcc"
+                    },
+                    fontFamily: {
+                        "headline": ["Manrope"],
+                        "body": ["Inter"],
+                        "label": ["Inter"]
+                    },
+                    borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            display: inline-block;
+            line-height: 1;
+            text-transform: none;
+            letter-spacing: normal;
+            word-wrap: normal;
+            white-space: nowrap;
+            direction: ltr;
+        }
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        .action-gradient { background: linear-gradient(135deg, #0058bc 0%, #0070eb 100%); }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background font-body antialiased">
+<!-- TopAppBar -->
+<header class="sticky top-0 z-50 w-full bg-white/80 dark:bg-slate-950/80 backdrop-blur-xl shadow-sm shadow-slate-200/50 dark:shadow-none">
+<div class="flex items-center justify-between px-6 h-[72px]">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full overflow-hidden bg-surface-container-high">
+<img alt="User Profile" class="w-full h-full object-cover" data-alt="Close up portrait of a professional man with a kind expression, soft natural indoor lighting, minimalist background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCqoUNYVWB1aK96mZhG4XE-qdlfStDNPA6T4rluNxxvjWwXfnnChwZLrKPKWAbE0-PAR0b7q6Ol2cu2GJDsEGhLWuh9lsBrWOrwfj0x163-D97WAIQcLrsPu-mbGO7lbksTdGDou0iiQ3Gbb-biVscAOtaUA-o3wE6dkXLfKNiTRsvceg8nqVSnfQkH5gNXbibjSYVHScYYf9-Yo4qwtvRZdd0AdbA6DivZFc43XDJVMlWhKvcUGYJjwqYTmvdiAYkGP6Zn_n1U4R4"/>
+</div>
+<h1 class="font-manrope font-extrabold tracking-tighter text-2xl text-slate-900 dark:text-slate-50">Kinetic</h1>
+</div>
+<div class="flex items-center gap-4">
+<button class="p-2 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors active:scale-95 duration-200 text-slate-500 dark:text-slate-400">
+<span class="material-symbols-outlined" data-icon="search">search</span>
+</button>
+</div>
+</div>
+</header>
+<main class="max-w-3xl mx-auto px-6 pt-6 pb-24">
+<!-- Messaging Interface Header -->
+<div class="mb-8">
+<h2 class="font-headline text-3xl font-bold tracking-tight text-on-background mb-2">Messages</h2>
+<p class="text-on-surface-variant font-body">Connect and collaborate with your network.</p>
+</div>
+<!-- Search Bar -->
+<div class="relative mb-8">
+<div class="absolute inset-y-0 left-4 flex items-center pointer-events-none text-outline">
+<span class="material-symbols-outlined" data-icon="search">search</span>
+</div>
+<input class="w-full pl-12 pr-4 py-4 bg-surface-container-high border-none rounded-xl text-on-surface focus:ring-2 focus:ring-primary/40 transition-shadow" placeholder="Search contacts..." type="text"/>
+</div>
+<!-- Active Now / Presence Section -->
+<div class="mb-10">
+<h3 class="text-label-sm font-bold uppercase tracking-widest text-on-surface-variant/60 mb-4 px-1">Active Now</h3>
+<div class="flex gap-5 overflow-x-auto hide-scrollbar pb-2">
+<!-- Status Item -->
+<div class="flex-shrink-0 flex flex-col items-center gap-2 group">
+<div class="relative">
+<div class="w-16 h-16 rounded-full p-0.5 border-2 border-primary">
+<img alt="Presence" class="w-full h-full rounded-full object-cover" data-alt="Portrait of a smiling woman with glasses, bright studio lighting, clean white background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBtgjLT0ghhGTYkw6lPCogpGiODjJJ7DF1Vn68j_5PMT_KKnImqTmVZr840Sb-6jHjLnTz7OFIS5AorvxY3j7exBIA3enTdientLcZcQBgUD3lHFBFs3vcVHNoL7_ff95bWUvHKa-i9odbhibPYxEuT02lfScqiN4NP3StecElCy1prVDy1S53ERajrypmvrH9oY5ZamVDoFG5VARX45Y4tChr-9-2rcIEbCjnfGxsOYRWQhsWejudqJWhBLGjalqxTGtMaksHXxfs"/>
+</div>
+<div class="absolute bottom-0 right-0 w-4 h-4 bg-green-500 border-2 border-surface rounded-full"></div>
+</div>
+<span class="text-xs font-medium text-on-surface">Elena</span>
+</div>
+<!-- Status Item -->
+<div class="flex-shrink-0 flex flex-col items-center gap-2">
+<div class="relative">
+<div class="w-16 h-16 rounded-full p-0.5 border-2 border-transparent">
+<img alt="Presence" class="w-full h-full rounded-full object-cover" data-alt="Professional headshot of a man with a beard, soft natural light, blurred office background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCylB6vS0Bq9CFhUdkomPU33-EEIahi07ldSqYtkSuWxy1KK49N6_HYheG1tDWIeFhUoYwEFOGa5AwTdEBkgcsfa94KxLexQlYVaaBSn6UElVdZiSbWJPUkBtvohoJabT7E9qR0OJq3Bh5wQzw4AU8thvX7JkR-umLeZ3LozB6dpjvyYLfqCUdSu1fuZN2O7UkTwwIRd_ZR_5Gktto2glKR0J5f9aeZMChkPLmqxvyX9r6evANenBbdM3qlRsbqGLxQd1d_KJapEZQ"/>
+</div>
+<div class="absolute bottom-0 right-0 w-4 h-4 bg-green-500 border-2 border-surface rounded-full"></div>
+</div>
+<span class="text-xs font-medium text-on-surface">Marcus</span>
+</div>
+<!-- Status Item -->
+<div class="flex-shrink-0 flex flex-col items-center gap-2">
+<div class="relative">
+<div class="w-16 h-16 rounded-full p-0.5 border-2 border-transparent">
+<img alt="Presence" class="w-full h-full rounded-full object-cover" data-alt="Confident businesswoman looking at camera, professional attire, neutral modern interior background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAbGsMxdEKo8tK7qEHm4nAE7Vkkt1-4k_37uLgoFS2yRpwpJR9cUhGH5ahbcJj22Ed8xv0cJ6oTBB4ALolBLdC9QwmhaYAbfr3BVA4tGtgfZr_NmDWJLntKcYlSIS6P0N7rfhakPiFsOfFRI0JK2SLPncDr0s0cnyxWAlyStuZoDOtEQ2SNrVufP9bIxZldtztWgm5GdgqKhaktiO7nJqwk4brgDUCo2E8kjf6hcjNmXPq5DYplEzGVRyzA5IplXexAXGFpCXjB3zE"/>
+</div>
+<div class="absolute bottom-0 right-0 w-4 h-4 bg-green-500 border-2 border-surface rounded-full"></div>
+</div>
+<span class="text-xs font-medium text-on-surface">Sarah</span>
+</div>
+<!-- Status Item -->
+<div class="flex-shrink-0 flex flex-col items-center gap-2">
+<div class="relative">
+<div class="w-16 h-16 rounded-full p-0.5 border-2 border-transparent">
+<img alt="Presence" class="w-full h-full rounded-full object-cover" data-alt="Candid shot of a young man laughing, warm golden hour sunlight, outdoor setting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAAvAZyUoQJSH0lv51xfrbcZ8fjn9wv6P3ey4XfMtvxLa9EfJ7LYyYnoYAW6Ry9hjz3f-4tNu5oOuc3bzgI7uX5-EtKvcguRLH87Sy55bIUVec2d0TFRskU2q-CTUN97xxol4LX5Bn0jTBJv0U5jKzHsgbC1_nJREDhQUdpoj9WHnZ2BvArqwD8kpHEPNX7dK9mZHBEvhhVFbipkMr-p1HX-QXR_AtI7oQAlX0NM8GNPcgW11jOQb62zzN0PUwMVIElQ6r9wqVeL5c"/>
+</div>
+<div class="absolute bottom-0 right-0 w-4 h-4 bg-green-500 border-2 border-surface rounded-full"></div>
+</div>
+<span class="text-xs font-medium text-on-surface">Julian</span>
+</div>
+<!-- Status Item -->
+<div class="flex-shrink-0 flex flex-col items-center gap-2">
+<div class="relative">
+<div class="w-16 h-16 rounded-full p-0.5 border-2 border-transparent">
+<img alt="Presence" class="w-full h-full rounded-full object-cover" data-alt="Moody portrait of a woman with curly hair, artistic lighting with deep shadows" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDGdScGwCYFu0X7V09y7z0_n5xjEIfC80dMxu-D8TrM7pZ57y-52pTUlmhUPANqXbjRwEGX9LL2JgtQG0y_MwV9kIjLzSZHA0ZAJotq5fFqyJQ58nePA0NOuCw2gSKwtZhdmF7PgnKNaemvcutudj8lJzQFnIX08U4pbt748lnnTV5mmZLIaU1u-WGWJsAZ4w69RjQbJ6cfFZwPaw560pzBp51Nx3SdT5RMmpI_p_XIvx3ttR8iCULGUEArPtnlh12pshjTTIZc14w"/>
+</div>
+<div class="absolute bottom-0 right-0 w-4 h-4 bg-green-500 border-2 border-surface rounded-full"></div>
+</div>
+<span class="text-xs font-medium text-on-surface">Maya</span>
+</div>
+</div>
+</div>
+<!-- Conversations List -->
+<div class="space-y-1">
+<h3 class="text-label-sm font-bold uppercase tracking-widest text-on-surface-variant/60 mb-4 px-1">Recent Chats</h3>
+<!-- Message Item: Unread -->
+<div class="group relative flex items-center gap-4 p-4 rounded-2xl bg-surface-container-lowest hover:bg-surface-container-low transition-all duration-300 cursor-pointer shadow-sm shadow-slate-200/40">
+<div class="relative flex-shrink-0">
+<div class="w-14 h-14 rounded-full overflow-hidden">
+<img alt="Elena" class="w-full h-full object-cover" data-alt="Portrait of Elena smiling, professional lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAhPcOfQ27_Ib08p8iRQ50pLtQ4C21XCS7a_DNzyyPskoPjsuK6N14Ksugwv1ePO77XrYAVWz61kVSYarZwC9-AcotglZtVONMPKP9AaOMucX_CRn9ZNxoomGrIznHX3GKGamS9rDn1pLVSrvPjATvj0_0MQsOjGdE-cYwAe8uEZr9JuMdEQK8Y4E_qWakb2YjhYLpoBnhjNksydAcAsfwmWQoYPhrdEUvSYQhkIXu8bqk4bC3GotFQCQyNl_rZAwNfkQ5rmwK1Tjc"/>
+</div>
+</div>
+<div class="flex-grow min-w-0">
+<div class="flex justify-between items-baseline mb-1">
+<h4 class="font-semibold text-on-surface truncate">Elena Vance</h4>
+<span class="text-[10px] font-bold text-primary">JUST NOW</span>
+</div>
+<div class="flex justify-between items-center">
+<p class="text-sm font-semibold text-on-surface truncate">The strategic deck is ready for review. Thoughts on the...</p>
+<div class="w-2.5 h-2.5 bg-primary rounded-full flex-shrink-0 ml-4 shadow-sm shadow-primary/40"></div>
+</div>
+</div>
+</div>
+<!-- Message Item: Group -->
+<div class="group relative flex items-center gap-4 p-4 rounded-2xl bg-surface hover:bg-surface-container-low transition-all duration-300 cursor-pointer">
+<div class="relative flex-shrink-0 w-14 h-14">
+<div class="absolute top-0 right-0 w-9 h-9 rounded-full border-2 border-surface overflow-hidden z-10">
+<img alt="User 1" class="w-full h-full object-cover" data-alt="Close up avatar of a man" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDIdbExioOuYg7d5pfSPmuDBFQvNJBtGKLCflH_0bliPLDefoQznyBk8mkAXSA2vn2sd4pO20l6aSWCNMxGQXdomiVf4OVDKgbF6uo8RV9VqjIPi2_z3Zq-s3y6IAMTimeC0DK6sjj7MJtCebnpKDG_iz1Ny1bhHvPc3X5bzft6bEWxvaJozA27spR6hc_o9wpEpidQdj3r0c2p7aIXPeYP4BgLe7uemYmY_4kw6YcUBp_Ht82rA5pEutXPcqTxH2pf1NN8kwCxxY8"/>
+</div>
+<div class="absolute bottom-0 left-0 w-9 h-9 rounded-full border-2 border-surface overflow-hidden">
+<img alt="User 2" class="w-full h-full object-cover" data-alt="Close up avatar of a woman" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBsrUfmSpb6mmQwhyxXdPB-ve58m1FZlTuDq-OtoJUIC8tYCyZdTNJTEpIlKaYrQQCjbmNQ0MxasvawRQrso6_SJowsAZRDyvl_ht44eEu6wNaDJSKz46ywdT_MO1Y0IQDYdTVGiYuTNhffNy-d-BknJAWl1SO5tv_WCbf8BEBaduZbKY5hVxdR0V39cI3Vn5z-MfTC77Ho9EAQRNzSgrXquBu4sMGjxSqQswD8Hb6Zpq-B3IsHpld-c0Vwip2AyJ2s9iRXARKkzIw"/>
+</div>
+</div>
+<div class="flex-grow min-w-0">
+<div class="flex justify-between items-baseline mb-1">
+<h4 class="font-semibold text-on-surface truncate">Q4 Growth Squad</h4>
+<span class="text-[11px] font-medium text-on-surface-variant">12:45 PM</span>
+</div>
+<div class="flex items-center gap-1.5">
+<span class="text-xs font-bold text-on-surface-variant/80">Marcus:</span>
+<p class="text-sm text-on-surface-variant truncate">I've attached the final budget spreadsheet.</p>
+</div>
+</div>
+</div>
+<!-- Message Item: Standard -->
+<div class="group relative flex items-center gap-4 p-4 rounded-2xl bg-surface hover:bg-surface-container-low transition-all duration-300 cursor-pointer">
+<div class="relative flex-shrink-0">
+<div class="w-14 h-14 rounded-full overflow-hidden grayscale hover:grayscale-0 transition-all duration-500">
+<img alt="Julian" class="w-full h-full object-cover" data-alt="Portrait of Julian in soft lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBWOGueAfRdFHJ7pno--jDP2DBXvpnGNeL1n8jhIH-VfQtStXvfdn4PVsLPTX8PU3QFfmtPMaxy5cUXD-gYch5aXtUgel57m8S_MUe4dvdPsbElzPE2ZkVlkRxWHSV9044Pqi0EHRFwOQNieiu2wuAaaq2wrtore2RFtNFxXWCTSdXqCY1OubJw1qmPpyPnmcWlB1t1_ccvgSW_p7Tht7cWgen6cN4uAr_RCaORbPpMe1KfsnSK61g6kmkeXNK2AmppBX1fu7ZA1IY"/>
+</div>
+</div>
+<div class="flex-grow min-w-0 border-b border-transparent group-hover:border-transparent transition-colors">
+<div class="flex justify-between items-baseline mb-1">
+<h4 class="font-semibold text-on-surface truncate">Julian Thorne</h4>
+<span class="text-[11px] font-medium text-on-surface-variant">YESTERDAY</span>
+</div>
+<p class="text-sm text-on-surface-variant truncate">That networking event was incredible. Let's sync up soon.</p>
+</div>
+</div>
+<!-- Message Item: Standard -->
+<div class="group relative flex items-center gap-4 p-4 rounded-2xl bg-surface hover:bg-surface-container-low transition-all duration-300 cursor-pointer">
+<div class="relative flex-shrink-0">
+<div class="w-14 h-14 rounded-full overflow-hidden">
+<img alt="Maya" class="w-full h-full object-cover" data-alt="Portrait of Maya" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCtTseaflOVAt-J1vxwunB2pFR51Zp0SMWqze-b4FqjLyqA67O183a1KLPNAnla20a5UEQjhWLH6c1aYdw00Qyecd8Sp8y1loxzz9TWtt5W3qj9zVyaQyoZ4sDdZnqo6tXKMvLamZIIWQdCmOSvCFrjkGrtWyiN6uQa9CnAy2dn7iw4YNktJ7EPvgar1g4d0AFLWzEwl3w3XzVaj2LCk9EPdSDkgOxQ6iQWnpDfBIXOzNunUOsLN42Brn9P92XmRh_og2ibNachLwA"/>
+</div>
+</div>
+<div class="flex-grow min-w-0">
+<div class="flex justify-between items-baseline mb-1">
+<h4 class="font-semibold text-on-surface truncate">Maya Sterling</h4>
+<span class="text-[11px] font-medium text-on-surface-variant">TUE</span>
+</div>
+<p class="text-sm text-on-surface-variant truncate">Sent you the invitation to the gallery opening.</p>
+</div>
+</div>
+<!-- Message Item: Standard -->
+<div class="group relative flex items-center gap-4 p-4 rounded-2xl bg-surface hover:bg-surface-container-low transition-all duration-300 cursor-pointer">
+<div class="relative flex-shrink-0">
+<div class="w-14 h-14 rounded-full overflow-hidden">
+<img alt="Robert" class="w-full h-full object-cover" data-alt="Male professional headshot" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDkHWVDtHN8P7wjoY7PqBcWR5EPuRehBHQ-kG_BFaEQFJoYFcge81tEWHA4S_eELynoJus6q0enijluMWM4FTHtBHXa2DQ4C9HhqozpUfni18Ekj0gO43nfpwgrk0Lo4B7HaHz3iRgJHTl2Ii7KpgfLq0YluYwIB9X9RVoHf6Upe7bAXDcNlH8FU9tjkKdeZv3TQFrV6_GJSezuX6-HgTDqCQ4ZgslIxXjMD9pYN8NBM8oRI3p0YeHnAtfZ6wEjDHqhKOCNMZFcGMs"/>
+</div>
+</div>
+<div class="flex-grow min-w-0">
+<div class="flex justify-between items-baseline mb-1">
+<h4 class="font-semibold text-on-surface truncate">Robert Chen</h4>
+<span class="text-[11px] font-medium text-on-surface-variant">MON</span>
+</div>
+<p class="text-sm text-on-surface-variant truncate">Thanks for the feedback on the design system updates.</p>
+</div>
+</div>
+</div>
+</main>
+<!-- FAB for New Message -->
+<button class="fixed bottom-24 right-6 w-14 h-14 rounded-2xl action-gradient text-on-primary shadow-xl shadow-primary/20 flex items-center justify-center transition-transform hover:scale-110 active:scale-95 z-40">
+<span class="material-symbols-outlined" data-icon="add_circle">add_circle</span>
+</button>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 w-full z-50 bg-white/80 dark:bg-slate-950/80 backdrop-blur-xl border-t border-slate-100 dark:border-slate-800 shadow-[0_-4px_24px_rgba(0,0,0,0.04)]">
+<div class="flex justify-around items-center h-[72px] px-4 pb-safe">
+<a class="flex flex-col items-center justify-center text-slate-400 dark:text-slate-500 hover:text-slate-900 dark:hover:text-slate-100 transition-transform duration-150 active:scale-90" href="#">
+<span class="material-symbols-outlined" data-icon="home">home</span>
+<span class="font-inter text-[10px] font-medium tracking-wide">Feed</span>
+</a>
+<a class="flex flex-col items-center justify-center text-slate-400 dark:text-slate-500 hover:text-slate-900 dark:hover:text-slate-100 transition-transform duration-150 active:scale-90" href="#">
+<span class="material-symbols-outlined" data-icon="explore">explore</span>
+<span class="font-inter text-[10px] font-medium tracking-wide">Explore</span>
+</a>
+<a class="flex flex-col items-center justify-center text-slate-400 dark:text-slate-500 hover:text-slate-900 dark:hover:text-slate-100 transition-transform duration-150 active:scale-90" href="#">
+<span class="material-symbols-outlined" data-icon="add_circle">add_circle</span>
+<span class="font-inter text-[10px] font-medium tracking-wide">Create</span>
+</a>
+<a class="flex flex-col items-center justify-center text-blue-600 dark:text-blue-400 relative after:content-[''] after:absolute after:-bottom-1 after:w-1 after:h-1 after:bg-blue-600 after:rounded-full transition-transform duration-150 active:scale-90" href="#">
+<span class="material-symbols-outlined" data-icon="chat_bubble">chat_bubble</span>
+<span class="font-inter text-[10px] font-medium tracking-wide">Messages</span>
+</a>
+<a class="flex flex-col items-center justify-center text-slate-400 dark:text-slate-500 hover:text-slate-900 dark:hover:text-slate-100 transition-transform duration-150 active:scale-90" href="#">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+<span class="font-inter text-[10px] font-medium tracking-wide">Profile</span>
+</a>
+</div>
+</nav>
+</body></html>

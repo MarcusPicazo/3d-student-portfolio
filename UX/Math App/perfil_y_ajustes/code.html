@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Resolver - Perfil y Configuración</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;family=Inter:wght@300;400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary-fixed-dim": "#adc6ff",
+              "surface-bright": "#393939",
+              "secondary-fixed-dim": "#e8b3ff",
+              "inverse-surface": "#e5e2e1",
+              "on-surface-variant": "#c1c6d7",
+              "tertiary-fixed": "#ffdbcc",
+              "outline-variant": "#414755",
+              "on-surface": "#e5e2e1",
+              "tertiary": "#ffb595",
+              "on-primary": "#002e69",
+              "surface": "#131313",
+              "on-error": "#690005",
+              "error-container": "#93000a",
+              "error": "#ffb4ab",
+              "secondary": "#e8b3ff",
+              "on-error-container": "#ffdad6",
+              "surface-container-low": "#1c1b1b",
+              "on-tertiary-container": "#4c1a00",
+              "on-primary-container": "#00285c",
+              "inverse-primary": "#005bc1",
+              "on-secondary-fixed-variant": "#7201a2",
+              "surface-variant": "#353534",
+              "on-primary-fixed-variant": "#004493",
+              "primary": "#adc6ff",
+              "on-tertiary-fixed-variant": "#7c2e00",
+              "background": "#131313",
+              "secondary-container": "#7508a5",
+              "on-secondary": "#510074",
+              "surface-dim": "#131313",
+              "surface-tint": "#adc6ff",
+              "surface-container-highest": "#353534",
+              "secondary-fixed": "#f6d9ff",
+              "surface-container-lowest": "#0e0e0e",
+              "primary-container": "#4b8eff",
+              "on-primary-fixed": "#001a41",
+              "on-tertiary-fixed": "#351000",
+              "inverse-on-surface": "#313030",
+              "on-tertiary": "#571e00",
+              "outline": "#8b90a0",
+              "surface-container": "#201f1f",
+              "tertiary-fixed-dim": "#ffb595",
+              "surface-container-high": "#2a2a2a",
+              "primary-fixed": "#d8e2ff",
+              "on-background": "#e5e2e1",
+              "tertiary-container": "#ef6719",
+              "on-secondary-fixed": "#310048",
+              "on-secondary-container": "#e19fff"
+            },
+            fontFamily: {
+              "headline": ["Space Grotesk"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "1rem", "lg": "2rem", "xl": "3rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+      .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      }
+      .glass-card {
+        background: rgba(32, 31, 31, 0.4);
+        backdrop-filter: blur(24px);
+      }
+      body {
+        background-color: #131313;
+        color: #e5e2e1;
+      }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="font-body selection:bg-primary/30 antialiased overflow-x-hidden">
+<!-- Top AppBar -->
+<nav class="bg-[#131313] dark:bg-[#131313] w-full top-0 px-6 py-4 fixed z-50 flex justify-between items-center w-full max-w-screen-xl mx-auto">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-surface-container-high border-2 border-primary overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="portrait of a focused young man with glasses in a modern minimalist workspace with soft cinematic lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCD2xo_JXsvK_pEEebOwpZk9Oa0MoKQ7_e_1SA5qKEnvsrtc6rZ26qPBejiA8nVoqD5iYahQzcG-I4l8RaqJKUL3jw3VPeYlx3_lpYHahNL-thnZFouR0F0-4-n7nt8DGIU7uWEEgBRV2v8CD2aEKHsFic0wH1zFY2faCiKAJXv7-VQijnaXC8Zi-0RV5wcwVjVJYT0hUnHsSNbIdhyJHSK9hKoLVs4NmJVFkSJjAc_qWAozsThVzdCQ5wh5t7HUFMZ0tzhJ47zKJU"/>
+</div>
+<span class="font-['Space_Grotesk'] font-bold tracking-tight text-xl text-[#ADC6FF] dark:text-[#ADC6FF]">Resolver</span>
+</div>
+<button class="material-symbols-outlined text-white/70 hover:bg-white/5 transition-colors p-2 rounded-full active:scale-95 transition-transform">
+            settings
+        </button>
+</nav>
+<!-- Main Content -->
+<main class="pt-24 pb-32 px-6 max-w-lg mx-auto min-h-screen">
+<!-- Profile Hero Section -->
+<section class="flex flex-col items-center mb-10">
+<div class="relative mb-4">
+<div class="w-32 h-32 rounded-xl bg-gradient-to-tr from-primary to-secondary p-1">
+<div class="w-full h-full rounded-lg overflow-hidden bg-surface">
+<img class="w-full h-full object-cover" data-alt="high resolution profile picture of a young professional in a dark studio setting with electric blue accent light" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA_Tr6M_dmWJ7ZbDtNQbm8jV1Sld_i1QFvAzBf9VR28rtACZBe0Qt8QIeS6kJAIDgT6fiyJmlS_Gj-HBcEkzZdOmx5rPIX50hSdliLzlY4eCI6Vudfl51G5P8PVwIJ2W_PPWS51krr0eehytTO0IxY1vVIgsnqh9polrdC6KCh60mbTvQipQN-TYQBlEOSpYg7ZTJiJFghvyC8YoKwhX1gSFD8AirA_Hb6vR5I-2Kyl6qAqT0vFVyPeC2UpigSML6aWO6TdtPU3V08"/>
+</div>
+</div>
+<div class="absolute -bottom-2 -right-2 bg-secondary text-on-secondary px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider shadow-lg">
+                    Intermedio
+                </div>
+</div>
+<h1 class="font-headline text-3xl font-bold tracking-tight text-on-surface">Alex Rivera</h1>
+<p class="text-white/50 text-sm mt-1">alex.rivera@mathflux.io</p>
+<div class="mt-6 inline-flex items-center gap-2 bg-secondary/10 border border-secondary/20 px-4 py-2 rounded-full">
+<span class="material-symbols-outlined text-secondary text-lg" style="font-variation-settings: 'FILL' 1;">stars</span>
+<span class="text-secondary font-medium text-xs tracking-wide">MathFlux Premium</span>
+</div>
+</section>
+<!-- Upgrade Card -->
+<section class="mb-10">
+<div class="relative overflow-hidden rounded-xl bg-gradient-to-br from-[#E8B3FF] to-[#ADC6FF] p-6 shadow-[0_8px_32px_rgba(232,179,255,0.15)]">
+<div class="relative z-10 flex flex-col gap-4">
+<div>
+<h3 class="font-headline text-on-primary-fixed font-bold text-xl">Lleva tus cálculos al siguiente nivel</h3>
+<p class="text-on-primary-fixed/70 text-sm mt-1">Desbloquea explicaciones paso a paso detalladas y gráficas 3D ilimitadas.</p>
+</div>
+<button class="bg-surface-container-lowest text-on-surface w-fit px-8 py-3 rounded-lg font-bold text-sm hover:scale-[1.02] transition-transform active:scale-95">
+                        Upgrade to Pro
+                    </button>
+</div>
+<!-- Abstract visual element -->
+<div class="absolute -right-10 -top-10 w-40 h-40 bg-white/20 rounded-full blur-3xl"></div>
+</div>
+</section>
+<!-- Settings Groups -->
+<div class="flex flex-col gap-8">
+<!-- Appearance & Experience -->
+<section>
+<h2 class="font-headline text-xs font-bold uppercase tracking-[0.2em] text-white/30 mb-4 px-2">Experiencia</h2>
+<div class="bg-surface-container-low rounded-xl overflow-hidden">
+<!-- Row -->
+<div class="flex items-center justify-between p-4 hover:bg-white/5 transition-colors">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-primary">dark_mode</span>
+<span class="text-on-surface font-medium">Modo Oscuro</span>
+</div>
+<div class="w-12 h-6 bg-primary rounded-full relative p-1 flex items-center justify-end">
+<div class="w-4 h-4 bg-on-primary rounded-full"></div>
+</div>
+</div>
+<!-- Row -->
+<div class="flex items-center justify-between p-4 border-t border-white/5 hover:bg-white/5 transition-colors">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-primary">vibration</span>
+<span class="text-on-surface font-medium">Haptic Feedback</span>
+</div>
+<div class="w-12 h-6 bg-surface-container-highest rounded-full relative p-1 flex items-center">
+<div class="w-4 h-4 bg-white/20 rounded-full"></div>
+</div>
+</div>
+</div>
+</section>
+<!-- Academic Level -->
+<section>
+<h2 class="font-headline text-xs font-bold uppercase tracking-[0.2em] text-white/30 mb-4 px-2">Nivel Educativo</h2>
+<div class="bg-surface-container-low rounded-xl overflow-hidden p-2 flex gap-2">
+<button class="flex-1 bg-surface-container-high text-white/50 py-3 rounded-lg text-sm font-medium hover:text-white transition-colors">
+                        High School
+                    </button>
+<button class="flex-1 bg-primary/10 text-primary border border-primary/20 py-3 rounded-lg text-sm font-bold">
+                        College
+                    </button>
+</div>
+</section>
+<!-- Account Management -->
+<section>
+<h2 class="font-headline text-xs font-bold uppercase tracking-[0.2em] text-white/30 mb-4 px-2">Cuenta</h2>
+<div class="bg-surface-container-low rounded-xl overflow-hidden">
+<button class="w-full flex items-center justify-between p-4 hover:bg-white/5 transition-colors text-left">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-white/50">person</span>
+<span class="text-on-surface font-medium">Editar Perfil</span>
+</div>
+<span class="material-symbols-outlined text-white/20">chevron_right</span>
+</button>
+<button class="w-full flex items-center justify-between p-4 border-t border-white/5 hover:bg-white/5 transition-colors text-left">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-white/50">security</span>
+<span class="text-on-surface font-medium">Privacidad y Seguridad</span>
+</div>
+<span class="material-symbols-outlined text-white/20">chevron_right</span>
+</button>
+<button class="w-full flex items-center justify-between p-4 border-t border-white/5 hover:bg-white/5 transition-colors text-left">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-white/50">notifications</span>
+<span class="text-on-surface font-medium">Notificaciones</span>
+</div>
+<span class="material-symbols-outlined text-white/20">chevron_right</span>
+</button>
+</div>
+</section>
+<!-- Danger Zone -->
+<section class="mt-4">
+<button class="w-full bg-error/10 border border-error/20 py-4 rounded-xl flex items-center justify-center gap-2 group hover:bg-error/20 transition-all active:scale-[0.98]">
+<span class="material-symbols-outlined text-error group-hover:scale-110 transition-transform">logout</span>
+<span class="text-error font-bold tracking-tight">Cerrar Sesión</span>
+</button>
+<p class="text-center text-white/20 text-[10px] uppercase tracking-widest mt-8 font-medium">Resolver v2.4.0 • Science Edition</p>
+</section>
+</div>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 pb-8 pt-4 bg-[#131313]/80 backdrop-blur-xl dark:bg-[#131313]/80 shadow-[0_-8px_32px_rgba(173,198,255,0.08)]">
+<!-- Item 1 -->
+<a class="flex flex-col items-center justify-center text-white/50 px-5 py-2 hover:text-[#ADC6FF] transition-all active:scale-90 duration-200" href="#">
+<span class="material-symbols-outlined mb-1">calculate</span>
+<span class="font-['Inter'] text-[10px] uppercase tracking-widest font-medium">Resolver</span>
+</a>
+<!-- Item 2 -->
+<a class="flex flex-col items-center justify-center text-white/50 px-5 py-2 hover:text-[#ADC6FF] transition-all active:scale-90 duration-200" href="#">
+<span class="material-symbols-outlined mb-1">explore</span>
+<span class="font-['Inter'] text-[10px] uppercase tracking-widest font-medium">Explorar</span>
+</a>
+<!-- Item 3 -->
+<a class="flex flex-col items-center justify-center text-white/50 px-5 py-2 hover:text-[#ADC6FF] transition-all active:scale-90 duration-200" href="#">
+<span class="material-symbols-outlined mb-1">school</span>
+<span class="font-['Inter'] text-[10px] uppercase tracking-widest font-medium">Aprender</span>
+</a>
+<!-- Item 4 (Active: Biblioteca as Profile context) -->
+<a class="flex flex-col items-center justify-center bg-[#ADC6FF]/10 text-[#ADC6FF] rounded-[1.5rem] px-5 py-2 hover:text-[#ADC6FF] transition-all active:scale-90 duration-200" href="#">
+<span class="material-symbols-outlined mb-1" style="font-variation-settings: 'FILL' 1;">menu_book</span>
+<span class="font-['Inter'] text-[10px] uppercase tracking-widest font-medium">Biblioteca</span>
+</a>
+</nav>
+</body></html>

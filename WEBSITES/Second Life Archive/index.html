@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Second Life Archive</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+        @keyframes fadeInUp {
+            0% {
+                opacity: 0;
+                transform: translateY(15px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .animate-fade-in-up {
+            animation: fadeInUp 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+        }
+        
+        /* Estilos generales */
+        body {
+            background-color: #FBFBF9;
+            color: #2C2C2A;
+            font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            overflow-x: hidden;
+        }
+        ::selection {
+            background-color: #E5E0D8;
+        }
+        
+        /* Ocultar secciones por defecto */
+        .view-section {
+            display: none;
+        }
+        .view-section.active {
+            display: block;
+        }
+    </style>
+</head>
+<body class="min-h-screen">
+
+    <!-- Fondo sutil tipo papel -->
+    <div class="fixed inset-0 opacity-[0.4] pointer-events-none z-0 mix-blend-multiply" style="background-image: url(&quot;data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E&quot;);"></div>
+
+    <!-- Header Fijo - Estilo Editorial -->
+    <header class="fixed top-0 w-full z-50 bg-[#FBFBF9]/90 backdrop-blur-sm border-b border-[#E5E0D8] transition-all duration-300">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <div class="flex items-center cursor-pointer group" onclick="navigate('home')">
+                    <div class="mr-3 text-[#2C2C2A]">
+                        <i data-lucide="library" class="w-6 h-6" stroke-width="1.5"></i>
+                    </div>
+                    <span class="font-serif text-xl tracking-tight text-[#2C2C2A]">
+                        Second Life <span class="italic text-[#7A7365]">Archive</span>
+                    </span>
+                </div>
+                
+                <nav class="hidden md:flex space-x-8" id="main-nav">
+                    <button onclick="navigate('home')" data-tab="home" class="nav-btn flex items-center space-x-2 text-sm transition-all py-2 border-b-2 text-[#2C2C2A] border-[#2C2C2A] font-medium">
+                        <i data-lucide="home" class="w-4 h-4 opacity-100"></i><span>Inicio</span>
+                    </button>
+                    <button onclick="navigate('create')" data-tab="create" class="nav-btn flex items-center space-x-2 text-sm transition-all py-2 border-b-2 text-[#7A7365] border-transparent hover:text-[#2C2C2A] font-light">
+                        <i data-lucide="pen-tool" class="w-4 h-4 opacity-70"></i><span>Escribir</span>
+                    </button>
+                    <button onclick="navigate('timeline')" data-tab="timeline" class="nav-btn flex items-center space-x-2 text-sm transition-all py-2 border-b-2 text-[#7A7365] border-transparent hover:text-[#2C2C2A] font-light">
+                        <i data-lucide="clock" class="w-4 h-4 opacity-70"></i><span>Líneas</span>
+                    </button>
+                    <button onclick="navigate('explore')" data-tab="explore" class="nav-btn flex items-center space-x-2 text-sm transition-all py-2 border-b-2 text-[#7A7365] border-transparent hover:text-[#2C2C2A] font-light">
+                        <i data-lucide="globe" class="w-4 h-4 opacity-70"></i><span>Comunidad</span>
+                    </button>
+                    <button onclick="navigate('insights')" data-tab="insights" class="nav-btn flex items-center space-x-2 text-sm transition-all py-2 border-b-2 text-[#7A7365] border-transparent hover:text-[#2C2C2A] font-light">
+                        <i data-lucide="book-open" class="w-4 h-4 opacity-70"></i><span>Reflexiones</span>
+                    </button>
+                </nav>
+
+                <div class="hidden md:flex items-center space-x-4">
+                    <button onclick="navigate('profile')" id="nav-profile" class="p-2 rounded-full transition-all hover:bg-[#F0ECE4] text-[#7A7365]">
+                        <i data-lucide="user" class="w-5 h-5" stroke-width="1.5"></i>
+                    </button>
+                    <button onclick="navigate('contact')" id="nav-contact" class="p-2 rounded-full transition-all hover:bg-[#F0ECE4] text-[#7A7365]">
+                        <i data-lucide="mail" class="w-5 h-5" stroke-width="1.5"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Contenedor Principal -->
+    <main class="pt-28 pb-20 min-h-screen flex flex-col items-center justify-start relative z-10">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+            
+            <!-- VISTA: HOME -->
+            <section id="view-home" class="view-section active animate-fade-in-up mt-10">
+                <div class="flex flex-col items-center justify-center text-center min-h-[65vh]">
+                    <div class="inline-flex items-center space-x-2 border border-[#D5D0C5] rounded-full px-4 py-1 mb-8 text-xs uppercase tracking-widest text-[#7A7365]">
+                        <i data-lucide="bookmark" class="w-3 h-3"></i>
+                        <span>Un espacio para la introspección</span>
+                    </div>
+                    
+                    <h1 class="text-5xl md:text-7xl font-serif text-[#2C2C2A] tracking-tight mb-6 leading-tight max-w-4xl">
+                        Explora los capítulos <br/>
+                        <span class="italic text-[#8B6B5D]">no escritos</span> de tu vida.
+                    </h1>
+                    
+                    <p class="text-lg md:text-xl text-[#5A554C] mb-12 max-w-2xl leading-relaxed font-light">
+                        Todos tenemos un "¿Qué hubiera pasado si...?". Escribe tus caminos alternativos, traza las decisiones que no tomaste y descubre qué dicen sobre quién eres hoy.
+                    </p>
+                    
+                    <div class="flex flex-col sm:flex-row gap-4">
+                        <button onclick="navigate('create')" class="px-8 py-3.5 bg-[#2C2C2A] hover:bg-[#1A1A18] text-[#FBFBF9] rounded-sm font-medium transition-all flex items-center justify-center group text-sm tracking-wide">
+                            Comenzar a escribir
+                            <i data-lucide="arrow-right" class="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform"></i>
+                        </button>
+                        <button onclick="navigate('explore')" class="px-8 py-3.5 bg-transparent hover:bg-[#F0ECE4] border border-[#D5D0C5] text-[#2C2C2A] rounded-sm font-medium transition-all text-sm tracking-wide">
+                            Leer a otros
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- VISTA: CREAR LÍNEA -->
+            <section id="view-create" class="view-section animate-fade-in-up">
+                <div class="max-w-3xl mx-auto">
+                    <div class="mb-12 text-center">
+                        <h2 class="text-4xl font-serif text-[#2C2C2A] mb-4">Nueva Línea de Vida</h2>
+                        <p class="text-[#7A7365] font-light">Define el momento en que todo cambió y narra las consecuencias.</p>
+                    </div>
+
+                    <div class="bg-white border border-[#E5E0D8] p-8 md:p-12 shadow-[0_4px_20px_rgba(0,0,0,0.02)]">
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12 border-b border-[#E5E0D8] pb-8">
+                            <div class="col-span-2">
+                                <label class="block text-xs font-semibold text-[#7A7365] mb-2 uppercase tracking-widest">Título del relato</label>
+                                <input id="create-title" type="text" placeholder="Ej: La tarde que no tomé el tren..." class="w-full bg-transparent border-b border-[#D5D0C5] px-0 py-2 text-[#2C2C2A] text-xl font-serif focus:outline-none focus:border-[#2C2C2A] transition-colors placeholder:text-[#C5C0B5]">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold text-[#7A7365] mb-2 uppercase tracking-widest">Temática</label>
+                                <select id="create-category" class="w-full bg-transparent border-b border-[#D5D0C5] px-0 py-3 text-[#2C2C2A] focus:outline-none focus:border-[#2C2C2A] transition-colors appearance-none cursor-pointer">
+                                    <option value="Vocación">Vocación & Carrera</option>
+                                    <option value="Amor">Amor & Vínculos</option>
+                                    <option value="Viajes">Viajes & Destino</option>
+                                    <option value="Decisiones">Decisiones Cotidianas</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="space-y-8">
+                            <label class="block text-xs font-semibold text-[#7A7365] uppercase tracking-widest">Cronología de los hechos</label>
+                            
+                            <div id="nodes-container" class="relative border-l border-[#D5D0C5] ml-2 pl-8 space-y-12">
+                                <!-- Nodos se inyectan aquí con JS -->
+                            </div>
+
+                            <button onclick="addNode()" class="ml-2 mt-8 flex items-center text-sm text-[#7A7365] hover:text-[#2C2C2A] transition-colors py-2 font-medium">
+                                <div class="w-6 h-6 rounded-full border border-[#D5D0C5] flex items-center justify-center mr-3 bg-white">
+                                    <i data-lucide="plus" class="w-3 h-3"></i>
+                                </div>
+                                Añadir siguiente capítulo
+                            </button>
+                        </div>
+
+                        <div class="mt-16 flex justify-end pt-6">
+                            <button onclick="savePath()" class="px-6 py-3 bg-[#2C2C2A] text-white hover:bg-[#1A1A18] rounded-sm text-sm tracking-wide transition-colors flex items-center">
+                                <i data-lucide="save" class="w-4 h-4 mr-2"></i>
+                                Guardar en el archivo
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- VISTA: TIMELINE (Líneas) -->
+            <section id="view-timeline" class="view-section animate-fade-in-up mt-8">
+                <div id="timeline-empty" class="hidden text-center py-20">
+                    <i data-lucide="library" class="w-12 h-12 text-[#D5D0C5] mx-auto mb-6" stroke-width="1"></i>
+                    <h2 class="text-3xl font-serif text-[#2C2C2A] mb-4">Páginas en blanco</h2>
+                    <p class="text-[#7A7365] mb-8 max-w-md mx-auto font-light">Aún no has escrito ninguna historia paralela. Toma la pluma y comienza a explorar.</p>
+                    <button onclick="navigate('create')" class="text-[#8B6B5D] hover:underline text-sm font-medium">
+                        Ir a escribir
+                    </button>
+                </div>
+
+                <div id="timeline-content" class="max-w-5xl mx-auto flex flex-col md:flex-row gap-12 hidden">
+                    <!-- Sidebar Selector -->
+                    <div class="w-full md:w-1/4 flex flex-col space-y-2" id="timeline-sidebar">
+                        <h3 class="text-xs font-semibold text-[#7A7365] uppercase tracking-widest mb-4">Índice</h3>
+                        <!-- Lista inyectada por JS -->
+                    </div>
+
+                    <!-- Visualizador de Timeline -->
+                    <div class="w-full md:w-3/4 bg-white border border-[#E5E0D8] p-10 md:p-16 min-h-[600px] shadow-[0_4px_20px_rgba(0,0,0,0.02)]">
+                        <div class="text-center mb-20" id="timeline-header">
+                            <!-- Cabecera inyectada -->
+                        </div>
+
+                        <!-- El Grafo Visual Minimalista -->
+                        <div class="relative max-w-2xl mx-auto">
+                            <!-- Línea central fina -->
+                            <div class="absolute left-[15px] md:left-1/2 top-0 bottom-0 w-px bg-[#E5E0D8] md:-translate-x-1/2"></div>
+                            
+                            <div class="space-y-16 pb-12" id="timeline-nodes">
+                                <!-- Nodos inyectados -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- VISTA: COMUNIDAD (Explorar) -->
+            <section id="view-explore" class="view-section animate-fade-in-up mt-8">
+                <div class="text-center mb-16">
+                    <h2 class="text-4xl font-serif text-[#2C2C2A] mb-4">Historias Compartidas</h2>
+                    <p class="text-[#7A7365] max-w-2xl mx-auto font-light leading-relaxed">Lee los testimonios anónimos de otras personas que se atrevieron a explorar los senderos que dejaron atrás. Una biblioteca de vidas no vividas.</p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="explore-grid">
+                    <!-- Tarjetas inyectadas por JS -->
+                </div>
+            </section>
+
+            <!-- VISTA: REFLEXIONES -->
+            <section id="view-insights" class="view-section animate-fade-in-up mt-8">
+                <div id="insights-empty" class="hidden text-center py-20">
+                    <i data-lucide="book-open" class="w-12 h-12 text-[#D5D0C5] mx-auto mb-6" stroke-width="1"></i>
+                    <h2 class="text-2xl font-serif text-[#2C2C2A] mb-4">Aún no hay suficiente tinta</h2>
+                    <p class="text-[#7A7365] font-light">Escribe al menos una línea de vida para poder reflexionar sobre los patrones de tus decisiones.</p>
+                </div>
+
+                <div id="insights-content" class="max-w-4xl mx-auto hidden">
+                    <div class="text-center mb-16">
+                        <h2 class="text-4xl font-serif text-[#2C2C2A] mb-4">Reflexiones</h2>
+                        <p class="text-[#7A7365] font-light">Un análisis introspectivo de las historias que has elegido contar.</p>
+                    </div>
+
+                    <div class="space-y-8">
+                        <div class="bg-white border border-[#E5E0D8] p-10 md:p-14 relative">
+                            <div class="absolute top-0 right-0 p-8 opacity-5">
+                                <i data-lucide="book-open" class="w-32 h-32"></i>
+                            </div>
+                            
+                            <h3 class="text-sm font-semibold text-[#8B6B5D] uppercase tracking-widest mb-8">
+                                Nota de tu diario
+                            </h3>
+                            
+                            <div class="space-y-6 text-xl text-[#2C2C2A] font-serif leading-relaxed relative z-10" id="insights-text">
+                                <!-- Texto inyectado -->
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6" id="insights-stats">
+                            <!-- Stats inyectadas -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- VISTA: PERFIL -->
+            <section id="view-profile" class="view-section animate-fade-in-up mt-8">
+                <div class="max-w-3xl mx-auto w-full">
+                    <div class="bg-white border border-[#E5E0D8] p-10 mb-12 flex items-center space-x-8">
+                        <div class="w-20 h-20 bg-[#F0ECE4] flex items-center justify-center text-[#7A7365]">
+                            <i data-lucide="user" class="w-8 h-8" stroke-width="1"></i>
+                        </div>
+                        <div>
+                            <h2 class="text-3xl font-serif text-[#2C2C2A] mb-2">Tu Archivo Personal</h2>
+                            <p class="text-[#7A7365] font-light text-sm">
+                                Guardado localmente en tu navegador. Tus secretos están a salvo.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="flex justify-between items-end mb-6 border-b border-[#E5E0D8] pb-4">
+                        <h3 class="text-lg font-serif text-[#2C2C2A]" id="profile-count">Índice de relatos (0)</h3>
+                        <button onclick="clearData()" id="btn-clear" class="text-xs uppercase tracking-widest text-[#A5A095] hover:text-red-800 transition-colors hidden">
+                            Vaciar Archivo
+                        </button>
+                    </div>
+
+                    <div id="profile-empty" class="hidden text-center py-12 bg-[#F0ECE4]/50 border border-[#E5E0D8] border-dashed">
+                        <p class="text-[#7A7365] mb-4 font-light">El cajón de tus memorias alternativas está vacío.</p>
+                        <button onclick="navigate('create')" class="text-[#8B6B5D] text-sm font-medium hover:underline">
+                            Comenzar a escribir
+                        </button>
+                    </div>
+
+                    <div id="profile-list" class="space-y-4">
+                        <!-- Lista inyectada -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- VISTA: CONTACTO -->
+            <section id="view-contact" class="view-section animate-fade-in-up mt-12">
+                <div class="max-w-xl mx-auto text-center w-full">
+                    <i data-lucide="mail" class="w-10 h-10 text-[#A5A095] mx-auto mb-6" stroke-width="1"></i>
+                    <h2 class="text-3xl font-serif text-[#2C2C2A] mb-4">Déjanos una nota</h2>
+                    <p class="text-[#7A7365] mb-12 font-light">¿Quieres compartir una reflexión, sugerir una idea o reportar un error en las páginas? Te leemos.</p>
+                    
+                    <form class="space-y-6 text-left bg-white p-10 border border-[#E5E0D8] shadow-sm" onsubmit="event.preventDefault(); alert('Mensaje enviado. Gracias por escribir.'); this.reset();">
+                        <div>
+                            <label class="block text-xs font-semibold text-[#7A7365] uppercase tracking-widest mb-2">Nombre o seudónimo</label>
+                            <input type="text" required class="w-full bg-transparent border-b border-[#D5D0C5] px-0 py-2 text-[#2C2C2A] focus:outline-none focus:border-[#2C2C2A] transition-colors" placeholder="Cómo prefieres que te llamemos">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-[#7A7365] uppercase tracking-widest mb-2">Correo de contacto</label>
+                            <input type="email" required class="w-full bg-transparent border-b border-[#D5D0C5] px-0 py-2 text-[#2C2C2A] focus:outline-none focus:border-[#2C2C2A] transition-colors" placeholder="tu@correo.com">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-[#7A7365] uppercase tracking-widest mb-2">Tu mensaje</label>
+                            <textarea rows="4" required class="w-full bg-[#FBFBF9] border border-[#E5E0D8] rounded-sm px-4 py-3 text-[#5A554C] focus:outline-none focus:border-[#A5A095] transition-colors resize-none mt-2" placeholder="Escribe aquí..."></textarea>
+                        </div>
+                        <button type="submit" class="w-full py-4 bg-[#2C2C2A] text-white hover:bg-[#1A1A18] text-sm tracking-wide transition-colors mt-6 font-medium">
+                            Enviar mensaje
+                        </button>
+                    </form>
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <!-- Script de lógica de la aplicación -->
+    <script>
+        // --- DATOS MOCK ---
+        const MOCK_EXPLORE_LIVES = [
+            { id: 1, user: "Elena M.", title: "La Ruta del Músico", category: "Vocación", likes: 1240, nodes: 5, description: "¿Qué habría pasado si no hubiera dejado el conservatorio de piano en 2015 por estudiar derecho? Una vida dedicada a la enseñanza musical en Viena." },
+            { id: 2, user: "Carlos D.", title: "Aquel vuelo a Kyoto", category: "Viajes", likes: 892, nodes: 3, description: "Tenía el boleto de regreso a Madrid. Decidí no tomarlo, buscar un trabajo de medio tiempo y aprender el idioma. Mi vida paralela en Japón." },
+            { id: 3, user: "Ana T.", title: "Decir que sí a los 22", category: "Amor", likes: 2105, nodes: 7, description: "La vida donde no tuve miedo y acepté aquella propuesta. Construimos una casa en las afueras, pero nunca fundé mi propia empresa." },
+            { id: 4, user: "David C.", title: "El Startup que no fue", category: "Decisiones", likes: 540, nodes: 4, description: "Rechacé la oferta corporativa segura y fundé mi propia empresa. Fracasó en tres años, pero aprendí más que en toda mi carrera." },
+            { id: 5, user: "Sofía R.", title: "Medicina en lugar de Arte", category: "Vocación", likes: 342, nodes: 6, description: "Si hubiera escuchado a mis padres. Hoy sería cirujana. Tendría estabilidad, pero me pregunto si sería feliz pintando solo los domingos." },
+            { id: 6, user: "Miguel A.", title: "No enviar ese mensaje", category: "Amor", likes: 1830, nodes: 2, description: "Ese mensaje de texto a las 3 AM en 2018 que lo arruinó todo. En esta línea de vida, apagué el teléfono y me fui a dormir. Seguimos siendo amigos." },
+            { id: 7, user: "Laura V.", title: "Adoptar a Max", category: "Decisiones", likes: 4500, nodes: 4, description: "Fui al refugio y lo vi, pero pensé que mi departamento era muy pequeño. En esta vida lo adopté. Me obligó a salir, conocí a mi pareja en el parque." },
+            { id: 8, user: "Javier P.", title: "Quedarme en el pueblo", category: "Viajes", likes: 720, nodes: 5, description: "Nunca me mudé a la capital. Me hice cargo del negocio familiar. Una vida más lenta, más tranquila, rodeado de la gente que me vio crecer." },
+        ];
+
+        const INSIGHTS_QUOTES = [
+            "Tus caminos alternativos revelan un anhelo constante por la expresión creativa por encima de la estabilidad financiera.",
+            "Parece que tus momentos de mayor divergencia imaginaria ocurren alrededor de tus relaciones personales. Hay preguntas sin responder ahí.",
+            "Al escribir estas líneas, notas un patrón: a menudo te preguntas cómo sería la vida con un ritmo más lento y menos presiones externas.",
+            "Tus vidas alternativas no son escapes, son extensiones de curiosidades que tu yo actual aún desea explorar de alguna manera.",
+            "Existe una recurrente 'búsqueda de arraigo' en tus decisiones simuladas. Quizás es momento de plantar raíces donde estás hoy."
+        ];
+
+        const DEFAULT_USER_PATHS = [
+            {
+                id: 101,
+                title: "El año sabático en Roma",
+                category: "Viajes",
+                dateCreated: new Date(Date.now() - 86400000 * 5).toISOString(),
+                nodes: [
+                    { id: 1, year: "2019", decision: "Rechacé el ascenso y compré el boleto", consequence: "Vacié mis ahorros. Mis padres dejaron de hablarme por dos meses, pero sentí una libertad absoluta al pisar el aeropuerto." },
+                    { id: 2, year: "2020", decision: "El encierro en otra tierra", consequence: "La pandemia me atrapó en Italia. En lugar de volver, me quedé trabajando en una pequeña panadería local que necesitaba ayuda a puerta cerrada." },
+                    { id: 3, year: "2023", decision: "Abrir mi propio café", consequence: "Nunca volví a la oficina de finanzas. Hoy administro un pequeño café cerca del Trastevere. Gano la mitad, pero duermo en paz." }
+                ]
+            },
+            {
+                id: 102,
+                title: "Si hubiera contestado esa llamada",
+                category: "Amor",
+                dateCreated: new Date(Date.now() - 86400000 * 12).toISOString(),
+                nodes: [
+                    { id: 1, year: "2017", decision: "Atendí el teléfono a las 2 AM", consequence: "Escuché su disculpa en lugar de dejar que saltara el buzón de voz. Decidimos darnos una última oportunidad." },
+                    { id: 2, year: "2019", decision: "La mudanza juntos", consequence: "Dejamos nuestros departamentos y rentamos una casa antigua en los suburbios. Adoptamos un gato ciego." },
+                    { id: 3, year: "2024", decision: "La rutina pacífica", consequence: "No hubo grandes dramas ni rupturas épicas. Solo una vida tranquila, preparando la cena juntos todos los martes. A veces me pregunto si me perdí de alguna gran aventura por elegir la calma." }
+                ]
+            }
+        ];
+
+        // --- ESTADO GLOBAL ---
+        let savedPaths = [];
+        let activeTab = 'home';
+        let timelineSelectedIndex = 0;
+
+        // --- INICIALIZACIÓN ---
+        function init() {
+            // Cargar datos
+            const stored = localStorage.getItem('secondLifePaths');
+            if (stored) {
+                const parsed = JSON.parse(stored);
+                savedPaths = (parsed && parsed.length > 0) ? parsed : DEFAULT_USER_PATHS;
+            } else {
+                savedPaths = DEFAULT_USER_PATHS;
+            }
+
+            // Inicializar vistas
+            renderExplore();
+            resetCreateForm();
+            
+            // Renderizar iconos por primera vez
+            lucide.createIcons();
+
+            // Navegar a inicio
+            navigate('home');
+        }
+
+        // --- NAVEGACIÓN ---
+        function navigate(tab) {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            activeTab = tab;
+
+            // Ocultar todas las secciones
+            document.querySelectorAll('.view-section').forEach(el => el.classList.remove('active'));
+            // Mostrar la seleccionada
+            document.getElementById(`view-${tab}`).classList.add('active');
+
+            // Actualizar botones del nav principal
+            document.querySelectorAll('#main-nav .nav-btn').forEach(btn => {
+                const isActive = btn.dataset.tab === tab;
+                btn.className = `nav-btn flex items-center space-x-2 text-sm transition-all py-2 border-b-2 ${
+                    isActive ? 'text-[#2C2C2A] border-[#2C2C2A] font-medium' : 'text-[#7A7365] border-transparent hover:text-[#2C2C2A] font-light'
+                }`;
+                const icon = btn.querySelector('i');
+                if(icon) {
+                    icon.classList.remove('opacity-100', 'opacity-70');
+                    icon.classList.add(isActive ? 'opacity-100' : 'opacity-70');
+                }
+            });
+
+            // Actualizar botones de iconos (perfil, contacto)
+            const profileBtn = document.getElementById('nav-profile');
+            const contactBtn = document.getElementById('nav-contact');
+            
+            profileBtn.className = `p-2 rounded-full transition-all ${tab === 'profile' ? 'bg-[#E5E0D8] text-[#2C2C2A]' : 'hover:bg-[#F0ECE4] text-[#7A7365]'}`;
+            contactBtn.className = `p-2 rounded-full transition-all ${tab === 'contact' ? 'bg-[#E5E0D8] text-[#2C2C2A]' : 'hover:bg-[#F0ECE4] text-[#7A7365]'}`;
+
+            // Actualizar datos de la vista según corresponde
+            if (tab === 'timeline') renderTimeline();
+            if (tab === 'insights') renderInsights();
+            if (tab === 'profile') renderProfile();
+        }
+
+        // --- LÓGICA: CREAR LÍNEA ---
+        function resetCreateForm() {
+            document.getElementById('create-title').value = '';
+            document.getElementById('create-category').value = 'Vocación';
+            document.getElementById('nodes-container').innerHTML = '';
+            addNode(new Date().getFullYear().toString());
+        }
+
+        function addNode(defaultYear = '') {
+            const container = document.getElementById('nodes-container');
+            const nodeId = Date.now();
+            const isFirst = container.children.length === 0;
+            
+            const nodeHTML = `
+                <div class="relative group node-item" data-id="${nodeId}">
+                    <div class="absolute -left-[37px] top-4 w-3 h-3 rounded-full bg-[#2C2C2A] border-[3px] border-white ring-1 ring-[#2C2C2A]"></div>
+                    <div class="transition-all">
+                        <div class="flex justify-between items-center mb-2">
+                            <input type="text" placeholder="Año o Fecha" value="${defaultYear}" class="node-year bg-transparent text-[#8B6B5D] font-serif text-lg w-32 focus:outline-none placeholder:text-[#D5D0C5]">
+                            ${!isFirst ? `<button onclick="removeNode(${nodeId})" class="text-[#C5C0B5] hover:text-[#8B6B5D] transition-colors"><i data-lucide="trash-2" class="w-4 h-4" stroke-width="1.5"></i></button>` : ''}
+                        </div>
+                        <div class="space-y-3">
+                            <input type="text" placeholder="¿Qué ocurrió en este momento?" class="node-decision w-full bg-transparent border-b border-[#E5E0D8] px-0 py-2 text-[#2C2C2A] font-medium focus:outline-none focus:border-[#2C2C2A] transition-colors placeholder:text-[#C5C0B5]">
+                            <textarea placeholder="Escribe los detalles y consecuencias de este evento..." rows="3" class="node-consequence w-full bg-[#FBFBF9] border border-[#E5E0D8] rounded-sm px-4 py-3 text-[#5A554C] focus:outline-none focus:border-[#A5A095] transition-colors resize-none text-sm placeholder:text-[#C5C0B5] font-light leading-relaxed"></textarea>
+                        </div>
+                    </div>
+                </div>
+            `;
+            container.insertAdjacentHTML('beforeend', nodeHTML);
+            lucide.createIcons();
+        }
+
+        function removeNode(id) {
+            const node = document.querySelector(`.node-item[data-id="${id}"]`);
+            if (node) node.remove();
+        }
+
+        function savePath() {
+            const title = document.getElementById('create-title').value.trim();
+            const category = document.getElementById('create-category').value;
+            
+            if (!title) {
+                alert("Por favor, dale un título a esta historia.");
+                return;
+            }
+
+            const nodeElements = document.querySelectorAll('.node-item');
+            const nodes = [];
+
+            nodeElements.forEach(el => {
+                const decision = el.querySelector('.node-decision').value.trim();
+                if (decision) {
+                    nodes.push({
+                        id: el.dataset.id,
+                        year: el.querySelector('.node-year').value.trim(),
+                        decision: decision,
+                        consequence: el.querySelector('.node-consequence').value.trim()
+                    });
+                }
+            });
+
+            if (nodes.length === 0) {
+                 alert("Agrega al menos un evento o decisión a tu historia.");
+                 return;
+            }
+
+            const newPath = {
+                id: Date.now(),
+                title,
+                category,
+                dateCreated: new Date().toISOString(),
+                nodes
+            };
+
+            savedPaths = [newPath, ...savedPaths];
+            localStorage.setItem('secondLifePaths', JSON.stringify(savedPaths));
+            
+            resetCreateForm();
+            timelineSelectedIndex = 0;
+            navigate('timeline');
+        }
+
+        // --- LÓGICA: TIMELINE ---
+        function renderTimeline() {
+            const emptyState = document.getElementById('timeline-empty');
+            const contentState = document.getElementById('timeline-content');
+            
+            if (savedPaths.length === 0) {
+                emptyState.classList.remove('hidden');
+                contentState.classList.add('hidden');
+                return;
+            }
+
+            emptyState.classList.add('hidden');
+            contentState.classList.remove('hidden');
+
+            // Renderizar Sidebar
+            const sidebar = document.getElementById('timeline-sidebar');
+            sidebar.innerHTML = '<h3 class="text-xs font-semibold text-[#7A7365] uppercase tracking-widest mb-4">Índice</h3>';
+            
+            savedPaths.forEach((path, idx) => {
+                const isSelected = idx === timelineSelectedIndex;
+                const btnClass = isSelected 
+                    ? 'border-[#2C2C2A] bg-white shadow-sm' 
+                    : 'border-transparent hover:bg-white/50 text-[#7A7365]';
+                const catClass = isSelected ? 'text-[#8B6B5D]' : 'text-[#A5A095]';
+                const titleClass = isSelected ? 'text-[#2C2C2A] font-medium' : '';
+
+                sidebar.insertAdjacentHTML('beforeend', `
+                    <button onclick="selectTimelinePath(${idx})" class="text-left p-4 transition-all border-l-2 ${btnClass}">
+                        <div class="text-[10px] uppercase tracking-wider mb-1 ${catClass}">${path.category}</div>
+                        <div class="font-serif leading-tight ${titleClass}">${path.title}</div>
+                    </button>
+                `);
+            });
+
+            // Renderizar Contenido
+            const activePath = savedPaths[timelineSelectedIndex];
+            
+            document.getElementById('timeline-header').innerHTML = `
+                <span class="text-xs font-medium text-[#8B6B5D] tracking-widest uppercase mb-4 inline-block">
+                    ${activePath.category}
+                </span>
+                <h2 class="text-4xl md:text-5xl font-serif text-[#2C2C2A] leading-tight max-w-2xl mx-auto">${activePath.title}</h2>
+                <div class="w-12 h-px bg-[#D5D0C5] mx-auto mt-8 mb-4"></div>
+                <p class="text-xs text-[#A5A095] uppercase tracking-wider">Registrado el ${new Date(activePath.dateCreated).toLocaleDateString()}</p>
+            `;
+
+            const nodesContainer = document.getElementById('timeline-nodes');
+            nodesContainer.innerHTML = '';
+            
+            activePath.nodes.forEach((node, index) => {
+                const isEven = index % 2 === 0;
+                const rowClass = isEven ? 'md:flex-row-reverse' : '';
+                const textClass = isEven ? 'md:text-right' : 'md:text-left';
+
+                nodesContainer.insertAdjacentHTML('beforeend', `
+                    <div class="relative flex flex-col md:flex-row items-start md:items-center md:justify-between w-full pl-12 md:pl-0 ${rowClass}">
+                        <div class="hidden md:block w-5/12"></div>
+                        <div class="absolute left-[11px] md:left-1/2 top-1 md:top-1/2 -translate-y-1/2 w-2 h-2 bg-[#2C2C2A] rounded-full md:-translate-x-1/2 z-10 ring-4 ring-white"></div>
+                        <div class="w-full md:w-5/12 ${textClass}">
+                            <div class="group relative">
+                                <div class="text-[#8B6B5D] font-serif text-xl mb-1">${node.year || '—'}</div>
+                                <h4 class="text-[#2C2C2A] font-medium text-lg mb-3 leading-snug">${node.decision}</h4>
+                                ${node.consequence ? `<p class="text-[#5A554C] text-sm leading-relaxed font-light">${node.consequence}</p>` : ''}
+                            </div>
+                        </div>
+                    </div>
+                `);
+            });
+        }
+
+        function selectTimelinePath(index) {
+            timelineSelectedIndex = index;
+            renderTimeline();
+        }
+
+        // --- LÓGICA: EXPLORAR ---
+        function renderExplore() {
+            const grid = document.getElementById('explore-grid');
+            grid.innerHTML = '';
+            
+            MOCK_EXPLORE_LIVES.forEach(life => {
+                grid.insertAdjacentHTML('beforeend', `
+                    <div class="bg-white border border-[#E5E0D8] p-8 hover:shadow-[0_10px_30px_rgba(0,0,0,0.04)] transition-all duration-300 flex flex-col h-full">
+                        <div class="flex justify-between items-start mb-6">
+                            <span class="text-[10px] font-semibold tracking-widest uppercase text-[#8B6B5D]">
+                                ${life.category}
+                            </span>
+                        </div>
+                        <h3 class="font-serif text-2xl text-[#2C2C2A] mb-3 leading-snug">${life.title}</h3>
+                        <p class="text-[#5A554C] text-sm mb-8 font-light leading-relaxed flex-grow">${life.description}</p>
+                        <div class="flex justify-between items-center pt-5 border-t border-[#E5E0D8] mt-auto">
+                            <span class="text-xs font-medium text-[#2C2C2A]">${life.user}</span>
+                            <div class="flex items-center space-x-3 text-xs text-[#A5A095]">
+                                <span class="flex items-center"><i data-lucide="clock" class="w-3 h-3 mr-1" stroke-width="2"></i> ${life.nodes} cap.</span>
+                                <span>·</span>
+                                <span>${life.likes} lecturas</span>
+                            </div>
+                        </div>
+                    </div>
+                `);
+            });
+        }
+
+        // --- LÓGICA: REFLEXIONES ---
+        function renderInsights() {
+            const emptyState = document.getElementById('insights-empty');
+            const contentState = document.getElementById('insights-content');
+            
+            if (savedPaths.length === 0) {
+                emptyState.classList.remove('hidden');
+                contentState.classList.add('hidden');
+                return;
+            }
+
+            emptyState.classList.add('hidden');
+            contentState.classList.remove('hidden');
+
+            const textContainer = document.getElementById('insights-text');
+            const quote = INSIGHTS_QUOTES[savedPaths.length % INSIGHTS_QUOTES.length];
+            
+            let html = `<p>"${quote}"</p>`;
+            if (savedPaths.length > 1) {
+                const cat1 = savedPaths[0].category.toLowerCase();
+                const cat2 = savedPaths[1] ? savedPaths[1].category.toLowerCase() : 'otras áreas';
+                html += `<p class="text-[#5A554C] text-lg mt-6">Al observar tus relatos, es notable cómo fluctúas entre historias sobre <span class="text-[#2C2C2A] italic">${cat1}</span> y <span class="text-[#2C2C2A] italic">${cat2}</span>. Estas páginas muestran lo que tu mente necesita procesar en este momento de tu vida.</p>`;
+            }
+            textContainer.innerHTML = html;
+
+            const statsContainer = document.getElementById('insights-stats');
+            const totalNodes = savedPaths.reduce((acc, p) => acc + p.nodes.length, 0);
+            const freqCat = savedPaths.length > 0 ? savedPaths[0].category : 'Variado';
+
+            statsContainer.innerHTML = `
+                <div class="bg-white border border-[#E5E0D8] p-8 flex flex-col items-center text-center justify-center">
+                    <div class="text-4xl font-serif text-[#2C2C2A] mb-2">${savedPaths.length}</div>
+                    <div class="text-xs font-semibold text-[#8B6B5D] uppercase tracking-widest mb-1">Historias escritas</div>
+                    <div class="text-xs text-[#A5A095] font-light">Vidas alternativas</div>
+                </div>
+                <div class="bg-white border border-[#E5E0D8] p-8 flex flex-col items-center text-center justify-center">
+                    <div class="text-4xl font-serif text-[#2C2C2A] mb-2">${totalNodes}</div>
+                    <div class="text-xs font-semibold text-[#8B6B5D] uppercase tracking-widest mb-1">Momentos clave</div>
+                    <div class="text-xs text-[#A5A095] font-light">Puntos de inflexión</div>
+                </div>
+                <div class="bg-white border border-[#E5E0D8] p-8 flex flex-col items-center text-center justify-center">
+                    <div class="text-2xl font-serif text-[#2C2C2A] mb-2 mt-2">${freqCat}</div>
+                    <div class="text-xs font-semibold text-[#8B6B5D] uppercase tracking-widest mb-1 mt-2">Tema recurrente</div>
+                    <div class="text-xs text-[#A5A095] font-light">Área de interés</div>
+                </div>
+            `;
+        }
+
+        // --- LÓGICA: PERFIL ---
+        function renderProfile() {
+            document.getElementById('profile-count').innerText = `Índice de relatos (${savedPaths.length})`;
+            
+            const btnClear = document.getElementById('btn-clear');
+            const emptyState = document.getElementById('profile-empty');
+            const listState = document.getElementById('profile-list');
+
+            if (savedPaths.length === 0) {
+                btnClear.classList.add('hidden');
+                emptyState.classList.remove('hidden');
+                listState.classList.add('hidden');
+                return;
+            }
+
+            btnClear.classList.remove('hidden');
+            emptyState.classList.add('hidden');
+            listState.classList.remove('hidden');
+
+            listState.innerHTML = '';
+            savedPaths.forEach((path, idx) => {
+                listState.insertAdjacentHTML('beforeend', `
+                    <div class="bg-white border border-[#E5E0D8] p-5 flex justify-between items-center hover:shadow-md transition-shadow group">
+                        <div>
+                            <h4 class="text-[#2C2C2A] font-medium text-lg mb-1">${path.title}</h4>
+                            <p class="text-xs text-[#7A7365] uppercase tracking-wider">${path.category} • ${path.nodes.length} capítulos • Escrito el ${new Date(path.dateCreated).toLocaleDateString()}</p>
+                        </div>
+                        <button onclick="timelineSelectedIndex = ${idx}; navigate('timeline');" class="text-[#D5D0C5] group-hover:text-[#2C2C2A] transition-colors">
+                            <i data-lucide="chevron-right" class="w-5 h-5" stroke-width="1.5"></i>
+                        </button>
+                    </div>
+                `);
+            });
+            lucide.createIcons();
+        }
+
+        function clearData() {
+            if(confirm('¿Estás seguro de borrar tu diario personal? Esta acción quemará estas páginas para siempre y no se puede deshacer.')) {
+                savedPaths = [];
+                localStorage.removeItem('secondLifePaths');
+                renderProfile();
+            }
+        }
+
+        // Arrancar la app al cargar
+        window.onload = init;
+    </script>
+</body>
+</html>

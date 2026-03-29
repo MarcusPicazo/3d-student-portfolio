@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Nexus - Create Content</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;family=Manrope:wght@400;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "on-secondary-fixed-variant": "#474649",
+            "background": "#f9f9fe",
+            "error-container": "#ffdad6",
+            "surface-container": "#ededf2",
+            "on-primary-fixed": "#001a41",
+            "tertiary-container": "#c64f00",
+            "tertiary-fixed-dim": "#ffb595",
+            "outline-variant": "#c1c6d7",
+            "on-secondary-fixed": "#1b1b1d",
+            "on-background": "#1a1c1f",
+            "surface-container-low": "#f3f3f8",
+            "surface": "#f9f9fe",
+            "on-primary": "#ffffff",
+            "on-secondary-container": "#636264",
+            "primary-container": "#0070eb",
+            "inverse-surface": "#2e3034",
+            "secondary-fixed-dim": "#c8c6c8",
+            "on-error-container": "#93000a",
+            "inverse-primary": "#adc6ff",
+            "on-tertiary": "#ffffff",
+            "surface-tint": "#005bc1",
+            "primary": "#0058bc",
+            "on-error": "#ffffff",
+            "on-secondary": "#ffffff",
+            "surface-dim": "#d9dade",
+            "surface-container-high": "#e8e8ed",
+            "surface-container-highest": "#e2e2e7",
+            "surface-container-lowest": "#ffffff",
+            "on-surface-variant": "#414755",
+            "primary-fixed-dim": "#adc6ff",
+            "secondary": "#5f5e60",
+            "on-tertiary-fixed": "#351000",
+            "secondary-container": "#e2dfe1",
+            "on-primary-fixed-variant": "#004493",
+            "secondary-fixed": "#e4e2e4",
+            "inverse-on-surface": "#f0f0f5",
+            "surface-bright": "#f9f9fe",
+            "on-surface": "#1a1c1f",
+            "outline": "#717786",
+            "tertiary": "#9e3d00",
+            "error": "#ba1a1a",
+            "on-primary-container": "#fefcff",
+            "surface-variant": "#e2e2e7",
+            "primary-fixed": "#d8e2ff",
+            "on-tertiary-fixed-variant": "#7c2e00",
+            "on-tertiary-container": "#fffbff",
+            "tertiary-fixed": "#ffdbcc"
+          },
+          fontFamily: {
+            "headline": ["Manrope"],
+            "body": ["Inter"],
+            "label": ["Inter"]
+          },
+          borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+        },
+      },
+    }
+  </script>
+<style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    }
+    .action-gradient {
+      background: linear-gradient(135deg, #0058bc 0%, #0070eb 100%);
+    }
+    .glass-panel {
+      backdrop-filter: blur(20px);
+      background-color: rgba(26, 28, 31, 0.7);
+    }
+    body {
+      background-color: #0c0d0f; /* Overriding for the dark mode editor look */
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="font-body text-on-surface antialiased overflow-hidden">
+<!-- Shell Visibility: Suppressing standard nav for Task-Focused flow -->
+<!-- Top Bar: Navigation Shell mapped from TopAppBar logic but customized for Edit flow -->
+<header class="sticky top-0 z-50 w-full flex items-center justify-between px-6 h-[72px] bg-slate-950/80 backdrop-blur-xl shadow-sm">
+<div class="flex items-center gap-4">
+<button class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-white/10 active:scale-95 transition-all">
+<span class="material-symbols-outlined text-white">close</span>
+</button>
+<h1 class="font-headline font-extrabold tracking-tighter text-2xl text-white">Kinetic</h1>
+</div>
+<button class="action-gradient px-6 py-2 rounded-full text-on-primary font-bold font-label tracking-wide active:scale-95 transition-transform flex items-center gap-2">
+      Next
+      <span class="material-symbols-outlined text-[20px]">arrow_forward</span>
+</button>
+</header>
+<main class="relative h-[calc(100vh-72px)] flex flex-col md:flex-row items-stretch bg-[#0c0d0f]">
+<!-- Main Viewport (Camera/Gallery) -->
+<section class="flex-1 relative overflow-hidden group">
+<div class="absolute inset-0 bg-slate-900">
+<img alt="Creative content preview" class="w-full h-full object-cover" data-alt="Abstract fluid art with deep blue and violet swirls, high-contrast digital rendering, elegant professional aesthetic for a creative studio" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBxMpn5YAMkS56kZo6GWuoXdYj47ubsc5FezinkMq-O1oKgJ9ZD6q9KTwjpLXUQsk34i9GHUT6ZNYr4sp4M6T8l9-cc6CoxzPjy_tS070H0Bua2SUCqTVO5ucRKMHDGorqO-wkJIbOA7PBTrIx3olQhiOq1RyKlPNQWydg_ysQYC_6hi-N8XKWCL7iMjgAuMXS2Y64hurrqSDukinF57_r_GFeMMQRoTXTs8O_uviztEpACKL2r-378kvYNfs_FKjwHLbp2fxpIUPo"/>
+</div>
+<!-- Overlays (Camera HUD) -->
+<div class="absolute inset-x-0 top-6 px-6 flex justify-between items-start pointer-events-none">
+<div class="glass-panel p-2 rounded-xl flex flex-col gap-4 pointer-events-auto">
+<button class="w-10 h-10 flex items-center justify-center text-white/80 hover:text-white transition-colors">
+<span class="material-symbols-outlined">flash_on</span>
+</button>
+<button class="w-10 h-10 flex items-center justify-center text-white/80 hover:text-white transition-colors">
+<span class="material-symbols-outlined">hdr_on</span>
+</button>
+<button class="w-10 h-10 flex items-center justify-center text-white/80 hover:text-white transition-colors">
+<span class="material-symbols-outlined">grid_on</span>
+</button>
+</div>
+<div class="glass-panel px-4 py-2 rounded-full flex items-center gap-2 pointer-events-auto">
+<div class="w-2 h-2 rounded-full bg-error animate-pulse"></div>
+<span class="text-white font-label text-xs font-semibold uppercase tracking-widest">Live Preview</span>
+</div>
+</div>
+<!-- Editing Quick Actions -->
+<div class="absolute left-1/2 -translate-x-1/2 bottom-8 glass-panel px-8 py-4 rounded-[2rem] flex items-center gap-8 shadow-2xl border border-white/5">
+<button class="flex flex-col items-center gap-1 group/btn">
+<span class="material-symbols-outlined text-white/60 group-hover/btn:text-primary transition-colors">crop</span>
+<span class="text-[10px] text-white/40 font-medium uppercase tracking-tighter">Crop</span>
+</button>
+<div class="w-[1px] h-8 bg-white/10"></div>
+<button class="flex flex-col items-center gap-1 group/btn">
+<span class="material-symbols-outlined text-white/60 group-hover/btn:text-primary transition-colors">filter_vintage</span>
+<span class="text-[10px] text-white/40 font-medium uppercase tracking-tighter">Filter</span>
+</button>
+<div class="w-[1px] h-8 bg-white/10"></div>
+<button class="flex flex-col items-center gap-1 group/btn">
+<span class="material-symbols-outlined text-white/60 group-hover/btn:text-primary transition-colors">tune</span>
+<span class="text-[10px] text-white/40 font-medium uppercase tracking-tighter">Adjust</span>
+</button>
+<div class="w-[1px] h-8 bg-white/10"></div>
+<button class="flex flex-col items-center gap-1 group/btn">
+<span class="material-symbols-outlined text-white/60 group-hover/btn:text-primary transition-colors">text_fields</span>
+<span class="text-[10px] text-white/40 font-medium uppercase tracking-tighter">Text</span>
+</button>
+</div>
+</section>
+<!-- Sidebar / Tray (Bento Gallery) -->
+<aside class="w-full md:w-80 h-1/3 md:h-full bg-slate-950 p-6 flex flex-col gap-6 border-l border-white/5 overflow-y-auto">
+<div class="flex items-center justify-between">
+<h2 class="text-white font-headline font-bold text-lg">Recents</h2>
+<button class="text-primary text-xs font-bold flex items-center gap-1">
+          Gallery
+          <span class="material-symbols-outlined text-sm">expand_more</span>
+</button>
+</div>
+<div class="grid grid-cols-3 md:grid-cols-2 gap-3">
+<div class="aspect-square rounded-lg overflow-hidden relative group cursor-pointer border-2 border-primary">
+<img alt="Gallery preview 1" class="w-full h-full object-cover opacity-100" data-alt="Vibrant 3D abstract shapes with neon blue and purple lighting, sleek digital art piece for social media" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBTpEbZJVy3lenuR-JZuW5YKDtwIsQeySq5uca5i0YLkZkBzXfgWiIqb4fFpFbQ_qHFrNVY3ScJCqaRIkU8dK0tLYfMQeznjUv8Gg90oYf4Tz2PghG-u18Q_icxtyE4QZ6tJ0hh4tSz6vhs_RODBQSPicwBPa5p03A7F3FMHv-nYMXxl9wbl66jfmBFSnfuIfbDX5xuThvIJZLl9-pWA-sgCVGb4gxxMi2tDTFbU8BPte6z_9Xfx0FmH_kfRcfKLa_REaGbLaphHzw"/>
+<div class="absolute inset-0 bg-primary/20 flex items-center justify-center">
+<span class="material-symbols-outlined text-white" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</div>
+</div>
+<div class="aspect-square rounded-lg overflow-hidden group cursor-pointer">
+<img alt="Gallery preview 2" class="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-300" data-alt="Retro tech collection featuring a clean workspace with vintage keyboard and sleek metallic monitors in soft lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBu4vOYxucA5ICGqc8myn3cSuMfZCdBfd3xGiKlXaGmwvzMZCMnZJvNCClkugMzsXPveaZ9o0xQa5BaNAyI2FK-yU6McQPLCcxDiwe28MHXz1roEMThS4Hw4RW-nn2ztukkLpa9VI5qd4CKNSk_bGLo9VOVSxhx2bvJfXmhezaTpl7bs6fRymNoDGg7o7oKOtl45UcCVrb064la7V_DJXoRKrlJqIjKMNyU1J9Fq6CnQ0VA2aAIWQ2-IB5A7uPPWssimbkIudRLtHg"/>
+</div>
+<div class="aspect-square rounded-lg overflow-hidden group cursor-pointer">
+<img alt="Gallery preview 3" class="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-300" data-alt="Minimalist desk setup with laptop and coffee, bright natural light pouring through a window, clean architectural lines" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDDK_Ah4ZkKHCPMFGBoM-bkyFqo-PCtS4MgoTdOIc6LNa5M0WvrIPtOuhXVtBlw2CfS9Mcs--QgePNFX3-5Tf_ZzRmrAqaOn5yVxqkHZ8JHpKV5rtH8D7xYRQt4E0kfMovYC3WW-aDOO-BOUc_dMLeFvUdKJJHDt7Uh4sIDLQfKPmkcrrphpF1dumzgxiFDu03AdeUegbo7dXxtD_8sFyT-thtuPwbzK69rZR7Zwj8YB5yTgxtyFbMAnvLSeLFhPI3g0mpW6SN6ago"/>
+</div>
+<div class="aspect-square rounded-lg overflow-hidden group cursor-pointer">
+<img alt="Gallery preview 4" class="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-300" data-alt="Professional macbook on dark surface with blue screen glow and subtle reflections, moody tech photography" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDt1NAWN0BQ_NGauaaYrPZQ7VGXR5B4n03f6YlSQ8_qoM2fMBCIyA-LQPSXnt3w9ds1BFs83Qt5qkY7q0nTjbMILIJH1ylSYhXfSOZqRO9pWkYbUgJf0xJeMbYgNCC3RWRN9Ab8-H2-Ba2E9K7QgJP0Wl9Oh_o9DZlMn_VlUBvedI-eFVRNZUm5ZRvE0SA8LO9VhjnqS-8iKAKvBZGJuPKdeDfSN6tXFin5rDb600riIWM9WG8Jc36o8_73Z6HBEtbN4SNRWrKTb84"/>
+</div>
+<div class="aspect-square rounded-lg overflow-hidden group cursor-pointer">
+<img alt="Gallery preview 5" class="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-300" data-alt="Abstract architectural curve with dramatic shadows and white highlights, contemporary clean minimalist style" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDTj4yh9PFhIvu3HhUHqRnSE-kZxH9lpMsqFEOCUMF99B60RYuUVB3o94V3Hpm9I2sw_l2lJG1CJlak0fXU_VQ1Jpn7KEfNbALrVzVtvYWRwPk65cdE82KF6NXCLtu_A7v1e6e2rppaGOjBEuXeIQwx6LkOZ4QK_QfKQCavE5JsPCpRSY2sI2jfZzHj6EIGqhVsDZcSD5OxOqG039lhtf-erGegBCkcE_1Yy6HYkZRcc_yvwd7_gjfE6qDWmJxvYYd-6ocOVRUDtFI"/>
+</div>
+<div class="aspect-square rounded-lg bg-white/5 flex items-center justify-center cursor-pointer hover:bg-white/10 transition-colors">
+<span class="material-symbols-outlined text-white/40">add</span>
+</div>
+</div>
+</aside>
+</main>
+<!-- Content Type Selector (Bottom Navigation Variant) -->
+<!-- Mapped from BottomNavBar JSON: style_active_navigation, style_shell_layout, etc. -->
+<nav class="fixed bottom-0 w-full z-[60] bg-slate-950/90 backdrop-blur-2xl border-t border-white/5">
+<div class="flex justify-around items-center h-[72px] px-4 pb-safe max-w-lg mx-auto">
+<!-- Inactive State -->
+<button class="flex flex-col items-center justify-center text-slate-400 dark:text-slate-500 hover:text-white transition-all group">
+<span class="text-[12px] font-bold tracking-[0.2em] uppercase transition-colors group-hover:text-white">Post</span>
+<div class="w-1 h-1 rounded-full bg-transparent mt-1"></div>
+</button>
+<!-- Active State (Story) -->
+<button class="flex flex-col items-center justify-center text-blue-600 dark:text-blue-400 relative">
+<span class="text-[12px] font-bold tracking-[0.2em] uppercase text-primary">Story</span>
+<div class="w-1.5 h-1.5 rounded-full bg-primary mt-1 shadow-[0_0_12px_rgba(0,88,188,0.8)]"></div>
+</button>
+<!-- Inactive State -->
+<button class="flex flex-col items-center justify-center text-slate-400 dark:text-slate-500 hover:text-white transition-all group">
+<span class="text-[12px] font-bold tracking-[0.2em] uppercase transition-colors group-hover:text-white">Reel</span>
+<div class="w-1 h-1 rounded-full bg-transparent mt-1"></div>
+</button>
+</div>
+</nav>
+<!-- Decorative Floating Element for high-end feel -->
+<div class="fixed top-1/2 left-10 -translate-y-1/2 hidden lg:flex flex-col gap-8 opacity-20 pointer-events-none">
+<div class="text-[80px] font-headline font-black text-white select-none rotate-90 origin-left">FLOW</div>
+</div>
+</body></html>

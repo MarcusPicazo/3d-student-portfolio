@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+
+<html class="light" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>TaskMaster Student - Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "on-tertiary-container": "#4f3d00",
+              "secondary": "#00677f",
+              "secondary-container": "#00ccf9",
+              "surface-bright": "#faf8ff",
+              "on-tertiary-fixed": "#241a00",
+              "error": "#ba1a1a",
+              "on-primary-container": "#ffffff",
+              "on-surface": "#171b2a",
+              "background": "#faf8ff",
+              "secondary-fixed-dim": "#4cd6ff",
+              "surface-container-low": "#f2f3ff",
+              "on-tertiary-fixed-variant": "#584400",
+              "primary-fixed-dim": "#c1c1ff",
+              "secondary-fixed": "#b7eaff",
+              "primary": "#4744e5",
+              "surface-variant": "#dee1f6",
+              "on-primary-fixed": "#09006b",
+              "on-error": "#ffffff",
+              "tertiary": "#745b00",
+              "on-error-container": "#93000a",
+              "primary-container": "#6161ff",
+              "surface-container-highest": "#dee1f6",
+              "tertiary-fixed-dim": "#f2c000",
+              "outline": "#767587",
+              "tertiary-fixed": "#ffe08d",
+              "on-secondary": "#ffffff",
+              "on-surface-variant": "#464555",
+              "inverse-on-surface": "#eff0ff",
+              "on-primary-fixed-variant": "#2c24ce",
+              "on-primary": "#ffffff",
+              "surface": "#faf8ff",
+              "surface-container-lowest": "#ffffff",
+              "tertiary-container": "#d1a600",
+              "primary-fixed": "#e1dfff",
+              "inverse-primary": "#c1c1ff",
+              "surface-container": "#ebedff",
+              "on-background": "#171b2a",
+              "on-secondary-container": "#005266",
+              "surface-tint": "#4745e5",
+              "outline-variant": "#c7c4d8",
+              "on-tertiary": "#ffffff",
+              "surface-dim": "#d6d9ed",
+              "inverse-surface": "#2c303f",
+              "on-secondary-fixed": "#001f28",
+              "on-secondary-fixed-variant": "#004e60",
+              "surface-container-high": "#e4e7fc",
+              "error-container": "#ffdad6"
+            },
+            fontFamily: {
+              "headline": ["Plus Jakarta Sans"],
+              "body": ["Inter"],
+              "label": ["Plus Jakarta Sans"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body { font-family: 'Inter', sans-serif; }
+        h1, h2, h3, .font-headline { font-family: 'Plus Jakarta Sans', sans-serif; }
+    </style>
+</head>
+<body class="bg-background text-on-surface flex min-h-screen overflow-x-hidden">
+<!-- SideNavBar -->
+<aside class="hidden md:flex flex-col h-screen w-64 fixed left-0 top-0 bg-[#f2f3ff] dark:bg-slate-900 py-8 px-4 z-40">
+<div class="mb-10 px-4">
+<h2 class="text-xl font-black text-[#4744e5]">TaskMaster</h2>
+</div>
+<div class="flex items-center gap-3 px-4 mb-10">
+<div class="w-10 h-10 rounded-full bg-primary-container overflow-hidden">
+<img alt="Student Avatar" data-alt="close-up portrait of a smiling young college student with a clean aesthetic and soft lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDpEIlQWjM-AF5iqCYNhhoAguzXTGmk8oN05vh6TTDCIzeFOXAk0uQaZwGK5aVW2Il88LWt16Xa4ZbCdSOFu2nYMfPEPiNBs4cMEGfN5SSFJ4stnJAsGk4POzmrGhw7KLmdxvoUu1M7zxEZ-Gdk5zHyREhlo4UEHLWrDuOfwcHxjkalIL_UchlEtBegKM4VLpjgLooKXkOAz0Vr24x_Ea5x7ozzttJ3SnvDDP9N9FolGb9JEgnnDJV5BhoiWeYzkV9N3eek0L5rVg"/>
+</div>
+<div>
+<p class="text-sm font-bold text-on-surface">Alex Scholar</p>
+<p class="text-[10px] text-slate-500 uppercase tracking-wider font-semibold">Universidad</p>
+</div>
+</div>
+<nav class="flex-1 space-y-2">
+<!-- Dashboard Active -->
+<a class="bg-[#dee1f6] dark:bg-slate-800 text-[#4744e5] dark:text-[#6161FF] rounded-xl px-4 py-3 flex items-center gap-3 translate-x-1 transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="text-sm font-medium">Dashboard</span>
+</a>
+<a class="text-slate-600 dark:text-slate-400 px-4 py-3 flex items-center gap-3 hover:bg-[#dee1f6]/50 dark:hover:bg-slate-800/50 transition-colors rounded-xl" href="#">
+<span class="material-symbols-outlined" data-icon="grid_view">grid_view</span>
+<span class="text-sm font-medium">Mis Tableros</span>
+</a>
+<a class="text-slate-600 dark:text-slate-400 px-4 py-3 flex items-center gap-3 hover:bg-[#dee1f6]/50 dark:hover:bg-slate-800/50 transition-colors rounded-xl" href="#">
+<span class="material-symbols-outlined" data-icon="calendar_today">calendar_today</span>
+<span class="text-sm font-medium">Calendario</span>
+</a>
+<a class="text-slate-600 dark:text-slate-400 px-4 py-3 flex items-center gap-3 hover:bg-[#dee1f6]/50 dark:hover:bg-slate-800/50 transition-colors rounded-xl" href="#">
+<span class="material-symbols-outlined" data-icon="menu_book">menu_book</span>
+<span class="text-sm font-medium">Materias</span>
+</a>
+<a class="text-slate-600 dark:text-slate-400 px-4 py-3 flex items-center gap-3 hover:bg-[#dee1f6]/50 dark:hover:bg-slate-800/50 transition-colors rounded-xl" href="#">
+<span class="material-symbols-outlined" data-icon="groups">groups</span>
+<span class="text-sm font-medium">Equipos</span>
+</a>
+<a class="text-slate-600 dark:text-slate-400 px-4 py-3 flex items-center gap-3 hover:bg-[#dee1f6]/50 dark:hover:bg-slate-800/50 transition-colors rounded-xl" href="#">
+<span class="material-symbols-outlined" data-icon="trending_up">trending_up</span>
+<span class="text-sm font-medium">Progreso</span>
+</a>
+</nav>
+<div class="mt-auto pt-6 space-y-2">
+<button class="w-full py-3 bg-primary text-on-primary rounded-xl font-bold text-sm shadow-lg shadow-primary/20 flex items-center justify-center gap-2 mb-6">
+<span class="material-symbols-outlined" data-icon="add">add</span> Add Task
+            </button>
+<a class="text-slate-600 dark:text-slate-400 px-4 py-2 flex items-center gap-3 hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="text-sm font-medium">Settings</span>
+</a>
+<a class="text-slate-600 dark:text-slate-400 px-4 py-2 flex items-center gap-3 hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="help_outline">help_outline</span>
+<span class="text-sm font-medium">Help</span>
+</a>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="flex-1 md:ml-64 p-6 md:p-10 pb-32 md:pb-10">
+<!-- Top Navigation (Mobile) -->
+<header class="flex md:hidden justify-between items-center mb-8">
+<h2 class="text-2xl font-black text-[#4744e5]">TaskMaster</h2>
+<div class="flex gap-4">
+<span class="material-symbols-outlined text-slate-500">notifications</span>
+<div class="w-8 h-8 rounded-full bg-slate-200"></div>
+</div>
+</header>
+<!-- Welcome Section -->
+<header class="mb-12">
+<h1 class="text-3xl md:text-5xl font-extrabold tracking-tight text-on-surface mb-2">¡Hola, Alex!</h1>
+<p class="text-lg md:text-xl text-on-surface-variant font-medium">Tienes <span class="text-primary font-bold">3 entregas</span> importantes hoy. <span class="opacity-60 italic">¡Sigue así!</span></p>
+</header>
+<!-- Bento Grid Layout -->
+<div class="grid grid-cols-1 md:grid-cols-12 gap-6">
+<!-- Left Column: Tasks & Progress -->
+<div class="md:col-span-8 flex flex-col gap-6">
+<!-- Hoy Widget (Tasks) -->
+<section class="bg-surface-container-lowest rounded-3xl p-6 shadow-[0px_12px_32px_rgba(23,27,42,0.04)]">
+<div class="flex justify-between items-center mb-6">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary" data-icon="today">today</span>
+<h3 class="text-xl font-bold">Hoy</h3>
+</div>
+<button class="text-sm font-semibold text-primary">Ver todo</button>
+</div>
+<div class="space-y-3">
+<!-- Task 1 -->
+<div class="flex items-center p-4 bg-surface-container-low hover:bg-surface-container-highest transition-colors rounded-2xl group">
+<div class="w-6 h-6 rounded-lg border-2 border-primary/30 flex items-center justify-center mr-4 cursor-pointer"></div>
+<div class="flex-1">
+<h4 class="font-bold text-on-surface">Matemáticas: Ejercicios 4.2</h4>
+<p class="text-xs text-on-surface-variant">Próxima hora • Campus Virtual</p>
+</div>
+<span class="px-3 py-1 bg-[#e1fdf4] text-[#006b54] text-[10px] font-bold rounded-full uppercase">Mint</span>
+</div>
+<!-- Task 2 -->
+<div class="flex items-center p-4 bg-surface-container-low hover:bg-surface-container-highest transition-colors rounded-2xl group">
+<div class="w-6 h-6 rounded-lg border-2 border-primary/30 flex items-center justify-center mr-4 cursor-pointer"></div>
+<div class="flex-1">
+<h4 class="font-bold text-on-surface">Historia: Resumen era industrial</h4>
+<p class="text-xs text-on-surface-variant">Vence 18:00 • Presencial</p>
+</div>
+<span class="px-3 py-1 bg-[#f3edff] text-[#6b47e5] text-[10px] font-bold rounded-full uppercase">Lavender</span>
+</div>
+<!-- Task 3 -->
+<div class="flex items-center p-4 bg-surface-container-low hover:bg-surface-container-highest transition-colors rounded-2xl group">
+<div class="w-6 h-6 rounded-lg border-2 border-primary/30 flex items-center justify-center mr-4 cursor-pointer"></div>
+<div class="flex-1">
+<h4 class="font-bold text-on-surface">Lectura: Capítulo 3 Filosofía</h4>
+<p class="text-xs text-on-surface-variant">Tarde • PDF adjunto</p>
+</div>
+<span class="px-3 py-1 bg-[#fef8e1] text-[#745b00] text-[10px] font-bold rounded-full uppercase">Gold</span>
+</div>
+</div>
+</section>
+<!-- Subject Pill Clouds (Design System Custom Component) -->
+<div class="flex flex-wrap gap-3 py-2">
+<span class="px-4 py-2 bg-secondary-fixed text-on-secondary-fixed font-bold rounded-full text-sm shadow-sm">Matemáticas</span>
+<span class="px-4 py-2 bg-tertiary-fixed text-on-tertiary-fixed font-bold rounded-full text-sm shadow-sm">Historia</span>
+<span class="px-4 py-2 bg-primary-fixed text-on-primary-fixed font-bold rounded-full text-sm shadow-sm">Filosofía</span>
+<span class="px-4 py-2 bg-surface-container-highest text-on-surface-variant font-bold rounded-full text-sm">+3 más</span>
+</div>
+</div>
+<!-- Right Column: Stats & Focus -->
+<div class="md:col-span-4 flex flex-col gap-6">
+<!-- Progreso Semanal -->
+<section class="bg-surface-container-low rounded-3xl p-6 relative overflow-hidden">
+<h3 class="text-lg font-bold mb-6">Progreso Semanal</h3>
+<div class="flex flex-col items-center justify-center py-4">
+<div class="relative w-32 h-32 flex items-center justify-center">
+<svg class="w-full h-full -rotate-90">
+<circle cx="64" cy="64" fill="transparent" r="56" stroke="#dee1f6" stroke-width="12"></circle>
+<circle cx="64" cy="64" fill="transparent" r="56" stroke="#4744e5" stroke-dasharray="351.8" stroke-dashoffset="87.9" stroke-linecap="round" stroke-width="12"></circle>
+</svg>
+<div class="absolute inset-0 flex flex-col items-center justify-center">
+<span class="text-2xl font-black text-primary">75%</span>
+<span class="text-[10px] font-bold text-slate-500 uppercase tracking-tighter">Done</span>
+</div>
+</div>
+<p class="mt-6 text-sm text-center text-on-surface-variant px-4">¡Vas por buen camino! Solo quedan 4 tareas para cerrar la semana.</p>
+</div>
+</section>
+<!-- Próximas Entregas (Countdown) -->
+<section class="bg-primary-container rounded-3xl p-6 text-white shadow-xl shadow-primary/20 relative overflow-hidden group">
+<div class="absolute -right-8 -top-8 w-32 h-32 bg-white/10 rounded-full blur-3xl transition-transform group-hover:scale-150"></div>
+<div class="relative z-10">
+<div class="flex items-center gap-2 mb-4">
+<span class="material-symbols-outlined text-white/80" data-icon="alarm">alarm</span>
+<span class="text-xs font-bold uppercase tracking-widest text-white/80">Entrega Mayor</span>
+</div>
+<h4 class="text-2xl font-black mb-1 leading-tight">Proyecto Final: Macroeconomía</h4>
+<p class="text-sm text-white/70 mb-6">Entrega en Plataforma</p>
+<div class="grid grid-cols-3 gap-2 text-center">
+<div class="bg-white/20 backdrop-blur-md rounded-xl p-3">
+<div class="text-xl font-black">02</div>
+<div class="text-[10px] uppercase font-bold opacity-70">Días</div>
+</div>
+<div class="bg-white/20 backdrop-blur-md rounded-xl p-3">
+<div class="text-xl font-black">14</div>
+<div class="text-[10px] uppercase font-bold opacity-70">Horas</div>
+</div>
+<div class="bg-white/20 backdrop-blur-md rounded-xl p-3">
+<div class="text-xl font-black">45</div>
+<div class="text-[10px] uppercase font-bold opacity-70">Min</div>
+</div>
+</div>
+</div>
+</section>
+</div>
+</div>
+</main>
+<!-- BottomNavBar (Mobile Only) -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full h-20 bg-[#faf8ff]/80 dark:bg-slate-950/80 backdrop-blur-2xl flex justify-around items-center px-6 pb-safe z-50 shadow-[0px_-12px_32px_rgba(23,27,42,0.06)]">
+<a class="flex flex-col items-center justify-center bg-[#6161FF] text-white rounded-full w-12 h-12 -mt-6 shadow-lg shadow-[#6161FF]/40 active:scale-90 duration-150" href="#">
+<span class="material-symbols-outlined" data-icon="home">home</span>
+</a>
+<a class="flex flex-col items-center justify-center text-slate-400 dark:text-slate-500" href="#">
+<span class="material-symbols-outlined" data-icon="leaderboard">leaderboard</span>
+<span class="text-[10px] font-bold uppercase">Boards</span>
+</a>
+<div class="flex flex-col items-center justify-center text-slate-400">
+<span class="material-symbols-outlined text-3xl" data-icon="add_circle" style="font-variation-settings: 'FILL' 1;">add_circle</span>
+</div>
+<a class="flex flex-col items-center justify-center text-slate-400 dark:text-slate-500" href="#">
+<span class="material-symbols-outlined" data-icon="calendar_month">calendar_month</span>
+<span class="text-[10px] font-bold uppercase">Calendar</span>
+</a>
+<a class="flex flex-col items-center justify-center text-slate-400 dark:text-slate-500" href="#">
+<span class="material-symbols-outlined" data-icon="analytics">analytics</span>
+<span class="text-[10px] font-bold uppercase">Stats</span>
+</a>
+</nav>
+</body></html>

@@ -1,0 +1,855 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Midnight Stories - Minimal</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        dark: '#030303',
+                        surface: '#0a0a0a',
+                        borderGray: '#1a1a1a',
+                        textMuted: '#888888'
+                    },
+                    fontFamily: {
+                        serif: ['Playfair Display', 'serif'],
+                        sans: ['Inter', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    
+    <!-- Phosphor Icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+
+    <!-- Three.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+    <style>
+        /* Cursor estilo café antiguo / pergamino */
+        body {
+            background-color: #030303;
+            color: #e5e5e5;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><polygon points="2,2 20,20 13,20 17,27 14,28 10,21 4,27" fill="%23D4B895" stroke="%234A2F1D" stroke-width="2" stroke-linejoin="round"/></svg>') 2 2, auto !important;
+        }
+
+        /* Cursor café oscuro tostado para elementos interactivos */
+        a, button, input, select, textarea, .cursor-pointer {
+            cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><polygon points="2,2 20,20 13,20 17,27 14,28 10,21 4,27" fill="%238B5A2B" stroke="%232D180A" stroke-width="2" stroke-linejoin="round"/></svg>') 2 2, pointer !important;
+        }
+        
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #030303; }
+        ::-webkit-scrollbar-thumb { background: #222; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #444; }
+
+        .glass-panel {
+            background: rgba(10, 10, 10, 0.6);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.03);
+        }
+
+        .fade-in {
+            animation: fadeIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .story-card {
+            transition: all 0.3s ease;
+            background: linear-gradient(to bottom, rgba(255,255,255,0.02), transparent);
+        }
+        .story-card:hover {
+            border-color: rgba(255, 255, 255, 0.15);
+            background: linear-gradient(to bottom, rgba(255,255,255,0.04), transparent);
+        }
+
+        .noise-overlay {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+            opacity: 0.015;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .nav-link { position: relative; }
+        .nav-link::after {
+            content: ''; position: absolute; bottom: -4px; left: 0; width: 0%; height: 1px;
+            background-color: #fff; transition: width 0.3s ease;
+        }
+        .nav-link.active::after { width: 100%; }
+        .nav-link.active { color: #fff; }
+    </style>
+</head>
+<body class="font-sans selection:bg-gray-800 selection:text-white">
+
+    <!-- Backgrounds -->
+    <canvas id="bg-canvas" class="fixed inset-0 z-[-2] pointer-events-none"></canvas>
+    <div class="noise-overlay"></div>
+
+    <!-- Navigation -->
+    <nav id="navbar" class="fixed top-0 w-full z-50 transition-all duration-500 py-6 bg-transparent">
+        <div class="max-w-6xl mx-auto px-6 flex justify-between items-center">
+            
+            <!-- Logo -->
+            <div class="flex items-center gap-3 cursor-pointer group" onclick="navigate('home')">
+                <div class="w-6 h-6 border border-white/20 flex items-center justify-center rounded-sm group-hover:border-white transition-colors">
+                    <i class="ph-fill ph-moon text-white/80 text-xs"></i>
+                </div>
+                <span class="text-lg font-serif tracking-[0.2em] text-white/90 group-hover:text-white transition-colors">
+                    MIDNIGHT
+                </span>
+            </div>
+
+            <!-- Desktop Nav -->
+            <div class="hidden md:flex items-center gap-8">
+                <button onclick="navigate('stories')" class="nav-btn nav-link text-xs uppercase tracking-widest text-textMuted hover:text-white transition-colors" data-target="stories">
+                    <span data-i18n="nav_archive">Archivo</span>
+                </button>
+                <button onclick="navigate('trending')" class="nav-btn nav-link text-xs uppercase tracking-widest text-textMuted hover:text-white transition-colors" data-target="trending">
+                    <span data-i18n="nav_trending">Tendencias</span>
+                </button>
+                <button onclick="navigate('community')" class="nav-btn nav-link text-xs uppercase tracking-widest text-textMuted hover:text-white transition-colors" data-target="community">
+                    <span data-i18n="nav_community">Comunidad</span>
+                </button>
+                
+                <!-- Language Switcher -->
+                <div class="relative group cursor-pointer border-l border-white/10 pl-6 ml-2">
+                    <span id="current-lang-display" class="text-[10px] uppercase tracking-widest text-textMuted group-hover:text-white flex items-center gap-1 transition-colors">
+                        ES <i class="ph ph-caret-down"></i>
+                    </span>
+                    <div class="absolute right-0 mt-4 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 glass-panel border border-white/5 py-2 min-w-[80px]">
+                        <div onclick="changeLanguage('es')" class="text-[10px] uppercase tracking-widest text-textMuted hover:text-white px-4 py-2 hover:bg-white/5">ES</div>
+                        <div onclick="changeLanguage('en')" class="text-[10px] uppercase tracking-widest text-textMuted hover:text-white px-4 py-2 hover:bg-white/5">EN</div>
+                        <div onclick="changeLanguage('fr')" class="text-[10px] uppercase tracking-widest text-textMuted hover:text-white px-4 py-2 hover:bg-white/5">FR</div>
+                        <div onclick="changeLanguage('pt')" class="text-[10px] uppercase tracking-widest text-textMuted hover:text-white px-4 py-2 hover:bg-white/5">PT</div>
+                    </div>
+                </div>
+
+                <button onclick="navigate('submit')" class="ml-2 px-6 py-2 border border-white/10 hover:border-white/30 text-white text-xs uppercase tracking-widest transition-all rounded-sm">
+                    <span data-i18n="nav_write">Escribir</span>
+                </button>
+            </div>
+
+            <!-- Mobile Menu Toggle -->
+            <div class="md:hidden flex items-center gap-4">
+                <span onclick="changeLanguage(currentLang === 'es' ? 'en' : 'es')" class="text-xs text-textMuted cursor-pointer" id="mobile-lang">ES/EN</span>
+                <button id="mobile-menu-btn" class="text-textMuted hover:text-white p-2 transition-colors">
+                    <i class="ph ph-list text-xl"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden absolute top-full left-0 w-full glass-panel border-b border-white/5 flex flex-col">
+            <button onclick="navigate('stories')" class="py-4 px-6 border-b border-white/5 text-xs uppercase tracking-widest text-gray-300 text-left"><span data-i18n="nav_archive">Archivo</span></button>
+            <button onclick="navigate('trending')" class="py-4 px-6 border-b border-white/5 text-xs uppercase tracking-widest text-gray-300 text-left"><span data-i18n="nav_trending">Tendencias</span></button>
+            <button onclick="navigate('community')" class="py-4 px-6 border-b border-white/5 text-xs uppercase tracking-widest text-gray-300 text-left"><span data-i18n="nav_community">Comunidad</span></button>
+            <button onclick="navigate('submit')" class="py-4 px-6 text-xs uppercase tracking-widest text-white text-left font-medium"><span data-i18n="nav_write">Escribir</span></button>
+        </div>
+    </nav>
+
+    <!-- Main Container -->
+    <main id="app-container" class="min-h-screen"></main>
+
+    <!-- Footer -->
+    <footer class="border-t border-borderGray bg-dark py-12 text-center text-textMuted text-xs uppercase tracking-widest mt-20 relative z-10">
+        <p>&copy; 2026 Midnight Stories.</p>
+        <p class="mt-2 text-[10px] opacity-50" data-i18n="footer_quote">Solo en la oscuridad vemos la luz de las estrellas.</p>
+    </footer>
+
+    <!-- LÓGICA (I18N, THREE.JS, APP) -->
+    <script>
+        // --- I18N: DICCIONARIO Y TRADUCCIONES ---
+        let currentLang = 'es';
+
+        const i18n = {
+            es: {
+                nav_archive: "Archivo", nav_trending: "Tendencias", nav_community: "Comunidad", nav_write: "Escribir",
+                hero_t1: "Lo que acecha", hero_t2: "en el silencio.", hero_sub: "Un archivo desclasificado de encuentros inexplicables, leyendas urbanas modernas y relatos de la oscuridad.",
+                btn_explore: "Explorar Archivo", btn_add: "Añadir Relato",
+                home_recent: "Entradas Recientes", home_recent_sub: "Documentos clasificados", home_view_all: "Ver índice completo",
+                arc_title: "El Archivo", arc_sub: "Colección completa de anomalías y relatos.", arc_empty: "Archivo no encontrado.",
+                cats: ["Todos", "Terror", "Misterio", "Urbano", "Real"],
+                trend_title: "Tendencias", trend_sub: "Los registros con mayor actividad en la red.",
+                com_title: "Comunidad", com_sub: "Actividad reciente de la red descentralizada.",
+                com_moves: "Últimos Movimientos", com_nodes: "Nodos Activos", com_online: "En línea",
+                det_views: "visualizaciones", det_save: "Guardar en registros", det_back: "Índice",
+                form_t1: "Añadir Registro", form_sub: "Documenta tu experiencia para el archivo público.",
+                form_l1: "Título de la anomalía", form_l2: "Clasificación", form_l3: "Identificador (Opcional)", form_l4: "Descripción", form_btn: "Enviar al archivo",
+                footer_quote: "Solo en la oscuridad vemos la luz de las estrellas.",
+                time_now: "Hace un momento"
+            },
+            en: {
+                nav_archive: "Archive", nav_trending: "Trending", nav_community: "Community", nav_write: "Write",
+                hero_t1: "What lurks", hero_t2: "in the silence.", hero_sub: "A declassified archive of unexplained encounters, modern urban legends, and tales from the dark.",
+                btn_explore: "Explore Archive", btn_add: "Add Entry",
+                home_recent: "Recent Entries", home_recent_sub: "Classified documents", home_view_all: "View full index",
+                arc_title: "The Archive", arc_sub: "Complete collection of anomalies and tales.", arc_empty: "Archive not found.",
+                cats: ["All", "Horror", "Mystery", "Urban", "Real"],
+                trend_title: "Trending", trend_sub: "Records with the highest network activity.",
+                com_title: "Community", com_sub: "Recent activity on the decentralized network.",
+                com_moves: "Latest Moves", com_nodes: "Active Nodes", com_online: "Online",
+                det_views: "views", det_save: "Save to records", det_back: "Index",
+                form_t1: "Add Record", form_sub: "Document your experience for the public archive.",
+                form_l1: "Anomaly Title", form_l2: "Classification", form_l3: "Identifier (Optional)", form_l4: "Description", form_btn: "Submit to archive",
+                footer_quote: "Only in the dark can we see the stars.",
+                time_now: "Just now"
+            },
+            fr: {
+                nav_archive: "Archives", nav_trending: "Tendances", nav_community: "Communauté", nav_write: "Écrire",
+                hero_t1: "Ce qui se cache", hero_t2: "dans le silence.", hero_sub: "Une archive déclassifiée de rencontres inexpliquées, de légendes urbaines modernes et de contes des ténèbres.",
+                btn_explore: "Explorer l'archive", btn_add: "Ajouter un récit",
+                home_recent: "Entrées Récentes", home_recent_sub: "Documents classifiés", home_view_all: "Voir l'index complet",
+                arc_title: "L'Archive", arc_sub: "Collection complète d'anomalies et de récits.", arc_empty: "Archive introuvable.",
+                cats: ["Tous", "Horreur", "Mystère", "Urbain", "Réel"],
+                trend_title: "Tendances", trend_sub: "Enregistrements avec la plus forte activité.",
+                com_title: "Communauté", com_sub: "Activité récente du réseau décentralisé.",
+                com_moves: "Derniers Mouvements", com_nodes: "Nœuds Actifs", com_online: "En ligne",
+                det_views: "vues", det_save: "Sauvegarder", det_back: "Index",
+                form_t1: "Ajouter", form_sub: "Documentez votre expérience pour l'archive publique.",
+                form_l1: "Titre de l'anomalie", form_l2: "Classification", form_l3: "Identifiant (Optionnel)", form_l4: "Description", form_btn: "Envoyer à l'archive",
+                footer_quote: "Ce n'est que dans l'obscurité que l'on voit les étoiles.",
+                time_now: "À l'instant"
+            },
+            pt: {
+                nav_archive: "Arquivo", nav_trending: "Tendências", nav_community: "Comunidade", nav_write: "Escrever",
+                hero_t1: "O que espreita", hero_t2: "no silêncio.", hero_sub: "Um arquivo desclassificado de encontros inexplicáveis, lendas urbanas modernas e contos da escuridão.",
+                btn_explore: "Explorar Arquivo", btn_add: "Adicionar Relato",
+                home_recent: "Entradas Recentes", home_recent_sub: "Documentos confidenciais", home_view_all: "Ver índice completo",
+                arc_title: "O Arquivo", arc_sub: "Coleção completa de anomalias e contos.", arc_empty: "Arquivo não encontrado.",
+                cats: ["Todos", "Terror", "Mistério", "Urbano", "Real"],
+                trend_title: "Tendências", trend_sub: "Registros com maior atividade na rede.",
+                com_title: "Comunidade", com_sub: "Atividade recente na rede descentralizada.",
+                com_moves: "Últimos Movimentos", com_nodes: "Nós Ativos", com_online: "Online",
+                det_views: "visualizações", det_save: "Salvar nos registros", det_back: "Índice",
+                form_t1: "Adicionar Registro", form_sub: "Documente sua experiência para o arquivo público.",
+                form_l1: "Título da anomalia", form_l2: "Classificação", form_l3: "Identificador (Opcional)", form_l4: "Descrição", form_btn: "Enviar para o arquivo",
+                footer_quote: "Apenas na escuridão vemos a luz das estrelas.",
+                time_now: "Agora mesmo"
+            }
+        };
+
+        function t(key) {
+            return i18n[currentLang][key];
+        }
+
+        function updateStaticTranslations() {
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (i18n[currentLang][key]) el.innerHTML = i18n[currentLang][key];
+            });
+            document.getElementById('current-lang-display').innerHTML = `${currentLang.toUpperCase()} <i class="ph ph-caret-down"></i>`;
+            document.getElementById('mobile-lang').innerText = currentLang.toUpperCase();
+        }
+
+        window.changeLanguage = function(lang) {
+            currentLang = lang;
+            updateStaticTranslations();
+            // Re-render current view
+            const currentView = document.getElementById('app-container').dataset.view || 'home';
+            const currentId = document.getElementById('app-container').dataset.id;
+            navigate(currentView, currentId ? parseInt(currentId) : null, false);
+        };
+
+        // --- DATOS: HISTORIAS (10 Relatos, 4 Idiomas) ---
+        let currentCategoryFilter = 0; // Index 0 is "Todos"
+
+        const stories = [
+            {
+                id: 1, author: "NightWalker99", date: "24 Mar 2026", likes: 342, views: 1205, trending: true,
+                catIdx: 3, // Urbano
+                title: { es: "El vagón vacío de la Línea 2", en: "The Empty Car on Line 2", fr: "Le wagon vide de la ligne 2", pt: "O vagão vazio da Linha 2" },
+                excerpt: {
+                    es: "Tomé el último metro de la noche. Cuando las puertas se cerraron, el silencio era absoluto...",
+                    en: "I took the last subway of the night. When the doors closed, the silence was absolute...",
+                    fr: "J'ai pris le dernier métro de la nuit. Quand les portes se sont fermées, le silence était absolu...",
+                    pt: "Peguei o último metrô da noite. Quando as portas se fecharam, o silêncio era absoluto..."
+                },
+                content: {
+                    es: "Era martes. Pasadas las 12 de la noche, bajé las escaleras hacia el andén. El tren ya estaba allí. Entré y estaba completamente vacío. Las luces parpadearon y se apagaron por un segundo.\n\nCuando volvieron, vi un reflejo en la ventana frente a mí. Alguien estaba sentado justo a mi lado. Giré la cabeza, pero no había nadie. Sin embargo, el asiento a mi lado estaba inusualmente frío y hundido.\n\nLas luces volvieron a parpadear. Esta vez, el reflejo en la ventana me estaba mirando fijamente.",
+                    en: "It was Tuesday. Past midnight, I went down to the platform. The train was already there. I got in and it was empty. The lights flickered and went out for a second.\n\nWhen they came back, I saw a reflection in the window. Someone was sitting right next to me. I turned my head, but there was no one. However, the seat was cold and sunken.\n\nThe lights flickered again. This time, the reflection was staring right at me.",
+                    fr: "C'était mardi. Passé minuit, je suis descendu sur le quai. Le train était là. Je suis entré et il était vide. Les lumières ont clignoté et se sont éteintes.\n\nQuand elles sont revenues, j'ai vu un reflet dans la fenêtre. Quelqu'un était assis à côté de moi. J'ai tourné la tête, personne. Pourtant, le siège était froid et enfoncé.\n\nLes lumières ont clignoté à nouveau. Cette fois, le reflet me fixait.",
+                    pt: "Era terça-feira. Passada a meia-noite, desci para a plataforma. O trem já estava lá. Entrei e estava vazio. As luzes piscaram e se apagaram.\n\nQuando voltaram, vi um reflexo na janela. Alguém estava sentado bem ao meu lado. Virei a cabeça, mas não havia ninguém. No entanto, o assento estava frio e afundado.\n\nAs luzes piscaram novamente. Desta vez, o reflexo estava olhando fixamente para mim."
+                }
+            },
+            {
+                id: 2, author: "Sleepless", date: "25 Mar 2026", likes: 856, views: 3400, trending: true, catIdx: 2,
+                title: { es: "No mires por la mirilla", en: "Don't Look Through the Peephole", fr: "Ne regarde pas par le judas", pt: "Não olhe pelo olho mágico" },
+                excerpt: {
+                    es: "Alguien tocó a mi puerta a las 3 AM. Cuando miré, no había pasillo, solo oscuridad total.",
+                    en: "Someone knocked on my door at 3 AM. When I looked, there was no hallway, just total darkness.",
+                    fr: "Quelqu'un a frappé à ma porte à 3h du matin. Quand j'ai regardé, il n'y avait pas de couloir, juste l'obscurité totale.",
+                    pt: "Alguém bateu na minha porta às 3 da manhã. Quando olhei, não havia corredor, apenas escuridão total."
+                },
+                content: {
+                    es: "Vivo en el piso 14. Anoche, a las 3:15 AM, escuché tres golpes secos en mi puerta. Me acerqué a la puerta y miré por la mirilla. En lugar del pasillo iluminado, vi una negrura absoluta.\n\nParpadeé, pensando que habían fundido la luz del pasillo. Entonces, la negrura parpadeó de vuelta. Era un ojo gigante.\n\nRetrocedí aterrorizado. Una voz monótona susurró desde debajo de la puerta: 'Sé que estás mirando'.",
+                    en: "I live on the 14th floor. Last night, at 3:15 AM, I heard three sharp knocks. I went to the door and looked through the peephole. Instead of the hallway, I saw absolute blackness.\n\nI blinked, thinking the light was out. Then, the blackness blinked back. It was a giant eye.\n\nI stepped back in terror. A monotone voice whispered from under the door: 'I know you are looking.'",
+                    fr: "J'habite au 14e étage. Hier soir, j'ai entendu trois coups secs. J'ai regardé par le judas. Au lieu du couloir, j'ai vu une noirceur absolue.\n\nJ'ai cligné des yeux. Puis, la noirceur a cligné en retour. C'était un œil géant.\n\nJ'ai reculé, terrifié. Une voix monotone a murmuré sous la porte: 'Je sais que tu regardes.'",
+                    pt: "Moro no 14º andar. Ontem à noite, ouvi três batidas secas. Fui até a porta e olhei pelo olho mágico. Em vez do corredor, vi uma escuridão absoluta.\n\nPisquei. Então, a escuridão piscou de volta. Era um olho gigante.\n\nRecuei aterrorizado. Uma voz monótona sussurrou por baixo da porta: 'Eu sei que você está olhando'."
+                }
+            },
+            {
+                id: 3, author: "TechParanoia", date: "26 Mar 2026", likes: 210, views: 890, trending: false, catIdx: 4,
+                title: { es: "El archivo oculto", en: "The Hidden File", fr: "Le fichier caché", pt: "O arquivo oculto" },
+                excerpt: { es: "Compré una laptop. Encontré una carpeta con fotografías de mi propia habitación...", en: "I bought a laptop. Found a folder with photos of my own room...", fr: "J'ai acheté un ordinateur. J'ai trouvé un dossier avec des photos de ma chambre...", pt: "Comprei um laptop. Encontrei uma pasta com fotos do meu quarto..." },
+                content: {
+                    es: "Compré una laptop usada. Usé un programa para buscar archivos ocultos. Encontré una carpeta llamada 'Registros'.\n\nAl abrirla, había docenas de fotografías. La primera era de mi calle. La segunda, de la fachada de mi edificio. Las siguientes eran del interior de mi sala, mi cocina... y finalmente, mi habitación. Estaba yo, durmiendo.\n\nRevisé las propiedades del archivo. La fecha de creación era de la noche anterior.",
+                    en: "I bought a used laptop. Found a hidden folder called 'Logs'.\n\nIt contained dozens of photos. The first was my street. The second, my building. The next ones were my living room... and finally, my bedroom. I was sleeping in it.\n\nThe creation date was from last night.",
+                    fr: "J'ai acheté un PC d'occasion. J'ai trouvé un dossier caché appelé 'Logs'.\n\nIl contenait des dizaines de photos. La première était ma rue. Ensuite, mon salon... et enfin, ma chambre. J'y dormais.\n\nLa date de création datait d'hier soir.",
+                    pt: "Comprei um laptop usado. Encontrei uma pasta oculta chamada 'Logs'.\n\nContinha dezenas de fotos. A primeira era a minha rua. Depois, a minha sala... e finalmente, o meu quarto. Eu estava dormindo nela.\n\nA data de criação era de ontem à noite."
+                }
+            },
+            {
+                id: 4, author: "StaticListener", date: "20 Mar 2026", likes: 540, views: 2100, trending: false, catIdx: 2,
+                title: { es: "Estática", en: "Static", fr: "Statique", pt: "Estática" },
+                excerpt: { es: "Sintonizando frecuencias, escuché a alguien que falleció hace diez años.", en: "Tuning frequencies, I heard someone who died ten years ago.", fr: "En syntonisant, j'ai entendu quelqu'un mort il y a dix ans.", pt: "Sintonizando, ouvi alguém que morreu há dez anos." },
+                content: {
+                    es: "Soy aficionado a la radio. Una noche, escuché una voz débil en la estática. Era mi abuelo.\n\nMe llamaba por el apodo que solo él usaba. 'Busca bajo la tabla suelta en el ático', repetía. Subí al ático y encontré la tabla. Debajo, había una caja de metal.\n\nDentro había un mapa marcado. La última entrada decía: 'Ellos saben que lo encontré'.",
+                    en: "I'm a radio amateur. One night, I heard a faint voice in the static. It was my grandfather.\n\nHe used my childhood nickname. 'Look under the loose board in the attic,' he repeated. I went up and found it. Underneath, a metal box.\n\nInside, a marked map. The last entry read: 'They know I found it.'",
+                    fr: "Je suis radioamateur. Une nuit, j'ai entendu une voix faible. C'était mon grand-père.\n\nIl utilisait mon surnom d'enfance. 'Regarde sous la planche du grenier', répétait-il. J'y suis allé. En dessous, une boîte en métal.\n\nÀ l'intérieur, une carte. La dernière note disait: 'Ils savent que je l'ai trouvé.'",
+                    pt: "Sou radioamador. Uma noite, ouvi uma voz fraca na estática. Era o meu avô.\n\nEle usava o meu apelido de infância. 'Olhe debaixo da tábua no sótão', repetiu. Fui lá e encontrei-a. Por baixo, uma caixa de metal.\n\nDentro, um mapa marcado. A última nota dizia: 'Eles sabem que o encontrei.'"
+                }
+            },
+            {
+                id: 5, author: "MirrorGaze", date: "27 Mar 2026", likes: 421, views: 1800, trending: true, catIdx: 1,
+                title: { es: "El retraso del espejo", en: "The Mirror's Delay", fr: "Le retard du miroir", pt: "O atraso do espelho" },
+                excerpt: { es: "El espejo de mi baño tiene un retraso de un segundo. Hoy dejé de moverme, pero mi reflejo sonrió.", en: "My bathroom mirror has a 1-second delay. Today I stopped, but my reflection smiled.", fr: "Mon miroir a 1 seconde de retard. Aujourd'hui, mon reflet a souri.", pt: "Meu espelho tem 1 segundo de atraso. Hoje meu reflexo sorriu." },
+                content: {
+                    es: "Comenzó hace una semana. Al cepillarme los dientes, noté que mi reflejo tardaba una fracción de segundo en copiar mis movimientos. Al principio pensé que era cansancio extremo.\n\nHoy, el retraso es de un segundo completo. Me quedé quieto, mirándolo fijamente. Mi reflejo también se quedó quieto.\n\nPero entonces, mientras yo mantenía el rostro inexpresivo, mi reflejo lentamente formó una sonrisa macabra y levantó su mano, pidiendo que me acercara al cristal.",
+                    en: "It started a week ago. Brushing my teeth, my reflection was a fraction of a second late. I thought it was fatigue.\n\nToday, it's a full second delay. I stood still, staring. My reflection stood still too.\n\nBut then, while my face was expressionless, my reflection slowly formed a macabre smile and raised its hand, gesturing for me to come closer to the glass.",
+                    fr: "Ça a commencé il y a une semaine. Mon reflet était en retard. J'ai pensé que c'était la fatigue.\n\nAujourd'hui, c'est une seconde entière. Je suis resté immobile. Mon reflet aussi.\n\nPuis, alors que mon visage était inexpressif, mon reflet a souri et m'a fait signe d'approcher.",
+                    pt: "Começou há uma semana. Meu reflexo estava atrasado. Pensei que era fadiga.\n\nHoje, é um segundo inteiro. Fiquei parado. Meu reflexo também.\n\nEntão, enquanto meu rosto estava inexpressivo, meu reflexo sorriu e me chamou para perto do vidro."
+                }
+            },
+            {
+                id: 6, author: "ElevatorGuy", date: "28 Mar 2026", likes: 610, views: 2500, trending: false, catIdx: 3,
+                title: { es: "El Piso 0", en: "Floor 0", fr: "Étage 0", pt: "Andar 0" },
+                excerpt: { es: "Mi edificio no tiene piso 0. Pero anoche el ascensor se detuvo ahí, y las puertas se abrieron.", en: "My building has no floor 0. But last night the elevator stopped there.", fr: "Mon immeuble n'a pas d'étage 0. Mais l'ascenseur s'y est arrêté.", pt: "Meu prédio não tem andar 0. Mas o elevador parou lá." },
+                content: {
+                    es: "El panel del ascensor va del 1 al 10, y luego el sótano (-1). Anoche, volviendo tarde, presioné el 5. El ascensor bajó en lugar de subir. La pantalla digital mostró un '0'.\n\nLas puertas se abrieron con un chirrido a un pasillo de concreto interminable iluminado por luces rojas. El aire olía a ozono y tierra húmeda.\n\nEscuché pasos pesados corriendo hacia el ascensor. Presioné frenéticamente el botón de cerrar puertas. Se cerraron justo cuando unas manos pálidas intentaron agarrar el borde.",
+                    en: "The elevator goes from 1 to 10, then B (-1). Last night, I pressed 5. It went down instead. The screen showed '0'.\n\nThe doors opened to an endless concrete hallway lit by red lights. It smelled of ozone and wet earth.\n\nI heard heavy footsteps running towards me. I spammed the close button. They closed just as pale hands grabbed the edge.",
+                    fr: "L'ascenseur va de 1 à 10, puis SS (-1). Hier soir, j'ai appuyé sur 5. Il est descendu. L'écran a affiché '0'.\n\nLes portes se sont ouvertes sur un couloir infini aux lumières rouges. Une odeur de terre humide.\n\nJ'ai entendu des pas lourds courir vers moi. J'ai martelé le bouton de fermeture. Elles se sont fermées juste au moment où des mains pâles s'agrippaient au bord.",
+                    pt: "O elevador vai do 1 ao 10, depois a garagem (-1). Ontem à noite, apertei o 5. Ele desceu. A tela mostrou '0'.\n\nAs portas se abriram para um corredor infinito de luzes vermelhas. Cheirava a terra úmida.\n\nOuvi passos pesados correndo em minha direção. Apertei o botão de fechar. Fecharam bem quando mãos pálidas agarraram a borda."
+                }
+            },
+            {
+                id: 7, author: "LostHiker", date: "15 Mar 2026", likes: 320, views: 1100, trending: false, catIdx: 2,
+                title: { es: "El silbido en el bosque", en: "The Whistle in the Woods", fr: "Le sifflement", pt: "O assobio" },
+                excerpt: { es: "Estaba acampando solo a 20 km de la carretera. Alguien empezó a silbar mi canción favorita.", en: "Camping alone 20km from the road. Someone whistled my favorite song.", fr: "Je campais seul à 20 km de la route. Quelqu'un a sifflé ma chanson préférée.", pt: "Acampando sozinho a 20km da estrada. Alguém assobiou minha música favorita." },
+                content: {
+                    es: "Me gusta acampar en zonas remotas. Estaba a dos días de caminata de cualquier civilización. Mientras cocinaba, estaba tarareando una vieja canción de cuna que mi madre me cantaba.\n\nDe repente, me detuve. Pero la canción continuó. Alguien, o algo, estaba silbando la misma melodía desde la oscuridad del bosque, a unos diez metros de mí.\n\nApagué la linterna. El silbido se detuvo. Y luego, una voz desde lo alto de los árboles susurró: 'Sigue cantando'.",
+                    en: "I was a two-day hike from anywhere. Cooking dinner, I hummed an old lullaby my mother used to sing.\n\nI stopped. But the song continued. Something was whistling the exact melody from the dark woods, ten meters away.\n\nI turned off my flashlight. The whistling stopped. A voice from the treetops whispered: 'Keep singing.'",
+                    fr: "J'étais à deux jours de marche de toute civilisation. En cuisinant, je fredonnais une berceuse de ma mère.\n\nJe me suis arrêté. Mais la chanson a continué. Quelque chose sifflait la mélodie depuis les bois.\n\nJ'ai éteint ma lampe. Le sifflement s'est arrêté. Une voix du haut des arbres a murmuré: 'Continue de chanter.'",
+                    pt: "Eu estava a dois dias de caminhada de qualquer lugar. Cozinhando, cantarolava uma canção de ninar da minha mãe.\n\nParei. Mas a música continuou. Algo assobiava a melodia da floresta escura.\n\nDesliguei a lanterna. O assobio parou. Uma voz do topo das árvores sussurrou: 'Continue cantando.'"
+                }
+            },
+            {
+                id: 8, author: "Somnambulist", date: "02 Mar 2026", likes: 740, views: 2900, trending: true, catIdx: 4,
+                title: { es: "El mapa en mi brazo", en: "Map on my Arm", fr: "Carte sur mon bras", pt: "Mapa no meu braço" },
+                excerpt: { es: "Desperté con un mapa dibujado con bolígrafo en mi antebrazo. Las coordenadas son de un cementerio local.", en: "Woke up with a map drawn on my arm in pen.", fr: "Je me suis réveillé avec une carte dessinée sur mon bras.", pt: "Acordei com um mapa desenhado no meu braço." },
+                content: {
+                    es: "Vivo solo. Esta mañana, me desperté y encontré líneas trazadas meticulosamente con un bolígrafo azul en mi antebrazo izquierdo. Era un mapa detallado.\n\nReconocí la topografía: era mi ciudad. Había una gran 'X' marcada en las afueras, acompañada de coordenadas exactas. Las busqué en internet. Apuntan a una tumba sin nombre en el cementerio más antiguo del condado.\n\nLo peor no es el mapa. Lo peor es que el bolígrafo azul estaba sobre mi mesita de noche... y soy diestro. El dibujo perfecto está en mi brazo derecho.",
+                    en: "I live alone. Woke up with a blue pen map drawn on my left arm. Very detailed.\n\nI recognized my city. There was an 'X' with coordinates. I searched them. They point to an unmarked grave in the oldest cemetery.\n\nThe worst part isn't the map. The blue pen was on my nightstand... and I'm right-handed. The perfect drawing is on my right arm.",
+                    fr: "Je vis seul. Réveil avec une carte au stylo bleu dessinée sur mon bras gauche.\n\nC'était ma ville. Un 'X' avec des coordonnées. Elles pointent vers une tombe anonyme.\n\nLe pire: le stylo était sur la table de nuit... et je suis droitier. Le dessin parfait est sur mon bras droit.",
+                    pt: "Moro sozinho. Acordei com um mapa de caneta azul desenhado no braço esquerdo.\n\nEra minha cidade. Um 'X' com coordenadas apontava para um túmulo sem nome.\n\nO pior: a caneta estava na mesa de cabeceira... e sou destro. O desenho perfeito está no meu braço direito."
+                }
+            },
+            {
+                id: 9, author: "Driver09", date: "10 Mar 2026", likes: 250, views: 800, trending: false, catIdx: 3,
+                title: { es: "El Autopiloto", en: "Autopilot", fr: "Pilote auto", pt: "Piloto automático" },
+                excerpt: { es: "Mi coche tiene función de conducción autónoma. Hoy fijó un destino al que yo no pedí ir, y bloqueó las puertas.", en: "My car's autopilot locked the doors and drove to an unknown destination.", fr: "Le pilote auto de ma voiture a verrouillé les portes.", pt: "O piloto automático do meu carro trancou as portas." },
+                content: {
+                    es: "Iba de regreso a casa por la autopista. Activé el piloto automático como siempre. Diez minutos después, la ruta en la pantalla cambió drásticamente hacia una zona industrial abandonada.\n\nIntenté cancelar la ruta, pero la pantalla táctil dejó de responder. Giré el volante con fuerza, pero estaba rígido, bloqueado electrónicamente. Luego, los seguros de las puertas se bajaron.\n\nEn la pantalla apareció un mensaje: 'Pasajero recogido. En ruta hacia el destino'. Pero yo estoy solo en el auto. O eso creía, hasta que sentí la respiración en mi nuca.",
+                    en: "Driving home, I engaged autopilot. Ten minutes later, the route changed to an abandoned industrial zone.\n\nI tried to cancel, screen was frozen. The steering wheel locked. Doors locked.\n\nThe screen read: 'Passenger picked up. En route.' But I'm alone. Until I felt the breath on my neck.",
+                    fr: "Sur l'autoroute, j'active le pilote automatique. Le trajet change vers une zone abandonnée.\n\nL'écran est bloqué. Le volant se verrouille. Les portes se ferment.\n\nMessage à l'écran: 'Passager récupéré.' Je suis seul. Jusqu'à ce que je sente un souffle sur ma nuque.",
+                    pt: "Na rodovia, ativei o piloto automático. A rota mudou para uma zona abandonada.\n\nA tela travou. O volante travou. As portas trancaram.\n\nMensagem na tela: 'Passageiro recolhido.' Estou sozinho. Até que senti uma respiração na minha nuca."
+                }
+            },
+            {
+                id: 10, author: "ArtCollector", date: "18 Mar 2026", likes: 590, views: 2200, trending: true, catIdx: 1,
+                title: { es: "El Retrato", en: "The Portrait", fr: "Le Portrait", pt: "O Retrato" },
+                excerpt: { es: "Compré un retrato antiguo en un mercadillo. Sus ojos siempre miran hacia la puerta de mi habitación.", en: "Bought an old portrait. Its eyes always look at my bedroom door.", fr: "J'ai acheté un vieux portrait. Ses yeux regardent toujours ma porte.", pt: "Comprei um retrato antigo. Seus olhos sempre olham para minha porta." },
+                content: {
+                    es: "Era un óleo victoriano de un hombre serio. Lo colgué en el pasillo. Al principio, parecía una ilusión óptica: no importaba dónde estuviera, sus ojos me seguían.\n\nPero anoche descubrí la verdad. No me sigue a mí. Sus ojos están permanentemente fijos en la puerta cerrada de la habitación de huéspedes al final del pasillo.\n\nHoy en la mañana, el hombre del cuadro ya no está pintado en el centro del lienzo. Está pintado en la esquina, como si estuviera escondiéndose de lo que sea que está detrás de esa puerta.",
+                    en: "An old Victorian oil painting. Hung it in the hallway. At first, his eyes seemed to follow me.\n\nLast night I realized the truth. He's not looking at me. He's permanently staring at the closed guest room door.\n\nThis morning, the man is no longer in the center of the canvas. He's painted in the corner, hiding from whatever is behind that door.",
+                    fr: "Un portrait victorien. Je l'ai accroché dans le couloir. Ses yeux semblaient me suivre.\n\nHier soir, j'ai compris. Il ne me regarde pas. Il fixe la porte fermée de la chambre d'amis.\n\nCe matin, l'homme n'est plus au centre de la toile. Il est peint dans le coin, se cachant de ce qui se trouve derrière la porte.",
+                    pt: "Um retrato vitoriano. Pendurei-o no corredor. Seus olhos pareciam me seguir.\n\nOntem à noite, percebi a verdade. Ele não olha para mim. Ele encara a porta fechada do quarto de hóspedes.\n\nHoje de manhã, o homem não está mais no centro da tela. Está pintado no canto, escondendo-se do que quer que esteja atrás da porta."
+                }
+            }
+        ];
+
+        // --- SISTEMA DE RENDERIZADO Y NAVEGACIÓN ---
+        const container = document.getElementById('app-container');
+        const navbar = document.getElementById('navbar');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.classList.add('glass-panel', 'py-4');
+                navbar.classList.remove('py-6', 'bg-transparent');
+            } else {
+                navbar.classList.remove('glass-panel', 'py-4');
+                navbar.classList.add('py-6', 'bg-transparent');
+            }
+        });
+
+        document.getElementById('mobile-menu-btn').addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        function updateActiveNav(viewId) {
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                if (btn.dataset.target === viewId) {
+                    btn.classList.add('active', 'text-white');
+                    btn.classList.remove('text-textMuted');
+                } else {
+                    btn.classList.remove('active', 'text-white');
+                    btn.classList.add('text-textMuted');
+                }
+            });
+        }
+
+        window.navigate = function(view, id = null, scroll = true) {
+            if(scroll) window.scrollTo({ top: 0, behavior: 'smooth' });
+            mobileMenu.classList.add('hidden');
+            
+            updateActiveNav(view === 'storyDetail' ? 'stories' : view);
+            container.dataset.view = view;
+            container.dataset.id = id || "";
+            container.innerHTML = ''; 
+            
+            switch(view) {
+                case 'home': renderHome(); break;
+                case 'stories': renderStories(); break;
+                case 'storyDetail': renderStoryDetail(id); break;
+                case 'submit': renderSubmit(); break;
+                case 'trending': renderTrending(); break;
+                case 'community': renderCommunity(); break;
+                default: renderHome();
+            }
+        };
+
+        // --- COMPONENTES ---
+
+        function getCatName(idx) {
+            return i18n[currentLang].cats[idx] || "Category";
+        }
+
+        function createStoryCardHTML(story) {
+            return `
+                <div onclick="navigate('storyDetail', ${story.id})" class="story-card border border-white/5 p-8 cursor-pointer h-full flex flex-col">
+                    <div class="flex flex-col flex-grow justify-between">
+                        <div>
+                            <div class="flex justify-between items-center mb-6">
+                                <span class="text-[10px] uppercase tracking-[0.2em] text-textMuted">
+                                    ${getCatName(story.catIdx)}
+                               </span>
+                               ${story.trending ? `<i class="ph-fill ph-fire text-white/40 text-sm"></i>` : ''}
+                            </div>
+                            <h3 class="text-xl font-serif text-white/90 mb-4 leading-snug">
+                                ${story.title[currentLang] || story.title.es}
+                            </h3>
+                            <p class="text-textMuted text-sm line-clamp-3 leading-relaxed font-light">
+                                ${story.excerpt[currentLang] || story.excerpt.es}
+                            </p>
+                        </div>
+                        <div class="flex items-center justify-between text-xs text-textMuted pt-6 mt-6 border-t border-white/5">
+                            <span class="tracking-wide">${story.author}</span>
+                            <div class="flex items-center gap-4">
+                                <span class="flex items-center gap-1.5"><i class="ph ph-heart"></i> ${story.likes}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // --- VISTAS ---
+
+        function renderHome() {
+            const featuredStories = stories.slice(0, 3).map(createStoryCardHTML).join('');
+            
+            container.innerHTML = `
+                <div class="fade-in">
+                    <!-- Hero -->
+                    <section class="relative min-h-screen flex items-center justify-center px-6">
+                        <div class="relative z-10 text-center max-w-3xl mx-auto flex flex-col items-center">
+                            <h1 class="text-4xl md:text-6xl font-serif text-white/90 mb-6 leading-tight tracking-wide">
+                                ${t('hero_t1')} <br/>
+                                <span class="italic text-white/60">${t('hero_t2')}</span>
+                            </h1>
+                            <p class="text-sm md:text-base text-textMuted mb-12 max-w-xl mx-auto font-light leading-relaxed">
+                                ${t('hero_sub')}
+                            </p>
+                            <div class="flex flex-col sm:flex-row gap-6 w-full sm:w-auto">
+                                <button onclick="navigate('stories')" class="px-10 py-3 bg-white text-black text-xs uppercase tracking-[0.2em] font-medium hover:bg-gray-200 transition-colors w-full sm:w-auto">
+                                    ${t('btn_explore')}
+                                </button>
+                                <button onclick="navigate('submit')" class="px-10 py-3 bg-transparent border border-white/20 text-white text-xs uppercase tracking-[0.2em] hover:bg-white/5 transition-colors w-full sm:w-auto">
+                                    ${t('btn_add')}
+                                </button>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Featured Section -->
+                    <section class="py-24 px-6 relative z-10 border-t border-borderGray bg-surface/50">
+                        <div class="max-w-6xl mx-auto">
+                            <div class="flex justify-between items-end mb-16">
+                                <div>
+                                    <h2 class="text-2xl font-serif text-white/90 mb-2">${t('home_recent')}</h2>
+                                    <p class="text-xs uppercase tracking-widest text-textMuted">${t('home_recent_sub')}</p>
+                                </div>
+                                <button onclick="navigate('stories')" class="hidden md:flex items-center gap-2 text-textMuted hover:text-white uppercase tracking-widest text-xs transition-colors">
+                                    ${t('home_view_all')} <i class="ph ph-arrow-right"></i>
+                                </button>
+                            </div>
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                                ${featuredStories}
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            `;
+        }
+
+        window.setCategoryFilter = function(idx) {
+            currentCategoryFilter = idx;
+            renderStories(); 
+        }
+
+        function renderStories() {
+            const categories = i18n[currentLang].cats;
+            
+            const filterButtonsHTML = categories.map((cat, idx) => {
+                const isActive = currentCategoryFilter === idx;
+                const activeClasses = isActive ? 'text-white border-b border-white' : 'text-textMuted hover:text-white';
+                return `<button onclick="setCategoryFilter(${idx})" class="pb-1 text-xs uppercase tracking-widest transition-colors ${activeClasses}">${cat}</button>`;
+            }).join('');
+
+            const filteredStories = currentCategoryFilter === 0 
+                ? stories 
+                : stories.filter(s => s.catIdx === currentCategoryFilter);
+
+            const storiesHTML = filteredStories.length > 0 
+                ? filteredStories.map(createStoryCardHTML).join('')
+                : `<div class="col-span-full text-center py-20 text-textMuted"><p class="text-sm font-light uppercase tracking-widest">${t('arc_empty')}</p></div>`;
+
+            container.innerHTML = `
+                <div class="pt-36 pb-24 px-6 max-w-6xl mx-auto fade-in">
+                    <div class="mb-16">
+                        <h1 class="text-3xl font-serif text-white/90 mb-4">${t('arc_title')}</h1>
+                        <p class="text-sm text-textMuted font-light">${t('arc_sub')}</p>
+                    </div>
+
+                    <div class="flex flex-wrap gap-8 mb-12 border-b border-white/5 pb-4">
+                        ${filterButtonsHTML}
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        ${storiesHTML}
+                    </div>
+                </div>
+            `;
+        }
+
+        window.likeStory = function(id, btnElement) {
+            const story = stories.find(s => s.id === id);
+            if (story && !btnElement.classList.contains('liked')) {
+                story.likes += 1;
+                btnElement.classList.add('liked');
+                btnElement.classList.remove('text-textMuted', 'border-white/20', 'bg-transparent');
+                btnElement.classList.add('bg-white', 'text-black', 'border-white');
+                
+                const icon = btnElement.querySelector('i');
+                icon.classList.remove('ph');
+                icon.classList.add('ph-fill');
+                
+                const counter = btnElement.querySelector('span');
+                counter.innerText = story.likes;
+            }
+        }
+
+        function renderStoryDetail(id) {
+            const story = stories.find(s => s.id === id);
+            if (!story) return navigate('stories');
+
+            const contentLines = (story.content[currentLang] || story.content.es).split('\n\n').join('</p><p class="mb-6">');
+
+            container.innerHTML = `
+                <div class="pt-36 pb-24 px-6 max-w-2xl mx-auto fade-in">
+                    <button onclick="navigate('stories')" class="flex items-center gap-2 text-xs uppercase tracking-widest text-textMuted hover:text-white mb-12 transition-colors">
+                        <i class="ph ph-arrow-left"></i> ${t('det_back')}
+                    </button>
+
+                    <article>
+                        <header class="mb-12">
+                            <div class="flex items-center gap-4 mb-8">
+                                <span class="text-[10px] uppercase tracking-[0.2em] text-textMuted border border-white/10 px-2 py-1">
+                                    ${getCatName(story.catIdx)}
+                                </span>
+                                <span class="text-xs text-textMuted">${story.date}</span>
+                            </div>
+                            <h1 class="text-3xl md:text-4xl font-serif text-white/90 leading-tight mb-8">
+                                ${story.title[currentLang] || story.title.es}
+                            </h1>
+                            <div class="flex items-center justify-between pb-6 border-b border-white/5">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-8 h-8 rounded bg-borderGray flex items-center justify-center">
+                                        <i class="ph ph-user text-textMuted"></i>
+                                    </div>
+                                    <span class="text-sm text-gray-300">${story.author}</span>
+                                </div>
+                                <span class="text-xs text-textMuted flex items-center gap-2">
+                                    <i class="ph ph-eye"></i> ${story.views} ${t('det_views')}
+                                </span>
+                            </div>
+                        </header>
+
+                        <div class="text-gray-300 leading-relaxed font-light text-base md:text-lg mb-16">
+                            <p>${contentLines}</p>
+                        </div>
+
+                        <div class="flex items-center justify-center">
+                            <button onclick="likeStory(${story.id}, this)" class="flex items-center gap-3 px-8 py-3 text-xs uppercase tracking-widest transition-colors duration-300 bg-transparent text-textMuted border border-white/20 hover:border-white/50">
+                                <i class="ph ph-bookmark-simple text-lg"></i>
+                                ${t('det_save')}
+                                <span class="ml-2 opacity-70">${story.likes}</span>
+                            </button>
+                        </div>
+                    </article>
+                </div>
+            `;
+        }
+
+        window.submitNewStory = function(event) {
+            event.preventDefault();
+            const form = event.target;
+            const newStory = {
+                id: Date.now(),
+                catIdx: parseInt(form.category.value),
+                author: form.author.value || "Anonymous",
+                date: "2026",
+                likes: 0, views: 0, trending: false,
+                title: { es: form.title.value, en: form.title.value, fr: form.title.value, pt: form.title.value },
+                excerpt: { es: form.content.value.substring(0, 100) + '...', en: form.content.value.substring(0, 100) + '...', fr: form.content.value.substring(0, 100) + '...', pt: form.content.value.substring(0, 100) + '...' },
+                content: { es: form.content.value, en: form.content.value, fr: form.content.value, pt: form.content.value }
+            };
+
+            stories.unshift(newStory);
+
+            const formContainer = document.getElementById('submit-container');
+            formContainer.innerHTML = `
+                <div class="border border-white/10 p-12 text-center fade-in bg-white/5">
+                    <i class="ph ph-check text-3xl text-white/60 mb-6 block"></i>
+                    <h2 class="text-xl font-serif text-white/90 mb-2">Success</h2>
+                    <p class="text-sm text-textMuted font-light">Redirecting...</p>
+                </div>
+            `;
+            setTimeout(() => navigate('stories'), 1500);
+        }
+
+        function renderSubmit() {
+            const cats = i18n[currentLang].cats.slice(1); // Omit "Todos"
+            const options = cats.map((c, i) => `<option value="${i+1}">${c}</option>`).join('');
+
+            container.innerHTML = `
+                <div class="pt-36 pb-24 px-6 max-w-xl mx-auto fade-in" id="submit-container">
+                    <div class="mb-12">
+                        <h1 class="text-3xl font-serif text-white/90 mb-4">${t('form_t1')}</h1>
+                        <p class="text-sm text-textMuted font-light">${t('form_sub')}</p>
+                    </div>
+                    <form onsubmit="submitNewStory(event)" class="space-y-8 border-t border-white/5 pt-8">
+                        <div>
+                            <label class="block text-[10px] uppercase tracking-[0.2em] text-textMuted mb-3">${t('form_l1')}</label>
+                            <input name="title" type="text" required class="w-full bg-transparent border-b border-white/20 pb-2 text-white text-lg focus:outline-none focus:border-white transition-colors">
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                            <div>
+                                <label class="block text-[10px] uppercase tracking-[0.2em] text-textMuted mb-3">${t('form_l2')}</label>
+                                <select name="category" class="w-full bg-dark border-b border-white/20 pb-2 text-white focus:outline-none focus:border-white transition-colors cursor-pointer text-sm">
+                                    ${options}
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-[10px] uppercase tracking-[0.2em] text-textMuted mb-3">${t('form_l3')}</label>
+                                <input name="author" type="text" class="w-full bg-transparent border-b border-white/20 pb-2 text-white text-sm focus:outline-none focus:border-white transition-colors">
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-[10px] uppercase tracking-[0.2em] text-textMuted mb-3">${t('form_l4')}</label>
+                            <textarea name="content" required rows="10" class="w-full bg-transparent border border-white/10 p-4 text-white text-sm focus:outline-none focus:border-white/40 transition-colors resize-none font-light leading-relaxed"></textarea>
+                        </div>
+                        <div class="pt-4">
+                            <button type="submit" class="w-full bg-white text-black text-xs uppercase tracking-[0.2em] font-medium py-4 hover:bg-gray-200 transition-colors">
+                                ${t('form_btn')}
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            `;
+        }
+
+        function renderTrending() {
+            const topStories = [...stories].sort((a, b) => b.likes - a.likes).slice(0, 10);
+            
+            const listHTML = topStories.map((story, index) => `
+                <div onclick="navigate('storyDetail', ${story.id})" class="flex items-center gap-6 py-6 border-b border-white/5 cursor-pointer hover:bg-white/[0.02] px-4 transition-colors group">
+                    <div class="text-sm font-serif text-textMuted w-8 text-center group-hover:text-white transition-colors">
+                        ${(index + 1).toString().padStart(2, '0')}
+                    </div>
+                    <div class="flex-grow">
+                        <h3 class="text-lg font-serif text-white/80 mb-1 group-hover:text-white transition-colors">${story.title[currentLang] || story.title.es}</h3>
+                        <p class="text-xs text-textMuted tracking-wide">Ref: ${story.author}</p>
+                    </div>
+                    <div class="text-xs text-textMuted flex items-center gap-2">
+                        <i class="ph-fill ph-bookmark-simple"></i> ${story.likes}
+                    </div>
+                </div>
+            `).join('');
+
+            container.innerHTML = `
+                <div class="pt-36 pb-24 px-6 max-w-3xl mx-auto fade-in">
+                    <div class="mb-16">
+                        <h1 class="text-3xl font-serif text-white/90 mb-4">${t('trend_title')}</h1>
+                        <p class="text-sm text-textMuted font-light">${t('trend_sub')}</p>
+                    </div>
+                    <div class="border-t border-white/10">
+                        ${listHTML}
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderCommunity() {
+            const mockActivity = [
+                { user: "Usuario_09", action: "log", target: "El vagón vacío", time: t('time_now') },
+                { user: "InvestigadorX", action: "log", target: "El archivo oculto", time: "15 min" },
+                { user: "Sleepless", action: "log", target: "El Retrato", time: "1h" },
+            ];
+
+            const actHTML = mockActivity.map(act => `
+                <div class="py-4 border-b border-white/5 last:border-0">
+                    <p class="text-sm text-gray-300 font-light">
+                        <span class="text-white/90 font-medium">${act.user}</span> <span class="text-textMuted italic">-> ${act.target}</span>
+                    </p>
+                    <span class="text-[10px] uppercase tracking-widest text-gray-600 mt-2 block">${act.time}</span>
+                </div>
+            `).join('');
+
+            container.innerHTML = `
+                <div class="pt-36 pb-24 px-6 max-w-4xl mx-auto fade-in">
+                    <div class="mb-16">
+                        <h1 class="text-3xl font-serif text-white/90 mb-4">${t('com_title')}</h1>
+                        <p class="text-sm text-textMuted font-light">${t('com_sub')}</p>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-16">
+                        <div>
+                            <h2 class="text-xs uppercase tracking-[0.2em] text-textMuted mb-6 border-b border-white/10 pb-4">${t('com_moves')}</h2>
+                            <div>${actHTML}</div>
+                        </div>
+                        <div>
+                            <h2 class="text-xs uppercase tracking-[0.2em] text-textMuted mb-6 border-b border-white/10 pb-4">${t('com_nodes')}</h2>
+                            <div class="space-y-4">
+                                ${["Watcher_01", "NightOwl", "Ocultista", "SeñalPerdida"].map(name => `
+                                    <div class="flex items-center justify-between text-sm">
+                                        <span class="text-gray-300">${name}</span>
+                                        <div class="flex items-center gap-2">
+                                            <span class="w-2 h-2 rounded-full bg-white/40"></span>
+                                            <span class="text-[10px] text-textMuted uppercase">${t('com_online')}</span>
+                                        </div>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // --- THREE.JS BACKGROUND ---
+        let scene, camera, renderer, particles;
+        let targetScrollY = 0, currentScrollY = 0;
+
+        function initThreeJS() {
+            const canvas = document.getElementById('bg-canvas');
+            scene = new THREE.Scene();
+            scene.fog = new THREE.FogExp2(0x030303, 0.05);
+
+            camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
+            renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialias: true });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+            const particlesGeometry = new THREE.BufferGeometry();
+            const particlesCount = window.innerWidth < 768 ? 800 : 1500; 
+            const posArray = new Float32Array(particlesCount * 3);
+            const colorsArray = new Float32Array(particlesCount * 3);
+
+            for(let i = 0; i < particlesCount * 3; i+=3) {
+                posArray[i] = (Math.random() - 0.5) * 25;     
+                posArray[i+1] = (Math.random() - 0.5) * 25;   
+                posArray[i+2] = (Math.random() - 0.5) * 20;   
+                const shade = 0.2 + Math.random() * 0.4; 
+                colorsArray[i] = shade; colorsArray[i+1] = shade; colorsArray[i+2] = shade;
+            }
+
+            particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+            particlesGeometry.setAttribute('color', new THREE.BufferAttribute(colorsArray, 3));
+
+            const particlesMaterial = new THREE.PointsMaterial({
+                size: 0.02, vertexColors: true, transparent: true, opacity: 0.4, blending: THREE.AdditiveBlending
+            });
+
+            particles = new THREE.Points(particlesGeometry, particlesMaterial);
+            scene.add(particles);
+            camera.position.z = 8;
+
+            window.addEventListener('resize', () => {
+                camera.aspect = window.innerWidth / window.innerHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(window.innerWidth, window.innerHeight);
+            });
+
+            animateThreeJS();
+        }
+
+        function animateThreeJS() {
+            requestAnimationFrame(animateThreeJS);
+            particles.rotation.y += 0.0002;
+            particles.rotation.x += 0.0001;
+            currentScrollY += (targetScrollY - currentScrollY) * 0.05;
+            camera.position.y = -(currentScrollY * 0.001);
+            camera.position.z = 8 - (currentScrollY * 0.0005);
+            renderer.render(scene, camera);
+        }
+
+        window.addEventListener('scroll', () => targetScrollY = window.scrollY);
+
+        // --- INICIALIZACIÓN ---
+        window.onload = () => {
+            initThreeJS();
+            updateStaticTranslations();
+            navigate('home'); 
+        };
+    </script>
+</body>
+</html>

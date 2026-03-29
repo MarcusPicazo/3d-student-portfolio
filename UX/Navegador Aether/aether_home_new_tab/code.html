@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "inverse-on-surface": "#2e3037",
+              "on-surface": "#e1e2eb",
+              "on-primary": "#490080",
+              "primary-container": "#b76dff",
+              "on-tertiary": "#432c00",
+              "on-tertiary-container": "#3a2600",
+              "on-tertiary-fixed-variant": "#604100",
+              "surface-container": "#1d2026",
+              "on-primary-fixed": "#2c0051",
+              "inverse-surface": "#e1e2eb",
+              "primary-fixed": "#f0dbff",
+              "secondary-fixed": "#d8e2ff",
+              "surface-container-high": "#272a31",
+              "tertiary-fixed-dim": "#fabc4e",
+              "error": "#ffb4ab",
+              "on-secondary-container": "#e6ecff",
+              "primary": "#ddb7ff",
+              "on-primary-container": "#400071",
+              "secondary-container": "#0566d9",
+              "error-container": "#93000a",
+              "tertiary-fixed": "#ffdead",
+              "surface-container-lowest": "#0b0e14",
+              "on-secondary": "#002e6a",
+              "on-secondary-fixed-variant": "#004395",
+              "tertiary": "#fabc4e",
+              "on-error": "#690005",
+              "tertiary-container": "#bd871a",
+              "secondary": "#adc6ff",
+              "surface-bright": "#363940",
+              "on-background": "#e1e2eb",
+              "surface-dim": "#10131a",
+              "surface": "#10131a",
+              "on-primary-fixed-variant": "#6900b3",
+              "on-tertiary-fixed": "#281900",
+              "inverse-primary": "#842bd2",
+              "surface-container-low": "#191c22",
+              "on-error-container": "#ffdad6",
+              "surface-variant": "#32353c",
+              "on-secondary-fixed": "#001a42",
+              "outline-variant": "#4d4354",
+              "primary-fixed-dim": "#ddb7ff",
+              "surface-tint": "#ddb7ff",
+              "surface-container-highest": "#32353c",
+              "on-surface-variant": "#cfc2d6",
+              "secondary-fixed-dim": "#adc6ff",
+              "outline": "#988d9f",
+              "background": "#10131a"
+            },
+            fontFamily: {
+              "headline": ["Space Grotesk"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            display: inline-block;
+            line-height: 1;
+            text-transform: none;
+            letter-spacing: normal;
+            word-wrap: normal;
+            white-space: nowrap;
+            direction: ltr;
+        }
+        .glass-panel {
+            background: rgba(29, 32, 38, 0.4);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+        }
+        .glow-subtle {
+            box-shadow: 0 0 20px rgba(168, 85, 247, 0.1);
+        }
+        .ghost-border {
+            border: 1px solid rgba(152, 141, 159, 0.15);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface font-body selection:bg-primary-container selection:text-on-primary-container overflow-hidden">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 flex items-center justify-between px-6 py-2 bg-slate-900/20 backdrop-blur-3xl tonal-transition bg-slate-900/40 flat no shadows with 1px inner-glow-white/5 h-14">
+<div class="flex items-center gap-8">
+<span class="text-xl font-bold tracking-tighter text-purple-400 italic font-['Space_Grotesk']">Aether</span>
+<nav class="hidden md:flex items-center gap-6">
+<a class="text-purple-300 border-b-2 border-purple-500 pb-1 font-['Space_Grotesk'] tracking-tight" href="#">Extensions</a>
+<a class="text-slate-400 hover:text-slate-200 transition-colors font-['Space_Grotesk'] tracking-tight" href="#">History</a>
+<a class="text-slate-400 hover:text-slate-200 transition-colors font-['Space_Grotesk'] tracking-tight" href="#">Downloads</a>
+</nav>
+</div>
+<div class="flex-1 max-w-2xl mx-12">
+<div class="relative flex items-center group">
+<span class="material-symbols-outlined absolute left-4 text-outline pointer-events-none">search</span>
+<input class="w-full bg-surface-container-low border-none border-b-2 border-outline-variant/40 focus:border-primary focus:ring-0 rounded-full py-1.5 pl-12 pr-4 text-sm font-label tracking-wide text-on-surface transition-all" placeholder="https://aether.ai/dashboard" type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-3">
+<button class="p-2 text-on-surface-variant hover:bg-white/5 hover:backdrop-blur-lg rounded-full transition-all">
+<span class="material-symbols-outlined">account_circle</span>
+</button>
+<button class="p-2 text-on-surface-variant hover:bg-white/5 hover:backdrop-blur-lg rounded-full transition-all">
+<span class="material-symbols-outlined">settings</span>
+</button>
+</div>
+</header>
+<!-- SideNavBar (Left) -->
+<aside class="fixed left-0 top-0 h-full z-40 flex flex-col pt-16 pb-4 bg-slate-950/80 backdrop-blur-2xl w-64 tonal-transition border-r border-white/5 shadow-[10px_0_30px_-15px_rgba(168,85,247,0.1)]">
+<div class="px-6 mb-8 mt-4">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-lg bg-primary-container flex items-center justify-center">
+<span class="material-symbols-outlined text-on-primary-container" style="font-variation-settings: 'FILL' 1;">auto_awesome</span>
+</div>
+<div>
+<h2 class="text-sm font-headline font-bold text-on-surface tracking-tight leading-none">Aether Browser</h2>
+<p class="text-[10px] text-outline font-label uppercase tracking-widest mt-1">AI-Enhanced V1.0</p>
+</div>
+</div>
+</div>
+<nav class="flex-1 px-2 space-y-1">
+<a class="flex items-center gap-4 px-4 py-3 bg-purple-500/10 text-purple-400 border-l-4 border-purple-500 shadow-[0_0_15px_rgba(168,85,247,0.2)] font-['Space_Grotesk'] text-sm tracking-wide uppercase translate-x-1 duration-200" href="#">
+<span class="material-symbols-outlined">tab</span>
+<span>Current Tab</span>
+</a>
+<a class="flex items-center gap-4 text-slate-500 hover:text-slate-300 px-4 py-3 hover:bg-white/5 transition-all duration-300 font-['Space_Grotesk'] text-sm tracking-wide uppercase" href="#">
+<span class="material-symbols-outlined">layers</span>
+<span>Workspace Alpha</span>
+</a>
+<a class="flex items-center gap-4 text-slate-500 hover:text-slate-300 px-4 py-3 hover:bg-white/5 transition-all duration-300 font-['Space_Grotesk'] text-sm tracking-wide uppercase" href="#">
+<span class="material-symbols-outlined">science</span>
+<span>Research</span>
+</a>
+<a class="flex items-center gap-4 text-slate-500 hover:text-slate-300 px-4 py-3 hover:bg-white/5 transition-all duration-300 font-['Space_Grotesk'] text-sm tracking-wide uppercase" href="#">
+<span class="material-symbols-outlined">movie</span>
+<span>Entertainment</span>
+</a>
+</nav>
+<div class="px-4 mb-6">
+<button class="w-full flex items-center justify-center gap-2 py-3 bg-primary text-on-primary font-headline font-bold rounded-md hover:brightness-110 transition-all text-sm uppercase tracking-widest">
+<span class="material-symbols-outlined text-sm">add</span>
+                New Tab
+            </button>
+</div>
+<div class="px-2 pt-4 border-t border-white/5">
+<a class="flex items-center gap-4 text-slate-500 hover:text-slate-300 px-4 py-3 hover:bg-white/5 transition-all duration-300 font-['Space_Grotesk'] text-sm tracking-wide uppercase" href="#">
+<span class="material-symbols-outlined">grid_view</span>
+<span>Workspaces</span>
+</a>
+<a class="flex items-center gap-4 text-slate-500 hover:text-slate-300 px-4 py-3 hover:bg-white/5 transition-all duration-300 font-['Space_Grotesk'] text-sm tracking-wide uppercase" href="#">
+<span class="material-symbols-outlined">help_outline</span>
+<span>Help</span>
+</a>
+</div>
+</aside>
+<!-- NavigationDrawer (Right AI Command Center) -->
+<aside class="fixed right-0 top-0 h-full z-40 flex flex-col pt-16 bg-slate-900/40 backdrop-blur-3xl w-80 tonal-transition border-l border-white/10 flat no shadows">
+<div class="p-6 border-b border-white/5">
+<div class="flex items-center justify-between mb-2">
+<h3 class="text-blue-400 font-black font-['Inter'] text-xs uppercase tracking-widest">AI Command Center</h3>
+<span class="px-2 py-0.5 rounded-full bg-blue-500/10 text-blue-400 text-[10px] font-bold">ACTIVE</span>
+</div>
+<p class="text-slate-500 font-['Inter'] text-[11px] font-semibold">Contextual Intelligence Engine</p>
+</div>
+<div class="p-4 flex gap-2 border-b border-white/5">
+<button class="flex-1 flex flex-col items-center py-3 text-blue-400 border-b-2 border-blue-500 transition-all opacity-80 hover:opacity-100">
+<span class="material-symbols-outlined mb-1">auto_awesome</span>
+<span class="text-[10px] font-semibold font-['Inter']">Summarize</span>
+</button>
+<button class="flex-1 flex flex-col items-center py-3 text-slate-500 hover:text-blue-300 transition-all opacity-80 hover:opacity-100">
+<span class="material-symbols-outlined mb-1">forum</span>
+<span class="text-[10px] font-semibold font-['Inter']">Chat</span>
+</button>
+<button class="flex-1 flex flex-col items-center py-3 text-slate-500 hover:text-blue-300 transition-all opacity-80 hover:opacity-100">
+<span class="material-symbols-outlined mb-1">lightbulb</span>
+<span class="text-[10px] font-semibold font-['Inter']">Explain</span>
+</button>
+</div>
+<div class="flex-1 p-6 space-y-6 overflow-y-auto">
+<div class="space-y-3">
+<h4 class="text-[10px] text-outline uppercase tracking-widest font-bold">AI Summary of your day</h4>
+<div class="p-4 rounded-xl bg-surface-container-low ghost-border">
+<p class="text-xs text-on-surface-variant leading-relaxed">You have 3 focus blocks scheduled. Workspace "Alpha" has been optimized for your deep work session at 2 PM.</p>
+</div>
+</div>
+<div class="space-y-3">
+<h4 class="text-[10px] text-outline uppercase tracking-widest font-bold">Market Trends</h4>
+<div class="space-y-2">
+<div class="flex items-center justify-between p-3 rounded-lg bg-surface-container-low/50">
+<span class="text-xs font-medium">AETHER (ATH)</span>
+<span class="text-xs text-green-400">+12.4%</span>
+</div>
+<div class="flex items-center justify-between p-3 rounded-lg bg-surface-container-low/50">
+<span class="text-xs font-medium">TECH INDEX</span>
+<span class="text-xs text-red-400">-0.8%</span>
+</div>
+</div>
+</div>
+</div>
+<div class="p-4">
+<button class="w-full flex items-center justify-center gap-2 py-3 bg-surface-variant text-on-surface font-label font-bold rounded-lg hover:bg-surface-bright transition-all text-xs uppercase tracking-widest">
+<span class="material-symbols-outlined text-sm">build</span>
+                Tools
+            </button>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="ml-64 mr-80 pt-14 h-screen relative overflow-hidden">
+<!-- Background Elements -->
+<div class="absolute inset-0 z-0 bg-[#0b0e14]">
+<div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-purple-500/5 blur-[120px] rounded-full"></div>
+<div class="absolute top-0 right-0 w-[400px] h-[400px] bg-blue-500/5 blur-[100px] rounded-full"></div>
+<div class="absolute inset-0 opacity-20 pointer-events-none" style="background-image: radial-gradient(circle at 2px 2px, rgba(168, 85, 247, 0.15) 1px, transparent 0); background-size: 40px 40px;"></div>
+</div>
+<div class="relative z-10 h-full flex flex-col items-center justify-center px-12 pb-20">
+<!-- Hero Title -->
+<div class="text-center mb-12">
+<h1 class="text-5xl font-headline font-bold text-on-surface tracking-tighter mb-4">Hello, Explorer</h1>
+<p class="text-outline-variant font-label uppercase tracking-[0.2em] text-sm">Where shall we go today?</p>
+</div>
+<!-- Search Bar -->
+<div class="w-full max-w-3xl mb-16 group">
+<div class="relative flex items-center glass-panel rounded-full p-1.5 ghost-border shadow-[0_0_40px_rgba(168,85,247,0.15)] focus-within:shadow-[0_0_60px_rgba(168,85,247,0.25)] transition-all duration-500">
+<div class="pl-6 pr-4">
+<span class="material-symbols-outlined text-primary text-3xl" style="font-variation-settings: 'FILL' 1;">auto_awesome</span>
+</div>
+<input class="w-full bg-transparent border-none focus:ring-0 text-xl font-headline text-on-surface placeholder:text-outline-variant py-4" placeholder="Ask Aether or enter URL" type="text"/>
+<button class="mr-2 p-4 bg-primary text-on-primary rounded-full hover:scale-105 transition-transform">
+<span class="material-symbols-outlined">arrow_forward</span>
+</button>
+</div>
+</div>
+<!-- Quick Access Tiles (Bento Grid Style) -->
+<div class="grid grid-cols-2 md:grid-cols-4 gap-6 w-full max-w-5xl">
+<!-- Work -->
+<button class="group relative flex flex-col items-start p-6 rounded-2xl glass-panel ghost-border hover:bg-surface-container-high transition-all duration-300">
+<div class="mb-4 p-3 rounded-xl bg-purple-500/10 text-primary group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-3xl">work</span>
+</div>
+<span class="text-lg font-headline font-bold text-on-surface">Work</span>
+<span class="text-[10px] font-label text-outline uppercase tracking-widest mt-1">12 Bookmarks</span>
+<div class="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined text-primary text-sm">open_in_new</span>
+</div>
+</button>
+<!-- Entertainment -->
+<button class="group relative flex flex-col items-start p-6 rounded-2xl glass-panel ghost-border hover:bg-surface-container-high transition-all duration-300">
+<div class="mb-4 p-3 rounded-xl bg-blue-500/10 text-secondary group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-3xl">movie</span>
+</div>
+<span class="text-lg font-headline font-bold text-on-surface">Entertainment</span>
+<span class="text-[10px] font-label text-outline uppercase tracking-widest mt-1">Streaming &amp; Social</span>
+</button>
+<!-- Learning -->
+<button class="group relative flex flex-col items-start p-6 rounded-2xl glass-panel ghost-border hover:bg-surface-container-high transition-all duration-300">
+<div class="mb-4 p-3 rounded-xl bg-tertiary/10 text-tertiary group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-3xl">school</span>
+</div>
+<span class="text-lg font-headline font-bold text-on-surface">Learning</span>
+<span class="text-[10px] font-label text-outline uppercase tracking-widest mt-1">Courses &amp; AI Docs</span>
+</button>
+<!-- Personal -->
+<button class="group relative flex flex-col items-start p-6 rounded-2xl glass-panel ghost-border hover:bg-surface-container-high transition-all duration-300">
+<div class="mb-4 p-3 rounded-xl bg-green-500/10 text-green-400 group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-3xl">favorite</span>
+</div>
+<span class="text-lg font-headline font-bold text-on-surface">Personal</span>
+<span class="text-[10px] font-label text-outline uppercase tracking-widest mt-1">Lifestyle &amp; Finance</span>
+</button>
+</div>
+<!-- Subtle Status Bar -->
+<div class="absolute bottom-8 left-1/2 -translate-x-1/2 flex items-center gap-8 text-[10px] font-label uppercase tracking-[0.3em] text-outline-variant">
+<div class="flex items-center gap-2">
+<span class="w-1.5 h-1.5 rounded-full bg-green-500"></span>
+                    Quantum Sync Active
+                </div>
+<div class="flex items-center gap-2">
+<span class="w-1.5 h-1.5 rounded-full bg-primary shadow-[0_0_5px_#ddb7ff]"></span>
+                    AI Engine Ready
+                </div>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[10px]">cloud_done</span>
+                    Cloud Encrypted
+                </div>
+</div>
+</div>
+<!-- Decorative Floating Image (subtle) -->
+<div class="absolute bottom-12 right-12 w-64 h-64 opacity-30 blur-sm pointer-events-none grayscale brightness-50">
+<img alt="" class="w-full h-full object-cover rounded-full" data-alt="abstract deep space nebula with soft violet and blue stardust particles cinematic lighting 8k" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCu0Jz_CVEp2eYRAjpoSyJAXsd0i_TunXTr_ZUXlhBRoYMooSU87rg_KX8cqcteqBk4HtdGm0ioYaNi8hLomoHHpmBNpg1cIb3BoAcauZy1yv3A-BnO25i40c-uSVpzxVqO5OM30ickIK89TOUxsMWWg_P8YLqFc5PHGcXmFAdt-u0pRbtqJMqCUXSja2nFo2fLqAVzj6n2ry0epzjvkwHoTGeuegbd0R9ynhujJh_2qR-yYF5vmO_qhyxG-a95lc2WQgHk2E-TLuQ"/>
+</div>
+</main>
+</body></html>

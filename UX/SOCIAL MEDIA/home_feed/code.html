@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Nexus Home Feed</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Manrope:wght@700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "on-secondary-fixed-variant": "#474649",
+              "background": "#f9f9fe",
+              "error-container": "#ffdad6",
+              "surface-container": "#ededf2",
+              "on-primary-fixed": "#001a41",
+              "tertiary-container": "#c64f00",
+              "tertiary-fixed-dim": "#ffb595",
+              "outline-variant": "#c1c6d7",
+              "on-secondary-fixed": "#1b1b1d",
+              "on-background": "#1a1c1f",
+              "surface-container-low": "#f3f3f8",
+              "surface": "#f9f9fe",
+              "on-primary": "#ffffff",
+              "on-secondary-container": "#636264",
+              "primary-container": "#0070eb",
+              "inverse-surface": "#2e3034",
+              "secondary-fixed-dim": "#c8c6c8",
+              "on-error-container": "#93000a",
+              "inverse-primary": "#adc6ff",
+              "on-tertiary": "#ffffff",
+              "surface-tint": "#005bc1",
+              "primary": "#0058bc",
+              "on-error": "#ffffff",
+              "on-secondary": "#ffffff",
+              "surface-dim": "#d9dade",
+              "surface-container-high": "#e8e8ed",
+              "surface-container-highest": "#e2e2e7",
+              "surface-container-lowest": "#ffffff",
+              "on-surface-variant": "#414755",
+              "primary-fixed-dim": "#adc6ff",
+              "secondary": "#5f5e60",
+              "on-tertiary-fixed": "#351000",
+              "secondary-container": "#e2dfe1",
+              "on-primary-fixed-variant": "#004493",
+              "secondary-fixed": "#e4e2e4",
+              "inverse-on-surface": "#f0f0f5",
+              "surface-bright": "#f9f9fe",
+              "on-surface": "#1a1c1f",
+              "outline": "#717786",
+              "tertiary": "#9e3d00",
+              "error": "#ba1a1a",
+              "on-primary-container": "#fefcff",
+              "surface-variant": "#e2e2e7",
+              "primary-fixed": "#d8e2ff",
+              "on-tertiary-fixed-variant": "#7c2e00",
+              "on-tertiary-container": "#fffbff",
+              "tertiary-fixed": "#ffdbcc"
+            },
+            fontFamily: {
+              "headline": ["Manrope"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+            font-size: 24px;
+        }
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface font-body text-on-surface antialiased">
+<!-- TopAppBar -->
+<header class="sticky top-0 z-50 w-full bg-white/80 dark:bg-slate-950/80 backdrop-blur-xl shadow-sm shadow-slate-200/50 dark:shadow-none flex items-center justify-between px-6 h-[72px]">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-full overflow-hidden bg-surface-container-high border-2 border-primary/10">
+<img alt="Profile" data-alt="Close up portrait of a professional man with a friendly expression in soft daylight, clean background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCn4Utu7a2640kI3LtjEqwl3yGUuYDzq7VJKULZrZ_mLprxy7cHvi1hALMC-NE1FDSkjgzcYxY-Cde7t3arYysZdXAyQLAInpQ2iw8F1HmcxabML8yLkf1S-LQpOrf5MxFuzsaphaW6DfJlGvNUb0Esim9adjLzvWpdwkEnq9x720hvSIIAGkBF-8IrdmtKSaPRtn13hWoErLyPU9B-TrHO5DTFmDwAH-Yh3F8OX74Lqbjj1qGqW8pAtsotFiKBvL621D5mdZFv0Mc"/>
+</div>
+<h1 class="font-manrope font-extrabold tracking-tighter text-2xl text-slate-900 dark:text-slate-50">Kinetic</h1>
+</div>
+<div class="flex items-center gap-2">
+<button class="p-2 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors active:scale-95 duration-200 text-slate-500">
+<span class="material-symbols-outlined" data-icon="search">search</span>
+</button>
+<button class="p-2 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors active:scale-95 duration-200 text-slate-500">
+<span class="material-symbols-outlined" data-icon="chat_bubble">chat_bubble</span>
+</button>
+</div>
+</header>
+<main class="max-w-2xl mx-auto pb-24">
+<!-- Story Bar (Asymmetric Horizontal Scroll) -->
+<section class="py-6 px-6 overflow-x-auto flex gap-5 hide-scrollbar bg-surface-container-low/30">
+<div class="flex flex-col items-center gap-2 flex-shrink-0">
+<div class="relative p-[3px] rounded-full bg-gradient-to-tr from-primary to-primary-container">
+<div class="bg-surface p-0.5 rounded-full">
+<img alt="Story" class="w-14 h-14 rounded-full object-cover" data-alt="Portrait of a young professional person in a studio setting with soft lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDHWg88Vst1SlLmb-vcTwR4BmAUv3husQPO3LBWKhRaErmugePgvr2we4Rk5QRirwzPwtk1ftMwHCvkWsxEEUfilJs-TcqGqMNOeVoLf-yl3eJ47zp3MbIPZmhZ6MVzg1yy27GZ7u-8-Cb_EONF4tnHSUGdYEFU9i0wM7d4O5D1_pSMVugx9dcMkZUP5OKBAdZon0r3KlZX4TUP1WiV9Oqa_-cOmer8WJ8yJmVjUxk3NMPfmC02lx3yU3Vjm6ghcB6G-1Mc3BXfg60"/>
+</div>
+<div class="absolute bottom-0 right-0 bg-primary text-white rounded-full border-2 border-surface flex items-center justify-center w-5 h-5">
+<span class="material-symbols-outlined !text-[14px]" data-icon="add">add</span>
+</div>
+</div>
+<span class="text-[11px] font-medium text-on-surface-variant">Your Story</span>
+</div>
+<!-- Dynamic Stories -->
+<div class="flex flex-col items-center gap-2 flex-shrink-0">
+<div class="p-[2px] rounded-full border-2 border-primary">
+<div class="bg-surface p-0.5 rounded-full">
+<img alt="Story" class="w-14 h-14 rounded-full object-cover" data-alt="Close up face of a woman with vibrant energy and smiling eyes, natural outdoor lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAJIJb3TEzGx9f1AtfJiY94SoyQtAgt8a-qcZuEpCVvuuFou1ggDPeP2dM3n4JesicVBv67aTMqv1f40uJ-fGwAjG2bHn4NKrd63_n_BiOMd96nIY9ocVQQF-zB8iSPUej6AuvDuxIUEJ64Jxik01bkOPxTmPnZ8QBvSR6o_NgEMXv8aIzlxu_pv-nn_SmLQiQjTpfULvD3uDfXiSSIB9QkFcRC3uaHSzrv28lo1ih9hDyy1CdbKzpwF3cF0hDxLBUKmswSqU0PwQg"/>
+</div>
+</div>
+<span class="text-[11px] font-medium text-on-surface-variant">Elena_v</span>
+</div>
+<div class="flex flex-col items-center gap-2 flex-shrink-0">
+<div class="p-[2px] rounded-full border-2 border-primary">
+<div class="bg-surface p-0.5 rounded-full">
+<img alt="Story" class="w-14 h-14 rounded-full object-cover" data-alt="Man with beard and stylish glasses, professional creative look, soft office background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDpWydd3mQnX9SdVSb7la_zH-PNzm9ySR8DvxzuXL8hxZvXEWuYbzggxmm4q0tm5OEMMcci647rvHN-PZ8NZ-7w4OjILktGSIsQ5355osRqZHqOxHhdoCDPBp7MKAoUmqYS0LoaE_ipd00oTtdXTw7xeWHINxbhkJn-ES5J2J64fLVO2Nl4p6ZbdI33W1JhQ-iE_4RpDAFxToFtAFK9uUqgyKV4lVMw9sgGV7Jjat6K4OfudWlsIZAxBTJ0SC2X6SLM4kMneTnMXUw"/>
+</div>
+</div>
+<span class="text-[11px] font-medium text-on-surface-variant">Marcus.Dev</span>
+</div>
+<div class="flex flex-col items-center gap-2 flex-shrink-0">
+<div class="p-[2px] rounded-full border-2 border-primary">
+<div class="bg-surface p-0.5 rounded-full">
+<img alt="Story" class="w-14 h-14 rounded-full object-cover" data-alt="Fashionable woman in urban setting at golden hour, backlit with soft glow" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAyuO5U1zFdU8pqVKH-Hj7Q8C6pT9oUypJaen3_wuonm_ASGeDFdnWs8X9mDGL7AsxztYTdK6ui1hRzw7j1ll_Uz7Z0EY9EZVD-KyMrl_B8nvUzcjRv-dpcvVJp6ejNd3SBwhezhzbw7nLa_YIiTSFA8UO73EcVS5EdIxUz2BxrFhst_WMvN7_OaF0Ua-fh71rws-JCvvG9bSx0amJIvReG7RN4rw7s_ZALxSyt2PK5exoW5bgJ3NOHyu2mnSCriXHL2pw_za5S_Lw"/>
+</div>
+</div>
+<span class="text-[11px] font-medium text-on-surface-variant">Sarah_J</span>
+</div>
+<div class="flex flex-col items-center gap-2 flex-shrink-0">
+<div class="p-[2px] rounded-full border-2 border-primary">
+<div class="bg-surface p-0.5 rounded-full">
+<img alt="Story" class="w-14 h-14 rounded-full object-cover" data-alt="Young man with a clean minimalist aesthetic, modern architectural background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAnIbyzrB5D6Za-zvKSnjS-8krajqwFMy_NFNBIjaJ-CDk-0RRBe7uqwQBfjSYz2rM_VJwg5WnfqgTrGshwWa_QfiYhwEsUNgEjP_AXf54zIwda8z8XzoB4KsVtdyuycQSYj3YfPMa_TGxe2tyfd1GXcTqyVG1tg_YCY0vN4PewUyMZ0HHizqb2CpnSl055eb5vuhcE-tKfGEVPdgC7weev7K2Sujec6CHHIH2wUqxjavTwfTrAm5a9ayVcvhMEKvAIHY-vCfXIne8"/>
+</div>
+</div>
+<span class="text-[11px] font-medium text-on-surface-variant">Julian_K</span>
+</div>
+</section>
+<!-- Main Feed -->
+<div class="flex flex-col gap-10 mt-6 px-4 md:px-0">
+<!-- Feed Item 1: Bento-Inspired Visual Card -->
+<article class="bg-surface-container-lowest rounded-xl overflow-hidden shadow-sm transition-all hover:shadow-md">
+<!-- Header -->
+<div class="flex items-center justify-between p-4">
+<div class="flex items-center gap-3">
+<img alt="User" class="w-9 h-9 rounded-full object-cover" data-alt="Professional profile photo of a smiling woman in business attire" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBQtnmd1EJNqHZIWPpljKglRk0RUf7Y70536hvKXwDEJexnfiJntEwIadnf8-RVeKuwTpRkhVufXsnGhDAeUvbr-H1lVvYfhGozxd79qf7JvneJRDlEx3-M8qfaLxiieZmUccafT40dkx6_a5cz4pZO2TP9xzl5v9j2KWxBs1WtBC8n8sM84SfMdt3U1ZUeqNITGGjKKO3B9QEh7NHIyamhHeloKIqEDXxk9-ra2RlUParvR67uwgYnGHKN2QdvgP9sYW8ByaOgF4c"/>
+<div>
+<p class="text-sm font-bold text-on-surface leading-tight">Elena Valerius</p>
+<p class="text-[10px] text-on-surface-variant font-medium uppercase tracking-wider">San Francisco, CA</p>
+</div>
+</div>
+<button class="p-2 text-on-surface-variant hover:bg-surface-container-high rounded-full transition-colors">
+<span class="material-symbols-outlined" data-icon="more_horiz">more_horiz</span>
+</button>
+</div>
+<!-- Media Content: Large High Quality Image -->
+<div class="aspect-square w-full bg-surface-container overflow-hidden">
+<img alt="Feed Content" class="w-full h-full object-cover" data-alt="Abstract 3D render of flowing silk-like shapes in blue and white with soft shadows and high-end aesthetic" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCqnekReWlkvnqaGtjkI19LLXjhW7UOyHrlLHIM5Iq5dBYjxnTQPlRMSL4kE47LHC8P25sRR4frIgYaB5IFo5V_wyOZBcmtEGKWe561xM_KAFpCywSQZyRYMkaCA-qFVGa-Qtwd-TaVceYnZ5qoOBUX7jZ9dt47k2pEgi3M9cqDOi6-93r3nPVjkYHUtlxjnsPw3bGvgFLyi5Bciqp8yDtoUiQvpBvOgItmhuU6keWt_0bdGZX7zEcxRwgCZqFDBodMSvrqG2eB94w"/>
+</div>
+<!-- Interaction Bar -->
+<div class="p-4">
+<div class="flex items-center justify-between mb-4">
+<div class="flex items-center gap-5">
+<button class="group active:scale-90 transition-transform">
+<span class="material-symbols-outlined text-on-surface group-hover:text-error transition-colors" data-icon="favorite">favorite</span>
+</button>
+<button class="group active:scale-90 transition-transform">
+<span class="material-symbols-outlined text-on-surface group-hover:text-primary transition-colors" data-icon="chat_bubble">chat_bubble</span>
+</button>
+<button class="group active:scale-90 transition-transform">
+<span class="material-symbols-outlined text-on-surface group-hover:text-primary transition-colors" data-icon="share">share</span>
+</button>
+</div>
+<button class="group active:scale-90 transition-transform">
+<span class="material-symbols-outlined text-on-surface group-hover:text-primary transition-colors" data-icon="bookmark">bookmark</span>
+</button>
+</div>
+<!-- Caption & Engagement -->
+<div class="space-y-1">
+<p class="text-sm font-bold text-on-surface">1,248 likes</p>
+<p class="text-sm text-on-surface leading-relaxed">
+<span class="font-bold">Elena Valerius</span> Exploring new geometric frontiers in digital curation. The way light hits these surfaces defines the emotion of the space.
+                        </p>
+<button class="text-sm text-on-surface-variant font-medium mt-2 block">View all 42 comments</button>
+<p class="text-[10px] text-outline uppercase tracking-widest mt-2">2 HOURS AGO</p>
+</div>
+</div>
+</article>
+<!-- Feed Item 2: Editorial/Vertical Visual Card -->
+<article class="bg-surface-container-lowest rounded-xl overflow-hidden shadow-sm transition-all hover:shadow-md">
+<!-- Header -->
+<div class="flex items-center justify-between p-4">
+<div class="flex items-center gap-3">
+<img alt="User" class="w-9 h-9 rounded-full object-cover" data-alt="Portrait of a male architect with a modern aesthetic" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCp66XKcuwBxAtAROIKHgC4SD2wwsHD4S2pdZ9_-wIysp6izsPgoEjSjBArBkOqMAxdIUMZEuKNk2YeB-0-CY3qhwB9h2IYYpc0s8zTyikj9U2iNHgDEU-GoXxxlP8nozS-pLRlI272cPWLHeJrX34Jm7SvG1kw1-lq2eV80MsbC-p0owXoSDXJW8Fny3tpx0yWqMZ6JLiGYd5iXu7NCdbZD4z7kYTf9mfkggUOz1abi6eVhNAEcpTTShHOedqTCRjw8Bzo9NmQRiU"/>
+<div>
+<p class="text-sm font-bold text-on-surface leading-tight">Marcus Devlin</p>
+<p class="text-[10px] text-on-surface-variant font-medium uppercase tracking-wider">Stockholm, Sweden</p>
+</div>
+</div>
+<button class="p-2 text-on-surface-variant hover:bg-surface-container-high rounded-full transition-colors">
+<span class="material-symbols-outlined" data-icon="more_horiz">more_horiz</span>
+</button>
+</div>
+<!-- Media Content: Tall Architectural Shot -->
+<div class="aspect-[4/5] w-full bg-surface-container overflow-hidden">
+<img alt="Architecture" class="w-full h-full object-cover" data-alt="Stunning low angle view of a modern skyscraper with glass reflections and deep blue sky in high contrast" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDQkOq89FZQ10V1UTD4xQmt7KVo5Y5c1SB1w9ATo4rc3_5rs_ba3gbJYMUjxf9m9I_ckoYDnqsxJ-MUbayf2YxpaHYnu1Qd41L-A0IN2YcQ4eefJfyhkdwvmC_mL6EXMMHObEVCoETDfgJ_wktNIOJGn9hESOMLBW_FwnghDNwW67ZRNWkZ7VPZqXEGLSgUqxmEK6A0gVZgvFSq_3pYugFJSwzBmmgF1d6qOk2uFgsF_0R7IOmrOiYk4DnhUg10oRytkudnj5DmW78"/>
+</div>
+<!-- Interaction Bar -->
+<div class="p-4">
+<div class="flex items-center justify-between mb-4">
+<div class="flex items-center gap-5">
+<button class="group active:scale-90 transition-transform">
+<span class="material-symbols-outlined text-on-surface" data-icon="favorite">favorite</span>
+</button>
+<button class="group active:scale-90 transition-transform">
+<span class="material-symbols-outlined text-on-surface" data-icon="chat_bubble">chat_bubble</span>
+</button>
+<button class="group active:scale-90 transition-transform">
+<span class="material-symbols-outlined text-on-surface" data-icon="share">share</span>
+</button>
+</div>
+<button class="group active:scale-90 transition-transform">
+<span class="material-symbols-outlined text-on-surface" data-icon="bookmark">bookmark</span>
+</button>
+</div>
+<!-- Caption & Engagement -->
+<div class="space-y-1">
+<p class="text-sm font-bold text-on-surface">892 likes</p>
+<p class="text-sm text-on-surface leading-relaxed">
+<span class="font-bold">Marcus Devlin</span> Verticality as a service. Rethinking the office environment for a post-hybrid world.
+                        </p>
+<button class="text-sm text-on-surface-variant font-medium mt-2 block">View all 15 comments</button>
+<p class="text-[10px] text-outline uppercase tracking-widest mt-2">5 HOURS AGO</p>
+</div>
+</div>
+</article>
+<!-- Feed Item 3: Nature/Lifestyle Aesthetic -->
+<article class="bg-surface-container-lowest rounded-xl overflow-hidden shadow-sm transition-all hover:shadow-md">
+<!-- Header -->
+<div class="flex items-center justify-between p-4">
+<div class="flex items-center gap-3">
+<img alt="User" class="w-9 h-9 rounded-full object-cover" data-alt="Close up of a creative woman profile" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCfzc3JzQ1XGXBzUp-KXH-EHzbOjdIu5BPzLs_MHgzE33E1IrxFyikLLbghD5IRjuP-rJSb_Y9aRykqwGZ_hJ3dh4LDWRa9CVPzAlwbT6GGqXtuFgEUcZwzvMdGMGgS9PXtg_b3YlPD9MQQn9py6t31_7x8LRcZA4eA8rAI0wWSq2evCdqLS2xF5EVtjC2g2rsM3pa_8n0_dd2T9yAvrycmtf1UqgGK7qhqT7BcI4SNTbDGV2YYxUfqiw1R9lHVgAoap6HR0EXk-As"/>
+<div>
+<p class="text-sm font-bold text-on-surface leading-tight">Sarah J.</p>
+<p class="text-[10px] text-on-surface-variant font-medium uppercase tracking-wider">Oslo, Norway</p>
+</div>
+</div>
+<button class="p-2 text-on-surface-variant hover:bg-surface-container-high rounded-full transition-colors">
+<span class="material-symbols-outlined" data-icon="more_horiz">more_horiz</span>
+</button>
+</div>
+<div class="aspect-square w-full bg-surface-container overflow-hidden">
+<img alt="Nature" class="w-full h-full object-cover" data-alt="Misty forest at dawn with soft ethereal lighting and layers of mountain silhouettes in the distance" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCZ3zPMehBguqcS2uJydgWXBQOyP6cF6FsiaSQk6UCi8Gn6Ln58u2_TEmTEGNJLyw5m-uyD_J_lcyOFywthDXG4bOrCV7ipu2Ne2EQm8jGhlSoQLEI_WUmfTF9AVNk3JeaY7aH1uvaGy41IxYywYxjKk7b9SiWdPIc7D_JchU4duuDv48bMRhbhTgtAXv1uxHxSqZq_Pux2yLtmpmVHQ5MCw7JMOHqa6K1nurfIeIMEqAtCj8T8a8HEIJx-alBKaZB__w-ZL5Av5QM"/>
+</div>
+<div class="p-4">
+<div class="flex items-center justify-between mb-4">
+<div class="flex items-center gap-5">
+<button class="group active:scale-90 transition-transform">
+<span class="material-symbols-outlined text-on-surface" data-icon="favorite">favorite</span>
+</button>
+<button class="group active:scale-90 transition-transform">
+<span class="material-symbols-outlined text-on-surface" data-icon="chat_bubble">chat_bubble</span>
+</button>
+<button class="group active:scale-90 transition-transform">
+<span class="material-symbols-outlined text-on-surface" data-icon="share">share</span>
+</button>
+</div>
+<button class="group active:scale-90 transition-transform">
+<span class="material-symbols-outlined text-on-surface" data-icon="bookmark">bookmark</span>
+</button>
+</div>
+<div class="space-y-1">
+<p class="text-sm font-bold text-on-surface">3,501 likes</p>
+<p class="text-sm text-on-surface leading-relaxed">
+<span class="font-bold">Sarah J.</span> Morning clarity is the best productivity tool we have. No screens, just the horizon.
+                        </p>
+<button class="text-sm text-on-surface-variant font-medium mt-2 block">View all 128 comments</button>
+<p class="text-[10px] text-outline uppercase tracking-widest mt-2">YESTERDAY</p>
+</div>
+</div>
+</article>
+</div>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 w-full z-50 bg-white/80 dark:bg-slate-950/80 backdrop-blur-xl border-t border-slate-100 dark:border-slate-800 shadow-[0_-4px_24px_rgba(0,0,0,0.04)] flex justify-around items-center h-[72px] px-4 pb-safe">
+<!-- Home (Active) -->
+<a class="flex flex-col items-center justify-center text-blue-600 dark:text-blue-400 relative after:content-[''] after:absolute after:-bottom-1 after:w-1 after:h-1 after:bg-blue-600 after:rounded-full hover:text-slate-900 dark:hover:text-slate-100 active:scale-90 transition-transform duration-150" href="#">
+<span class="material-symbols-outlined" data-icon="home" style="font-variation-settings: 'FILL' 1;">home</span>
+<span class="font-inter text-[10px] font-medium tracking-wide">Feed</span>
+</a>
+<!-- Explore -->
+<a class="flex flex-col items-center justify-center text-slate-400 dark:text-slate-500 hover:text-slate-900 dark:hover:text-slate-100 active:scale-90 transition-transform duration-150" href="#">
+<span class="material-symbols-outlined" data-icon="explore">explore</span>
+<span class="font-inter text-[10px] font-medium tracking-wide">Explore</span>
+</a>
+<!-- Create -->
+<a class="flex flex-col items-center justify-center text-slate-400 dark:text-slate-500 hover:text-slate-900 dark:hover:text-slate-100 active:scale-90 transition-transform duration-150" href="#">
+<span class="material-symbols-outlined !text-3xl text-primary" data-icon="add_circle">add_circle</span>
+<span class="font-inter text-[10px] font-medium tracking-wide">Create</span>
+</a>
+<!-- Activity -->
+<a class="flex flex-col items-center justify-center text-slate-400 dark:text-slate-500 hover:text-slate-900 dark:hover:text-slate-100 active:scale-90 transition-transform duration-150" href="#">
+<span class="material-symbols-outlined" data-icon="favorite">favorite</span>
+<span class="font-inter text-[10px] font-medium tracking-wide">Activity</span>
+</a>
+<!-- Profile -->
+<a class="flex flex-col items-center justify-center text-slate-400 dark:text-slate-500 hover:text-slate-900 dark:hover:text-slate-100 active:scale-90 transition-transform duration-150" href="#">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+<span class="font-inter text-[10px] font-medium tracking-wide">Profile</span>
+</a>
+</nav>
+</body></html>

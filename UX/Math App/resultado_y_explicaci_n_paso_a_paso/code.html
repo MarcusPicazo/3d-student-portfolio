@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Resolver - Resultado Detallado</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Space+Grotesk:wght@500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary-fixed-dim": "#adc6ff",
+              "surface-bright": "#393939",
+              "secondary-fixed-dim": "#e8b3ff",
+              "inverse-surface": "#e5e2e1",
+              "on-surface-variant": "#c1c6d7",
+              "tertiary-fixed": "#ffdbcc",
+              "outline-variant": "#414755",
+              "on-surface": "#e5e2e1",
+              "tertiary": "#ffb595",
+              "on-primary": "#002e69",
+              "surface": "#131313",
+              "on-error": "#690005",
+              "error-container": "#93000a",
+              "error": "#ffb4ab",
+              "secondary": "#e8b3ff",
+              "on-error-container": "#ffdad6",
+              "surface-container-low": "#1c1b1b",
+              "on-tertiary-container": "#4c1a00",
+              "on-primary-container": "#00285c",
+              "inverse-primary": "#005bc1",
+              "on-secondary-fixed-variant": "#7201a2",
+              "surface-variant": "#353534",
+              "on-primary-fixed-variant": "#004493",
+              "primary": "#adc6ff",
+              "on-tertiary-fixed-variant": "#7c2e00",
+              "background": "#131313",
+              "secondary-container": "#7508a5",
+              "on-secondary": "#510074",
+              "surface-dim": "#131313",
+              "surface-tint": "#adc6ff",
+              "surface-container-highest": "#353534",
+              "secondary-fixed": "#f6d9ff",
+              "surface-container-lowest": "#0e0e0e",
+              "primary-container": "#4b8eff",
+              "on-primary-fixed": "#001a41",
+              "on-tertiary-fixed": "#351000",
+              "inverse-on-surface": "#313030",
+              "on-tertiary": "#571e00",
+              "outline": "#8b90a0",
+              "surface-container": "#201f1f",
+              "tertiary-fixed-dim": "#ffb595",
+              "surface-container-high": "#2a2a2a",
+              "primary-fixed": "#d8e2ff",
+              "on-background": "#e5e2e1",
+              "tertiary-container": "#ef6719",
+              "on-secondary-fixed": "#310048",
+              "on-secondary-container": "#e19fff"
+            },
+            fontFamily: {
+              "headline": ["Space Grotesk"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "1rem", "lg": "2rem", "xl": "3rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+      .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      }
+      body {
+        background-color: #131313;
+        color: #e5e2e1;
+        font-family: 'Inter', sans-serif;
+      }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="min-h-screen pb-32">
+<!-- TopAppBar -->
+<header class="bg-[#131313] dark:bg-[#131313] w-full top-0 px-6 py-4 flex justify-between items-center w-full max-w-screen-xl mx-auto sticky z-50">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-surface-container-high flex items-center justify-center overflow-hidden border border-outline-variant/20">
+<img alt="User Profile Profile" class="w-full h-full object-cover" data-alt="professional minimalist user profile avatar with abstract geometric patterns in shades of blue and purple" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB6RpFkYaP_NVZKKmVFFjF3gTg_KrTlcAMKU3ccRn6brA91HFBiWobcP5Dg4fcqTkGpHq-UMHUYVf3jNtyEaszUJPEVSOC8-f3Gmz42ABcYY5x9wqzGfZTPua36rkho0bC43Am4JT5np9vYDwnYYzPaWyaBJzyp7qSZOjq2qfViQHZ95ZU7y3OzTTH_MpNKib_5Ps1RJUdJv_skoj0K-SHw7iZddaoZ7OjNpqTzTfgQ9PA7mVIaGMMwgiaCE4wRIF-lgZ8gY8rZByM"/>
+</div>
+<span class="font-['Space_Grotesk'] font-bold tracking-tight text-xl text-[#ADC6FF] dark:text-[#ADC6FF]">Resolver</span>
+</div>
+<button class="text-[#ADC6FF] hover:bg-white/5 transition-colors p-2 rounded-full active:scale-95 transition-transform">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+</button>
+</header>
+<main class="max-w-screen-xl mx-auto px-6 pt-8">
+<!-- Hero Result Area -->
+<section class="mb-12 relative">
+<div class="absolute -top-20 -left-20 w-64 h-64 bg-primary/10 rounded-full blur-[100px]"></div>
+<div class="absolute top-0 right-0 w-48 h-48 bg-secondary/10 rounded-full blur-[80px]"></div>
+<div class="relative z-10 text-center md:text-left">
+<p class="font-label text-sm uppercase tracking-[0.2em] text-primary mb-4">Resultado Final</p>
+<h1 class="font-headline font-bold text-6xl md:text-8xl text-primary-fixed-dim tracking-tight">
+                    x = 42.5
+                </h1>
+<div class="mt-6 flex flex-wrap gap-3 justify-center md:justify-start">
+<span class="bg-secondary-container/30 text-on-secondary-container px-4 py-1.5 rounded-full text-sm font-medium border border-secondary/20 backdrop-blur-sm">
+                        Cálculo Diferencial
+                    </span>
+<span class="bg-surface-container-high text-on-surface-variant px-4 py-1.5 rounded-full text-sm font-medium border border-outline-variant/10">
+                        Nivel Avanzado
+                    </span>
+</div>
+</div>
+</section>
+<!-- Step-by-Step Explanation -->
+<section class="space-y-10 mb-12">
+<h2 class="font-headline text-2xl font-bold tracking-tight px-2 border-l-4 border-primary ml-1">Explicación Paso a Paso</h2>
+<div class="grid gap-10">
+<!-- Step 1 -->
+<div class="relative group">
+<div class="absolute -left-3 top-0 bottom-0 w-[2px] bg-outline-variant/30 group-last:bg-transparent"></div>
+<div class="absolute -left-[11px] top-2 w-4 h-4 rounded-full bg-primary shadow-[0_0_15px_rgba(173,198,255,0.4)]"></div>
+<div class="ml-8 bg-surface-container-low rounded-xl p-8 border border-outline-variant/10 hover:border-primary/30 transition-all duration-300 shadow-lg">
+<div class="flex items-center gap-3 mb-4">
+<span class="material-symbols-outlined text-secondary" data-icon="auto_awesome">auto_awesome</span>
+<h3 class="font-headline text-xl font-bold">Paso 1: Simplificación Inicial</h3>
+</div>
+<p class="font-body text-on-surface-variant leading-relaxed mb-6">
+                            Simplificamos la expresión expandiendo los términos del binomio y agrupando las constantes. Aplicamos la propiedad distributiva en el lado izquierdo de la ecuación.
+                        </p>
+<div class="bg-surface-container-lowest p-6 rounded-lg font-mono text-secondary-fixed-dim text-lg border-l-2 border-secondary overflow-x-auto">
+                            2(x + 5)² = 450 → 2(x² + 10x + 25) = 450
+                        </div>
+</div>
+</div>
+<!-- Step 2 -->
+<div class="relative group">
+<div class="absolute -left-3 top-0 bottom-0 w-[2px] bg-outline-variant/30 group-last:bg-transparent"></div>
+<div class="absolute -left-[11px] top-2 w-4 h-4 rounded-full bg-primary/50 group-hover:bg-primary transition-colors"></div>
+<div class="ml-8 bg-surface-container-low rounded-xl p-8 border border-outline-variant/10 hover:border-primary/30 transition-all duration-300 shadow-lg">
+<div class="flex items-center gap-3 mb-4">
+<span class="material-symbols-outlined text-primary" data-icon="data_exploration">data_exploration</span>
+<h3 class="font-headline text-xl font-bold">Paso 2: Aislamiento de Variable</h3>
+</div>
+<p class="font-body text-on-surface-variant leading-relaxed mb-6">
+                            Dividimos ambos lados por el coeficiente principal para reducir la complejidad de la raíz cuadrada. Esto nos permite trabajar con valores más manejables.
+                        </p>
+<div class="bg-surface-container-lowest p-6 rounded-lg font-mono text-primary-fixed-dim text-lg border-l-2 border-primary overflow-x-auto">
+                            (x + 5)² = 450 / 2 → (x + 5)² = 225
+                        </div>
+</div>
+</div>
+<!-- Step 3 -->
+<div class="relative group">
+<div class="absolute -left-3 top-0 bottom-0 w-[2px] bg-transparent"></div>
+<div class="absolute -left-[11px] top-2 w-4 h-4 rounded-full bg-primary/50 group-hover:bg-primary transition-colors"></div>
+<div class="ml-8 bg-surface-container-low rounded-xl p-8 border border-outline-variant/10 hover:border-primary/30 transition-all duration-300 shadow-lg">
+<div class="flex items-center gap-3 mb-4">
+<span class="material-symbols-outlined text-green-400" data-icon="check_circle" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<h3 class="font-headline text-xl font-bold">Paso 3: Resolución Final</h3>
+</div>
+<p class="font-body text-on-surface-variant leading-relaxed mb-6">
+                            Extraemos la raíz cuadrada de ambos miembros y restamos la constante para hallar el valor exacto de la incógnita.
+                        </p>
+<div class="bg-surface-container-lowest p-6 rounded-lg font-mono text-on-surface text-lg border-l-2 border-white/20 overflow-x-auto">
+                            x + 5 = √225 → x = 15 - 5 → x = 10
+                        </div>
+</div>
+</div>
+</div>
+</section>
+<!-- AI Call to Action -->
+<section class="flex justify-center mt-12 mb-20 px-4">
+<button class="w-full max-w-md bg-gradient-to-r from-primary to-primary-container text-on-primary py-5 rounded-lg font-headline font-bold text-lg flex items-center justify-center gap-3 shadow-[0_8px_32px_rgba(173,198,255,0.25)] hover:shadow-[0_12px_48px_rgba(173,198,255,0.4)] active:scale-95 transition-all duration-300">
+<span class="material-symbols-outlined" data-icon="psychology">psychology</span>
+                Explícame esto
+            </button>
+</section>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 pb-8 pt-4 bg-[#131313]/80 backdrop-blur-xl dark:bg-[#131313]/80 shadow-[0_-8px_32px_rgba(173,198,255,0.08)]">
+<!-- Resolver (Active) -->
+<a class="flex flex-col items-center justify-center bg-[#ADC6FF]/10 text-[#ADC6FF] rounded-[1.5rem] px-5 py-2 active:scale-90 duration-200 transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="calculate" style="font-variation-settings: 'FILL' 1;">calculate</span>
+<span class="font-['Inter'] text-[10px] uppercase tracking-widest font-medium mt-1">Resolver</span>
+</a>
+<!-- Explorar -->
+<a class="flex flex-col items-center justify-center text-white/50 px-5 py-2 hover:text-[#ADC6FF] active:scale-90 duration-200 transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="explore">explore</span>
+<span class="font-['Inter'] text-[10px] uppercase tracking-widest font-medium mt-1">Explorar</span>
+</a>
+<!-- Aprender -->
+<a class="flex flex-col items-center justify-center text-white/50 px-5 py-2 hover:text-[#ADC6FF] active:scale-90 duration-200 transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="school">school</span>
+<span class="font-['Inter'] text-[10px] uppercase tracking-widest font-medium mt-1">Aprender</span>
+</a>
+<!-- Biblioteca -->
+<a class="flex flex-col items-center justify-center text-white/50 px-5 py-2 hover:text-[#ADC6FF] active:scale-90 duration-200 transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="menu_book">menu_book</span>
+<span class="font-['Inter'] text-[10px] uppercase tracking-widest font-medium mt-1">Biblioteca</span>
+</a>
+</nav>
+</body></html>

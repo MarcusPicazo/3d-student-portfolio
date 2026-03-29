@@ -1,0 +1,806 @@
+<!DOCTYPE html>
+<html lang="es" class="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aura Studio</title>
+  
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            serif: ['Playfair Display', 'serif'],
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    h1, h2, h3, .font-serif { font-family: 'Playfair Display', serif; }
+    
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .animate-fade-in-up {
+      animation: fadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+    
+    .masonry-grid {
+      column-count: 1;
+      column-gap: 1.5rem;
+    }
+    @media (min-width: 640px) { .masonry-grid { column-count: 2; } }
+    @media (min-width: 1024px) { .masonry-grid { column-count: 3; } }
+    @media (min-width: 1280px) { .masonry-grid { column-count: 4; } }
+    
+    .masonry-item { 
+      break-inside: avoid; 
+      margin-bottom: 1.5rem; 
+    }
+    
+    .glass-nav {
+      background: rgba(250, 250, 247, 0.8);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+    .dark .glass-nav {
+      background: rgba(15, 15, 15, 0.8);
+    }
+    
+    /* Hide scrollbar for filter menu */
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+    /* Dragging ghost style */
+    .dragging { opacity: 0.5; }
+  </style>
+</head>
+<body class="bg-[#FAFAF7] text-gray-800 dark:bg-[#0F0F0F] dark:text-gray-200 transition-colors duration-500 antialiased selection:bg-rose-200 selection:text-rose-900">
+
+  <!-- HEADER FIJO -->
+  <header class="fixed top-0 left-0 right-0 z-50 glass-nav border-b border-gray-200/50 dark:border-gray-800/50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-20">
+        
+        <!-- Logo -->
+        <div class="flex items-center gap-3 cursor-pointer group" onclick="navigateTo('home')">
+          <div class="relative w-8 h-8 flex items-center justify-center transition-transform group-hover:rotate-12 duration-500">
+            <div class="absolute w-5 h-5 border-2 border-gray-900 dark:border-white rounded-md translate-x-1 -translate-y-1 group-hover:translate-x-1.5 group-hover:-translate-y-1.5 transition-transform duration-500"></div>
+            <div class="absolute w-5 h-5 border-2 border-rose-500 dark:border-rose-400 rounded-full -translate-x-1 translate-y-1 group-hover:-translate-x-1.5 group-hover:translate-y-1.5 transition-transform duration-500"></div>
+          </div>
+          <span class="font-serif text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Aura Studio</span>
+        </div>
+
+        <!-- Desktop Nav -->
+        <nav class="hidden md:flex items-center gap-8 font-medium text-sm" id="desktop-nav">
+          <button onclick="navigateTo('home')" class="nav-link flex items-center gap-2 transition-colors hover:text-rose-500 dark:hover:text-rose-400 text-rose-500 dark:text-rose-400 font-semibold" data-target="home">
+            <i data-lucide="layout-grid" class="w-[18px] h-[18px]"></i> Home
+          </button>
+          <button onclick="navigateTo('explore')" class="nav-link flex items-center gap-2 transition-colors hover:text-rose-500 dark:hover:text-rose-400 text-gray-600 dark:text-gray-400" data-target="explore">
+            <i data-lucide="compass" class="w-[18px] h-[18px]"></i> Explore
+          </button>
+          <button onclick="navigateTo('studio')" class="nav-link flex items-center gap-2 transition-colors hover:text-rose-500 dark:hover:text-rose-400 text-gray-600 dark:text-gray-400" data-target="studio">
+            <i data-lucide="folder" class="w-[18px] h-[18px]"></i> My Studio
+          </button>
+          <button onclick="navigateTo('community')" class="nav-link flex items-center gap-2 transition-colors hover:text-rose-500 dark:hover:text-rose-400 text-gray-600 dark:text-gray-400" data-target="community">
+            <i data-lucide="user" class="w-[18px] h-[18px]"></i> Community
+          </button>
+          <button onclick="navigateTo('premium')" class="nav-link flex items-center gap-2 transition-colors hover:text-rose-500 dark:hover:text-rose-400 text-gray-600 dark:text-gray-400" data-target="premium">
+            <i data-lucide="crown" class="w-[18px] h-[18px]"></i> Premium
+          </button>
+        </nav>
+
+        <!-- Actions -->
+        <div class="flex items-center gap-4">
+          <button onclick="toggleTheme()" class="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-800 transition-colors" aria-label="Toggle Dark Mode">
+            <i data-lucide="moon" id="theme-icon-moon" class="w-5 h-5 hidden"></i>
+            <i data-lucide="sun" id="theme-icon-sun" class="w-5 h-5"></i>
+          </button>
+
+          <button onclick="navigateTo('contact')" class="hidden md:block px-5 py-2.5 rounded-full bg-gray-900 text-white dark:bg-white dark:text-gray-900 text-sm font-semibold hover:scale-105 transition-transform shadow-md hover:shadow-lg">
+            Contact Us
+          </button>
+
+          <!-- Mobile Menu Toggle -->
+          <button onclick="toggleMobileMenu()" class="md:hidden p-2">
+            <i data-lucide="menu" id="menu-icon" class="w-6 h-6"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mobile Navigation Menu -->
+    <div id="mobile-menu" class="hidden md:hidden absolute top-20 left-0 w-full bg-[#FAFAF7] dark:bg-[#0F0F0F] border-b border-gray-200 dark:border-gray-800 shadow-xl py-4 px-4 flex flex-col gap-4">
+      <button onclick="navigateTo('home')" class="text-left capitalize py-3 px-4 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800 font-medium text-lg flex items-center justify-between">
+        Home <i data-lucide="hexagon" class="w-[18px] h-[18px] opacity-50"></i>
+      </button>
+      <button onclick="navigateTo('explore')" class="text-left capitalize py-3 px-4 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800 font-medium text-lg flex items-center justify-between">
+        Explore <i data-lucide="hexagon" class="w-[18px] h-[18px] opacity-50"></i>
+      </button>
+      <button onclick="navigateTo('studio')" class="text-left capitalize py-3 px-4 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800 font-medium text-lg flex items-center justify-between">
+        My Studio <i data-lucide="hexagon" class="w-[18px] h-[18px] opacity-50"></i>
+      </button>
+      <button onclick="navigateTo('community')" class="text-left capitalize py-3 px-4 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800 font-medium text-lg flex items-center justify-between">
+        Community <i data-lucide="hexagon" class="w-[18px] h-[18px] opacity-50"></i>
+      </button>
+      <button onclick="navigateTo('premium')" class="text-left capitalize py-3 px-4 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800 font-medium text-lg flex items-center justify-between">
+        Premium <i data-lucide="hexagon" class="w-[18px] h-[18px] opacity-50"></i>
+      </button>
+      <button onclick="navigateTo('contact')" class="text-left capitalize py-3 px-4 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800 font-medium text-lg flex items-center justify-between">
+        Contact <i data-lucide="hexagon" class="w-[18px] h-[18px] opacity-50"></i>
+      </button>
+    </div>
+  </header>
+
+  <!-- MAIN CONTENT AREA -->
+  <main class="pt-28 pb-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto min-h-screen relative">
+    
+    <!-- 1. HOME VIEW -->
+    <section id="view-home" class="page-section flex flex-col items-center justify-center py-10 md:py-20 text-center animate-fade-in-up">
+      <div class="inline-flex items-center gap-3 px-5 py-2 rounded-full bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 text-sm font-medium mb-8 shadow-sm">
+        <div class="w-2 h-2 rounded-full bg-rose-500 animate-pulse"></div>
+        Welcome to the new creative era
+      </div>
+      
+      <h1 class="text-5xl md:text-7xl font-serif font-bold text-gray-900 dark:text-white leading-tight mb-6 max-w-4xl mx-auto">
+        Design your vibe. <br class="hidden md:block"/>
+        <span class="italic font-light text-gray-500 dark:text-gray-400">Share your world.</span>
+      </h1>
+      
+      <p class="text-lg md:text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto mb-10">
+        Aura Studio is your digital canvas. Curate your aesthetic, build stunning moodboards, and connect with a community of visual creators.
+      </p>
+      
+      <div class="flex flex-col sm:flex-row gap-4">
+        <button onclick="navigateTo('explore')" class="px-8 py-4 rounded-full bg-gray-900 text-white dark:bg-white dark:text-gray-900 font-semibold text-lg hover:scale-105 transition-all shadow-xl hover:shadow-rose-500/20">
+          Explore Vibes
+        </button>
+        <button onclick="navigateTo('studio')" class="px-8 py-4 rounded-full bg-white text-gray-900 border border-gray-200 dark:bg-gray-800 dark:text-white dark:border-gray-700 font-semibold text-lg hover:scale-105 transition-all shadow-sm">
+          Open My Studio
+        </button>
+      </div>
+
+      <!-- Featured visual cards -->
+      <div class="mt-20 w-full grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
+        <div class="group relative h-48 md:h-72 rounded-2xl md:rounded-3xl overflow-hidden shadow-lg" style="animation-delay: 0ms">
+          <img src="https://images.unsplash.com/photo-1513694203232-719a280e022f?w=400&q=80" alt="Aesthetic" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"/>
+          <div class="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-colors duration-300"></div>
+        </div>
+        <div class="group relative h-48 md:h-72 rounded-2xl md:rounded-3xl overflow-hidden shadow-lg" style="animation-delay: 100ms">
+          <img src="https://images.unsplash.com/photo-1497032205916-ac775f0649ae?w=400&q=80" alt="Aesthetic" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"/>
+          <div class="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-colors duration-300"></div>
+        </div>
+        <div class="group relative h-48 md:h-72 rounded-2xl md:rounded-3xl overflow-hidden shadow-lg" style="animation-delay: 200ms">
+          <img src="https://images.unsplash.com/photo-1547826039-bfc35e0f1ea8?w=400&q=80" alt="Aesthetic" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"/>
+          <div class="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-colors duration-300"></div>
+        </div>
+        <div class="group relative h-48 md:h-72 rounded-2xl md:rounded-3xl overflow-hidden shadow-lg" style="animation-delay: 300ms">
+          <img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=400&q=80" alt="Aesthetic" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"/>
+          <div class="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-colors duration-300"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. EXPLORE VIEW -->
+    <section id="view-explore" class="page-section hidden animate-fade-in-up">
+      <div class="flex flex-col md:flex-row justify-between items-center mb-10 gap-6">
+        <div>
+          <h2 class="text-4xl font-serif font-bold mb-2">Explore Inspirations</h2>
+          <p class="text-gray-500 dark:text-gray-400">Discover trending aesthetics and moodboards.</p>
+        </div>
+        <div class="relative w-full md:w-auto">
+          <i data-lucide="search" class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 w-[18px] h-[18px]"></i>
+          <input type="text" placeholder="Search vibes..." class="w-full md:w-64 pl-12 pr-4 py-3 rounded-full bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 focus:outline-none focus:ring-2 focus:ring-rose-400 shadow-sm transition-shadow"/>
+        </div>
+      </div>
+
+      <!-- Filters -->
+      <div class="flex overflow-x-auto gap-3 pb-4 mb-8 no-scrollbar" id="explore-filters">
+        <!-- Rendered via JS -->
+      </div>
+
+      <!-- Masonry Grid -->
+      <div class="masonry-grid" id="explore-grid">
+        <!-- Rendered via JS -->
+      </div>
+    </section>
+
+    <!-- 3. MY STUDIO VIEW -->
+    <section id="view-studio" class="page-section hidden animate-fade-in-up">
+      <div class="flex flex-col md:flex-row gap-8 min-h-[70vh]">
+        
+        <!-- Sidebar -->
+        <aside class="w-full md:w-64 flex-shrink-0">
+          <div class="bg-white dark:bg-gray-900 rounded-3xl p-6 shadow-sm border border-gray-100 dark:border-gray-800 sticky top-28">
+            <div class="flex items-center gap-4 mb-8">
+              <div class="w-12 h-12 rounded-full bg-gradient-to-r from-cyan-400 to-blue-500"></div>
+              <div>
+                <h3 class="font-bold text-lg">Alex Doe</h3>
+                <p class="text-sm text-gray-500">Plan Gratuito</p>
+              </div>
+            </div>
+            
+            <nav class="space-y-2">
+              <button onclick="switchStudioTab('boards')" id="tab-btn-boards" class="studio-tab-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl font-medium transition-colors bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-white">
+                <i data-lucide="folder" class="w-[18px] h-[18px] text-rose-500"></i> Mis Tableros
+              </button>
+              <button onclick="switchStudioTab('likes')" id="tab-btn-likes" class="studio-tab-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl font-medium transition-colors hover:bg-gray-50 dark:hover:bg-gray-800 text-gray-600 dark:text-gray-400">
+                <i data-lucide="heart" class="w-[18px] h-[18px]"></i> Vibras Favoritas
+              </button>
+              <button onclick="switchStudioTab('downloads')" id="tab-btn-downloads" class="studio-tab-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl font-medium transition-colors hover:bg-gray-50 dark:hover:bg-gray-800 text-gray-600 dark:text-gray-400">
+                <i data-lucide="download" class="w-[18px] h-[18px]"></i> Descargas
+              </button>
+            </nav>
+
+            <div class="mt-8 pt-8 border-t border-gray-100 dark:border-gray-800">
+              <div class="bg-gray-50 dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700 p-4 rounded-xl">
+                <h4 class="font-bold text-sm mb-1 flex items-center gap-2">
+                  <i data-lucide="crown" class="w-4 h-4 text-rose-500"></i> Mejorar a Pro
+                </h4>
+                <p class="text-xs text-gray-600 dark:text-gray-400 mb-3">Obtén tableros ilimitados y exportación 4K.</p>
+                <button onclick="showMessage('Desbloquea Todo el Potencial', 'Estás a punto de ir a la pasarela de pago para adquirir el plan PRO. (Simulación de pasarela)')" class="w-full text-xs font-bold bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 py-2 rounded-lg shadow-sm hover:bg-gray-50 dark:hover:bg-gray-600 transition-colors">
+                  Ver Planes
+                </button>
+              </div>
+            </div>
+          </div>
+        </aside>
+
+        <!-- Main Content (Dashboard) -->
+        <div class="flex-1" id="studio-content-area">
+          
+          <!-- Tab: MIS TABLEROS -->
+          <div id="studio-tab-boards" class="studio-tab animate-fade-in-up">
+            <div class="flex justify-between items-center mb-8">
+              <h2 class="text-3xl font-serif font-bold">Mis Tableros</h2>
+              <button onclick="addBoard()" class="flex items-center gap-2 bg-gray-900 text-white dark:bg-white dark:text-gray-900 px-5 py-2.5 rounded-full font-semibold text-sm hover:scale-105 transition-transform">
+                <i data-lucide="plus" class="w-[18px] h-[18px]"></i> Crear Nuevo
+              </button>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6" id="boards-grid">
+              <!-- Rendered via JS -->
+            </div>
+            <p class="text-sm text-gray-400 mt-6 text-center italic">Tip: Puedes arrastrar y soltar los tableros para reordenarlos.</p>
+          </div>
+
+          <!-- Tab: DETALLE DE TABLERO -->
+          <div id="studio-tab-detail" class="studio-tab hidden animate-fade-in-up">
+            <!-- Rendered via JS -->
+          </div>
+
+          <!-- Tab: LIKED VIBES -->
+          <div id="studio-tab-likes" class="studio-tab hidden animate-fade-in-up">
+            <h2 class="text-3xl font-serif font-bold mb-8">Tus Vibras Favoritas</h2>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4" id="likes-grid">
+              <!-- Rendered via JS -->
+            </div>
+          </div>
+
+          <!-- Tab: DOWNLOADS -->
+          <div id="studio-tab-downloads" class="studio-tab hidden animate-fade-in-up">
+            <h2 class="text-3xl font-serif font-bold mb-8">Descargas Recientes</h2>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4" id="downloads-grid">
+              <!-- Rendered via JS -->
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. COMMUNITY VIEW -->
+    <section id="view-community" class="page-section hidden animate-fade-in-up">
+      <div class="max-w-3xl mx-auto">
+        <div class="text-center mb-12">
+          <h2 class="text-4xl font-serif font-bold mb-4">Creator Community</h2>
+          <p class="text-gray-500">Get inspired by what others are curating right now.</p>
+        </div>
+        <div class="space-y-10" id="community-feed">
+          <!-- Rendered via JS -->
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. PREMIUM VIEW (Pricing) -->
+    <section id="view-premium" class="page-section hidden animate-fade-in-up">
+      <div class="py-10">
+        <div class="text-center mb-16">
+          <h2 class="text-4xl md:text-5xl font-serif font-bold mb-4">Eleva tu Estética</h2>
+          <p class="text-gray-500 max-w-xl mx-auto text-lg">Elige un plan que se adapte a tu flujo creativo. Desbloquea activos premium, tableros ilimitados y más.</p>
+        </div>
+        <div class="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto items-center" id="premium-plans">
+          <!-- Rendered via JS -->
+        </div>
+      </div>
+    </section>
+
+    <!-- 6. CONTACT VIEW -->
+    <section id="view-contact" class="page-section hidden animate-fade-in-up">
+      <div class="max-w-2xl mx-auto py-10">
+        <div class="text-center mb-12">
+          <h2 class="text-4xl font-serif font-bold mb-4">Let's Connect</h2>
+          <p class="text-gray-500">Have a question or want to collaborate? Drop us a line.</p>
+        </div>
+        <div class="bg-white dark:bg-[#1A1A1A] p-8 md:p-10 rounded-3xl shadow-sm border border-gray-100 dark:border-gray-800 relative overflow-hidden">
+          <div class="absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl from-rose-100 to-transparent dark:from-rose-900/20 rounded-bl-full pointer-events-none"></div>
+          
+          <div id="contact-success" class="hidden h-64 flex-col items-center justify-center text-center animate-fade-in-up">
+            <div class="w-16 h-16 bg-green-100 dark:bg-green-900/30 text-green-500 rounded-full flex items-center justify-center mb-4">
+              <i data-lucide="check" class="w-8 h-8"></i>
+            </div>
+            <h3 class="text-2xl font-bold mb-2">Message Sent!</h3>
+            <p class="text-gray-500">We'll get back to your creative mind soon.</p>
+          </div>
+
+          <form id="contact-form" class="space-y-6 relative z-10" onsubmit="handleContactSubmit(event)">
+            <div class="grid md:grid-cols-2 gap-6">
+              <div class="space-y-2">
+                <label class="text-sm font-semibold text-gray-700 dark:text-gray-300">Name</label>
+                <input required type="text" placeholder="Jane Doe" class="w-full px-4 py-3 rounded-xl bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-800 focus:outline-none focus:ring-2 focus:ring-rose-400 transition-all"/>
+              </div>
+              <div class="space-y-2">
+                <label class="text-sm font-semibold text-gray-700 dark:text-gray-300">Email</label>
+                <input required type="email" placeholder="jane@example.com" class="w-full px-4 py-3 rounded-xl bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-800 focus:outline-none focus:ring-2 focus:ring-rose-400 transition-all"/>
+              </div>
+            </div>
+            <div class="space-y-2">
+              <label class="text-sm font-semibold text-gray-700 dark:text-gray-300">Message</label>
+              <textarea required rows="5" placeholder="Tell us about your vibe..." class="w-full px-4 py-3 rounded-xl bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-800 focus:outline-none focus:ring-2 focus:ring-rose-400 transition-all resize-none"></textarea>
+            </div>
+            <button type="submit" class="w-full py-4 bg-gray-900 text-white dark:bg-white dark:text-gray-900 rounded-xl font-bold text-lg hover:bg-rose-500 dark:hover:bg-rose-400 hover:text-white transition-colors flex items-center justify-center gap-2 shadow-md">
+              <i data-lucide="mail" class="w-5 h-5"></i> Send Message
+            </button>
+          </form>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- MODAL GLOBAL -->
+  <div id="global-modal" class="hidden fixed inset-0 z-[100] flex items-center justify-center bg-black/50 backdrop-blur-sm p-4 animate-fade-in-up">
+    <div class="bg-white dark:bg-gray-900 p-8 rounded-3xl max-w-sm w-full text-center shadow-2xl border border-gray-200 dark:border-gray-800 relative">
+      <i data-lucide="crown" class="mx-auto text-rose-500 mb-4 w-12 h-12"></i>
+      <h3 id="modal-title" class="text-2xl font-bold mb-2 text-gray-900 dark:text-white"></h3>
+      <p id="modal-message" class="text-gray-500 dark:text-gray-400 mb-8"></p>
+      <button onclick="hideMessage()" class="w-full py-3 bg-gray-900 text-white dark:bg-white dark:text-gray-900 rounded-xl font-bold hover:scale-105 transition-transform">
+        Entendido
+      </button>
+    </div>
+  </div>
+
+  <!-- JAVASCRIPT LOGIC -->
+  <script>
+    // --- MOCK DATA ---
+    const EXPLORE_DATA = [
+      { id: 1, title: 'Minimalist Workspace', category: 'Interior', likes: 124, url: 'https://images.unsplash.com/photo-1497032205916-ac775f0649ae?w=500&q=80', height: 'h-64' },
+      { id: 2, title: 'Urban Streetwear', category: 'Fashion', likes: 89, url: 'https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=500&q=80', height: 'h-96' },
+      { id: 3, title: 'Abstract Canvas', category: 'Art', likes: 230, url: 'https://images.unsplash.com/photo-1547826039-bfc35e0f1ea8?w=500&q=80', height: 'h-80' },
+      { id: 4, title: 'Morning Coffee', category: 'Lifestyle', likes: 45, url: 'https://images.unsplash.com/photo-1511895426328-dc8714191300?w=500&q=80', height: 'h-64' },
+      { id: 5, title: 'Neon Nights', category: 'Art', likes: 312, url: 'https://images.unsplash.com/photo-1550684848-fac1c5b4e853?w=500&q=80', height: 'h-96' },
+      { id: 6, title: 'Cozy Living', category: 'Interior', likes: 178, url: 'https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?w=500&q=80', height: 'h-72' },
+      { id: 7, title: 'Summer Collection', category: 'Fashion', likes: 420, url: 'https://images.unsplash.com/photo-1469334031218-e382a71b716b?w=500&q=80', height: 'h-80' },
+      { id: 8, title: 'Desk Setup', category: 'Interior', likes: 56, url: 'https://images.unsplash.com/photo-1505843490538-5133c6c7d0e1?w=500&q=80', height: 'h-64' },
+    ];
+
+    const COMMUNITY_FEED = [
+      { id: 101, user: 'Elena Ríos', avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&q=80', image: 'https://images.unsplash.com/photo-1513694203232-719a280e022f?w=500&q=80', title: 'Home Office Inspo', time: '2h ago' },
+      { id: 102, user: 'Marc Chen', avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&q=80', image: 'https://images.unsplash.com/photo-1529139574466-a303027c1d8b?w=500&q=80', title: 'Autumn Wardrobe', time: '5h ago' },
+      { id: 103, user: 'Sofía V.', avatar: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&q=80', image: 'https://images.unsplash.com/photo-1561214115-f2f134cc4912?w=500&q=80', title: 'Color Palette 04', time: '1d ago' },
+    ];
+
+    const PLANS = [
+      { name: 'Gratis', price: '$0', description: 'Perfecto para curadores ocasionales.', features: ['Hasta 3 Tableros', 'Exportación estándar', 'Plantillas básicas', 'Acceso a la comunidad'], button: 'Plan Actual', highlight: false, actionTitle: 'Ya estás en este plan', actionMessage: 'Actualmente disfrutas de los beneficios del plan gratuito.' },
+      { name: 'Creador', price: '$9', period: '/mes', description: 'Para diseñadores y artistas apasionados.', features: ['Tableros Ilimitados', 'Exportaciones (4K)', 'Plantillas Premium', 'Colores personalizados', 'Sin anuncios'], button: 'Mejorar a Creador', highlight: true, actionTitle: '¡Bienvenido a Creador!', actionMessage: 'Estás siendo redirigido a la pasarela de pago para adquirir el plan Creador por $9/mes.' },
+      { name: 'Pro Studio', price: '$19', period: '/mes', description: 'Herramientas avanzadas para equipos.', features: ['Todo lo de Creador', 'Colaboración en equipo', 'Fuentes personalizadas', 'Panel de métricas', 'Soporte prioritario'], button: 'Obtener Pro', highlight: false, actionTitle: 'Experiencia Pro Studio', actionMessage: 'Excelente elección. Procesando tu solicitud para el plan Pro Studio por $19/mes.' }
+    ];
+
+    // --- STATE ---
+    let theme = 'light';
+    let currentExploreFilter = 'All';
+    let boards = [];
+    let draggedIdx = null;
+
+    // --- INITIALIZATION ---
+    document.addEventListener('DOMContentLoaded', () => {
+      // Setup Theme
+      if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        theme = 'dark';
+        document.documentElement.classList.add('dark');
+        document.getElementById('theme-icon-moon').classList.remove('hidden');
+        document.getElementById('theme-icon-sun').classList.add('hidden');
+      }
+
+      // Initialize Views
+      renderExploreFilters();
+      renderExploreGrid();
+      initStudioData();
+      renderCommunity();
+      renderPremium();
+      
+      // Initialize Icons
+      lucide.createIcons();
+    });
+
+    // --- NAVIGATION & UI ---
+    function navigateTo(pageId) {
+      // Hide all pages
+      document.querySelectorAll('.page-section').forEach(el => el.classList.add('hidden'));
+      // Show target page
+      document.getElementById(`view-${pageId}`).classList.remove('hidden');
+      
+      // Update Nav Links
+      document.querySelectorAll('.nav-link').forEach(link => {
+        if (link.dataset.target === pageId) {
+          link.classList.remove('text-gray-600', 'dark:text-gray-400');
+          link.classList.add('text-rose-500', 'dark:text-rose-400', 'font-semibold');
+        } else {
+          link.classList.remove('text-rose-500', 'dark:text-rose-400', 'font-semibold');
+          link.classList.add('text-gray-600', 'dark:text-gray-400');
+        }
+      });
+
+      // Close mobile menu & scroll to top
+      document.getElementById('mobile-menu').classList.add('hidden');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function toggleMobileMenu() {
+      const menu = document.getElementById('mobile-menu');
+      menu.classList.toggle('hidden');
+    }
+
+    function toggleTheme() {
+      const html = document.documentElement;
+      if (theme === 'light') {
+        html.classList.add('dark');
+        theme = 'dark';
+        document.getElementById('theme-icon-moon').classList.remove('hidden');
+        document.getElementById('theme-icon-sun').classList.add('hidden');
+      } else {
+        html.classList.remove('dark');
+        theme = 'light';
+        document.getElementById('theme-icon-moon').classList.add('hidden');
+        document.getElementById('theme-icon-sun').classList.remove('hidden');
+      }
+    }
+
+    // --- MODAL ---
+    function showMessage(title, message) {
+      document.getElementById('modal-title').innerText = title;
+      document.getElementById('modal-message').innerText = message;
+      document.getElementById('global-modal').classList.remove('hidden');
+    }
+
+    function hideMessage() {
+      document.getElementById('global-modal').classList.add('hidden');
+    }
+
+    // --- EXPLORE VIEW ---
+    function renderExploreFilters() {
+      const categories = ['All', 'Fashion', 'Interior', 'Art', 'Lifestyle'];
+      const container = document.getElementById('explore-filters');
+      container.innerHTML = categories.map(cat => `
+        <button onclick="setExploreFilter('${cat}')" class="px-5 py-2.5 rounded-full whitespace-nowrap text-sm font-semibold transition-all ${
+          currentExploreFilter === cat 
+            ? 'bg-gray-900 text-white dark:bg-white dark:text-gray-900 shadow-md' 
+            : 'bg-white text-gray-600 border border-gray-200 hover:bg-gray-50 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-800 dark:hover:bg-gray-800'
+        }">${cat}</button>
+      `).join('');
+    }
+
+    function setExploreFilter(cat) {
+      currentExploreFilter = cat;
+      renderExploreFilters();
+      renderExploreGrid();
+      lucide.createIcons();
+    }
+
+    function renderExploreGrid() {
+      const container = document.getElementById('explore-grid');
+      const data = currentExploreFilter === 'All' ? EXPLORE_DATA : EXPLORE_DATA.filter(item => item.category === currentExploreFilter);
+      
+      container.innerHTML = data.map(item => `
+        <div class="masonry-item group relative rounded-2xl overflow-hidden cursor-zoom-in shadow-sm hover:shadow-xl transition-all duration-300 bg-gray-100 dark:bg-gray-800">
+          <img src="${item.url}" alt="${item.title}" class="w-full h-auto object-cover transform group-hover:scale-105 transition-transform duration-700 ease-out" loading="lazy" />
+          <div class="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-5">
+            <h3 class="text-white font-bold text-lg">${item.title}</h3>
+            <div class="flex justify-between items-center mt-2">
+              <span class="text-white/80 text-sm bg-white/20 backdrop-blur-md px-3 py-1 rounded-full">${item.category}</span>
+              <button class="flex items-center gap-1 text-white hover:text-rose-400 transition-colors">
+                <i data-lucide="heart" class="w-[18px] h-[18px] fill-current"></i>
+                <span class="text-sm font-medium">${item.likes}</span>
+              </button>
+            </div>
+          </div>
+          <button class="absolute top-4 right-4 bg-rose-500 text-white px-4 py-2 rounded-full font-bold text-sm opacity-0 group-hover:opacity-100 transform translate-y-2 group-hover:translate-y-0 transition-all duration-300 hover:bg-rose-600 shadow-lg">
+            Save
+          </button>
+        </div>
+      `).join('');
+    }
+
+    // --- STUDIO VIEW ---
+    function initStudioData() {
+      const saved = localStorage.getItem('aura_studio_boards');
+      if (saved) {
+        boards = JSON.parse(saved);
+      } else {
+        boards = [
+          { id: 'b1', title: 'Verano 2026', color: 'bg-rose-100 dark:bg-rose-900/40', images: [EXPLORE_DATA[0].url, EXPLORE_DATA[6].url, EXPLORE_DATA[3].url] },
+          { id: 'b2', title: 'Renovación de Casa', color: 'bg-blue-100 dark:bg-blue-900/40', images: [EXPLORE_DATA[5].url, EXPLORE_DATA[7].url] },
+          { id: 'b3', title: 'Arte Neón', color: 'bg-purple-100 dark:bg-purple-900/40', images: [EXPLORE_DATA[4].url, EXPLORE_DATA[2].url] }
+        ];
+        saveBoards();
+      }
+      renderBoards();
+      renderLikesAndDownloads();
+    }
+
+    function saveBoards() {
+      localStorage.setItem('aura_studio_boards', JSON.stringify(boards));
+    }
+
+    function switchStudioTab(tabId) {
+      // Hide all tabs
+      document.querySelectorAll('.studio-tab').forEach(el => el.classList.add('hidden'));
+      document.getElementById(`studio-tab-${tabId}`).classList.remove('hidden');
+
+      // Update sidebar buttons visual state
+      const isBoardRelated = tabId === 'boards' || tabId === 'detail';
+      
+      document.querySelectorAll('.studio-tab-btn').forEach(btn => {
+        btn.classList.remove('bg-gray-100', 'dark:bg-gray-800', 'text-gray-900', 'dark:text-white');
+        btn.classList.add('hover:bg-gray-50', 'dark:hover:bg-gray-800', 'text-gray-600', 'dark:text-gray-400');
+        // Reset icon colors
+        btn.querySelector('i').classList.remove('text-rose-500');
+      });
+
+      if (isBoardRelated) {
+        const btn = document.getElementById('tab-btn-boards');
+        btn.className = "studio-tab-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl font-medium transition-colors bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-white";
+        btn.querySelector('i').classList.add('text-rose-500');
+      } else {
+        const btn = document.getElementById(`tab-btn-${tabId}`);
+        btn.className = "studio-tab-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl font-medium transition-colors bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-white";
+        btn.querySelector('i').classList.add('text-rose-500');
+      }
+    }
+
+    function renderBoards() {
+      const container = document.getElementById('boards-grid');
+      let html = '';
+      
+      boards.forEach((board, idx) => {
+        let imagesHtml = '';
+        if (board.images && board.images.length > 0) {
+          board.images.slice(0, 3).forEach((img, i) => {
+            const classNames = i === 2 ? 'col-span-2 h-14' : 'h-24';
+            imagesHtml += `<div class="rounded-xl overflow-hidden shadow-sm ${classNames}"><img src="${img}" alt="preview" class="w-full h-full object-cover" /></div>`;
+          });
+        } else {
+          imagesHtml = `<div class="col-span-2 h-24 bg-white/40 dark:bg-black/20 rounded-xl flex items-center justify-center backdrop-blur-sm"><i data-lucide="image" class="w-8 h-8 text-gray-500"></i></div>`;
+        }
+
+        html += `
+          <div draggable="true" ondragstart="handleDragStart(event, ${idx})" ondragend="handleDragEnd(event)" ondragover="handleDragOver(event)" ondrop="handleDrop(event, ${idx})" onclick="openBoardDetail('${board.id}')" class="${board.color} rounded-3xl p-6 h-72 flex flex-col justify-between cursor-grab active:cursor-grabbing hover:shadow-lg hover:-translate-y-1 transition-all group relative overflow-hidden">
+            <div class="grid grid-cols-2 gap-2 h-32 mb-4">${imagesHtml}</div>
+            <div class="relative z-10 bg-white/60 dark:bg-black/40 backdrop-blur-md p-3 rounded-2xl">
+              <h3 class="font-bold text-lg mb-0.5 text-gray-900 dark:text-white truncate">${board.title}</h3>
+              <p class="text-xs text-gray-700 dark:text-gray-300">${board.images ? board.images.length : 0} elementos</p>
+            </div>
+            <div class="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity bg-white/50 dark:bg-black/50 p-2 rounded-full backdrop-blur-md">
+              <i data-lucide="grip-horizontal" class="w-5 h-5"></i>
+            </div>
+          </div>
+        `;
+      });
+
+      html += `
+        <button onclick="addBoard()" class="rounded-3xl border-2 border-dashed border-gray-300 dark:border-gray-700 h-72 flex flex-col items-center justify-center text-gray-400 hover:text-rose-500 hover:border-rose-300 hover:bg-rose-50 dark:hover:bg-rose-900/10 transition-all group">
+          <div class="w-12 h-12 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center mb-3 group-hover:scale-110 transition-transform group-hover:bg-rose-100 dark:group-hover:bg-rose-900/30">
+            <i data-lucide="plus" class="w-6 h-6 group-hover:text-rose-500"></i>
+          </div>
+          <span class="font-semibold">Añadir Tablero</span>
+        </button>
+      `;
+      container.innerHTML = html;
+      lucide.createIcons();
+    }
+
+    function addBoard() {
+      const colors = ['bg-rose-100 dark:bg-rose-900/40', 'bg-blue-100 dark:bg-blue-900/40', 'bg-green-100 dark:bg-green-900/40', 'bg-yellow-100 dark:bg-yellow-900/40'];
+      const randomColor = colors[Math.floor(Math.random() * colors.length)];
+      const randomImages = [...EXPLORE_DATA].sort(() => 0.5 - Math.random()).slice(0, 3).map(img => img.url);
+      
+      boards.push({
+        id: `b${Date.now()}`,
+        title: `Nuevo Tablero ${boards.length + 1}`,
+        color: randomColor,
+        images: randomImages
+      });
+      saveBoards();
+      renderBoards();
+    }
+
+    // Drag and Drop handlers
+    function handleDragStart(e, idx) {
+      draggedIdx = idx;
+      e.dataTransfer.effectAllowed = "move";
+      e.target.classList.add('opacity-50');
+    }
+    function handleDragEnd(e) {
+      e.target.classList.remove('opacity-50');
+      draggedIdx = null;
+    }
+    function handleDragOver(e) {
+      e.preventDefault();
+    }
+    function handleDrop(e, dropIdx) {
+      e.preventDefault();
+      if (draggedIdx === null || draggedIdx === dropIdx) return;
+      const draggedItem = boards[draggedIdx];
+      boards.splice(draggedIdx, 1);
+      boards.splice(dropIdx, 0, draggedItem);
+      saveBoards();
+      renderBoards();
+    }
+
+    function openBoardDetail(boardId) {
+      const board = boards.find(b => b.id === boardId);
+      if (!board) return;
+
+      const container = document.getElementById('studio-tab-detail');
+      let imagesHtml = '';
+      
+      if (board.images && board.images.length > 0) {
+        imagesHtml = `<div class="columns-2 md:columns-3 gap-4 space-y-4">` + board.images.map((img, i) => `
+          <div class="break-inside-avoid rounded-2xl overflow-hidden shadow-md group relative">
+            <img src="${img}" alt="Board item" class="w-full h-auto object-cover transform group-hover:scale-105 transition-transform duration-500" />
+            <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+              <button class="bg-white/20 backdrop-blur-md p-3 rounded-full text-white hover:bg-white/40">
+                <i data-lucide="download" class="w-5 h-5"></i>
+              </button>
+            </div>
+          </div>
+        `).join('') + `</div>`;
+      } else {
+        imagesHtml = `
+          <div class="h-64 flex flex-col items-center justify-center border-2 border-dashed border-gray-200 dark:border-gray-800 rounded-3xl">
+            <i data-lucide="image" class="w-12 h-12 text-gray-300 dark:text-gray-700 mb-4"></i>
+            <p class="text-gray-500">Este tablero está vacío. Explora para añadir contenido.</p>
+          </div>
+        `;
+      }
+
+      container.innerHTML = `
+        <div class="flex items-center gap-4 mb-8">
+          <button onclick="switchStudioTab('boards')" class="p-2 rounded-full bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">
+            <i data-lucide="chevron-left" class="w-6 h-6"></i>
+          </button>
+          <h2 class="text-3xl font-serif font-bold">${board.title}</h2>
+        </div>
+        ${imagesHtml}
+      `;
+      switchStudioTab('detail');
+      lucide.createIcons();
+    }
+
+    function renderLikesAndDownloads() {
+      // Likes (First 4 items)
+      document.getElementById('likes-grid').innerHTML = EXPLORE_DATA.slice(0, 4).map(item => `
+        <div class="rounded-2xl overflow-hidden relative group aspect-[3/4]">
+          <img src="${item.url}" class="w-full h-full object-cover group-hover:scale-105 transition-transform" />
+          <div class="absolute top-3 right-3 bg-white/80 dark:bg-black/60 backdrop-blur-sm p-2 rounded-full text-rose-500">
+            <i data-lucide="heart" class="w-[18px] h-[18px] fill-current"></i>
+          </div>
+        </div>
+      `).join('');
+
+      // Downloads (Next 4 items)
+      document.getElementById('downloads-grid').innerHTML = EXPLORE_DATA.slice(4, 8).map(item => `
+        <div class="rounded-2xl overflow-hidden relative group aspect-square">
+          <img src="${item.url}" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all" />
+          <div class="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity">
+            <button class="bg-white text-gray-900 px-4 py-2 rounded-full font-bold text-sm flex items-center gap-2">
+              <i data-lucide="download" class="w-4 h-4"></i> Abrir Archivo
+            </button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    // --- COMMUNITY VIEW ---
+    function renderCommunity() {
+      const container = document.getElementById('community-feed');
+      container.innerHTML = COMMUNITY_FEED.map(post => `
+        <div class="bg-white dark:bg-[#1A1A1A] rounded-3xl p-6 shadow-sm border border-gray-100 dark:border-gray-800">
+          <div class="flex items-center justify-between mb-4">
+            <div class="flex items-center gap-3">
+              <img src="${post.avatar}" alt="${post.user}" class="w-12 h-12 rounded-full object-cover" />
+              <div>
+                <h4 class="font-bold text-sm">${post.user}</h4>
+                <span class="text-xs text-gray-500">${post.time}</span>
+              </div>
+            </div>
+            <button class="text-rose-500 font-semibold text-sm hover:underline">Follow</button>
+          </div>
+          <div class="rounded-2xl overflow-hidden mb-4 relative group">
+            <img src="${post.image}" alt="${post.title}" class="w-full h-80 object-cover group-hover:scale-105 transition-transform duration-500" />
+          </div>
+          <div class="flex justify-between items-center">
+            <h3 class="font-bold text-lg">${post.title}</h3>
+            <div class="flex gap-4">
+              <button class="flex items-center gap-1 text-gray-500 hover:text-rose-500 transition-colors">
+                <i data-lucide="heart" class="w-5 h-5"></i> <span class="text-sm">24</span>
+              </button>
+              <button class="flex items-center gap-1 text-gray-500 hover:text-blue-500 transition-colors">
+                <i data-lucide="folder" class="w-5 h-5"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    // --- PREMIUM VIEW ---
+    function renderPremium() {
+      const container = document.getElementById('premium-plans');
+      container.innerHTML = PLANS.map(plan => `
+        <div class="relative rounded-3xl p-8 transition-all duration-300 hover:-translate-y-2 ${plan.highlight ? 'bg-gray-900 text-white dark:bg-white dark:text-gray-900 shadow-2xl scale-105 z-10' : 'bg-white dark:bg-[#1A1A1A] text-gray-900 dark:text-white border border-gray-100 dark:border-gray-800 shadow-sm'}">
+          ${plan.highlight ? '<div class="absolute -top-4 left-1/2 -translate-x-1/2 bg-gray-100 text-gray-900 dark:bg-gray-800 dark:text-white text-xs font-bold px-4 py-1.5 rounded-full shadow-md border border-gray-200 dark:border-gray-700">MÁS POPULAR</div>' : ''}
+          <h3 class="text-2xl font-bold mb-2 flex items-center gap-2">
+            ${plan.highlight ? '<i data-lucide="crown" class="w-6 h-6 text-rose-400"></i>' : ''}
+            ${plan.name}
+          </h3>
+          <p class="text-sm mb-6 ${plan.highlight ? 'text-gray-300 dark:text-gray-600' : 'text-gray-500'}">${plan.description}</p>
+          <div class="mb-8">
+            <span class="text-5xl font-black">${plan.price}</span>
+            ${plan.period ? `<span class="text-lg font-medium ${plan.highlight ? 'text-gray-300 dark:text-gray-600' : 'text-gray-500'}">${plan.period}</span>` : ''}
+          </div>
+          <ul class="space-y-4 mb-8">
+            ${plan.features.map(feature => `
+              <li class="flex items-center gap-3">
+                <i data-lucide="check" class="w-[18px] h-[18px] ${plan.highlight ? 'text-gray-400 dark:text-gray-500' : 'text-rose-500'}"></i>
+                <span class="text-sm font-medium">${feature}</span>
+              </li>
+            `).join('')}
+          </ul>
+          <button onclick="showMessage('${plan.actionTitle}', '${plan.actionMessage}')" class="w-full py-4 rounded-xl font-bold transition-transform hover:scale-105 ${plan.highlight ? 'bg-white text-gray-900 dark:bg-gray-900 dark:text-white shadow-lg border border-gray-200 dark:border-gray-700' : 'bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700'}">
+            ${plan.button}
+          </button>
+        </div>
+      `).join('');
+    }
+
+    // --- CONTACT FORM ---
+    function handleContactSubmit(e) {
+      e.preventDefault();
+      document.getElementById('contact-form').classList.add('hidden');
+      document.getElementById('contact-success').classList.remove('hidden');
+      document.getElementById('contact-success').classList.add('flex');
+      
+      setTimeout(() => {
+        document.getElementById('contact-form').classList.remove('hidden');
+        document.getElementById('contact-success').classList.add('hidden');
+        document.getElementById('contact-success').classList.remove('flex');
+        e.target.reset();
+      }, 3000);
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Neon Racer - Retro Drive</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background-color: #000;
+            font-family: 'Segoe UI', sans-serif;
+            touch-action: none;
+        }
+        canvas {
+            display: block;
+        }
+        #ui {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            color: #fff;
+        }
+        .hud {
+            padding: 20px;
+            font-family: 'monospace';
+            font-size: 1.5rem;
+            text-shadow: 0 0 10px #00f2fe;
+        }
+        .overlay {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 0, 0, 0.9);
+            padding: 2rem;
+            border: 2px solid #ff00ff;
+            text-align: center;
+            pointer-events: auto;
+            min-width: 300px;
+        }
+        .btn {
+            background: #ff00ff;
+            color: white;
+            padding: 10px 30px;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+            text-transform: uppercase;
+            margin-top: 15px;
+            transition: 0.3s;
+        }
+        .btn:hover {
+            box-shadow: 0 0 20px #ff00ff;
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body>
+
+    <canvas id="gameCanvas"></canvas>
+
+    <div id="ui">
+        <div class="hud flex justify-between">
+            <div>DISTANCIA: <span id="distVal">0</span>km</div>
+            <div>VELOCIDAD: <span id="speedVal">0</span>km/h</div>
+        </div>
+
+        <div id="menu" class="overlay">
+            <h1 class="text-4xl font-black mb-2 italic text-cyan-400">NEON RACER</h1>
+            <p class="text-gray-400 mb-6">Esquiva el tráfico en la autopista infinita.</p>
+            <div id="results" class="hidden mb-4">
+                <p class="text-red-500 text-xl font-bold uppercase">¡CHOQUE DETECTADO!</p>
+                <p>Distancia recorrida: <span id="lastDist">0</span>km</p>
+            </div>
+            <button id="startBtn" class="btn">ARRANCAR</button>
+        </div>
+    </div>
+
+<script>
+    const canvas = document.getElementById('gameCanvas');
+    const ctx = canvas.getContext('2d');
+    const distElement = document.getElementById('distVal');
+    const speedElement = document.getElementById('speedVal');
+    const menu = document.getElementById('menu');
+    const startBtn = document.getElementById('startBtn');
+    const results = document.getElementById('results');
+    const lastDistElement = document.getElementById('lastDist');
+
+    // Estado del juego
+    let gameActive = false;
+    let distance = 0;
+    let speed = 0;
+    let maxSpeed = 15;
+    let roadOffset = 0;
+    let playerX = 0; // -1 a 1
+    let keys = {};
+    let obstacles = [];
+    const carZ = 12; // Posición Z del jugador
+
+    function resize() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+    }
+    window.addEventListener('resize', resize);
+    resize();
+
+    // Controles
+    window.addEventListener('keydown', e => keys[e.code] = true);
+    window.addEventListener('keyup', e => keys[e.code] = false);
+
+    // Táctil
+    window.addEventListener('touchstart', e => {
+        const x = e.touches[0].clientX;
+        if (x < window.innerWidth / 2) keys['ArrowLeft'] = true;
+        else keys['ArrowRight'] = true;
+    });
+    window.addEventListener('touchend', () => {
+        keys['ArrowLeft'] = false;
+        keys['ArrowRight'] = false;
+    });
+
+    function spawnObstacle() {
+        if (!gameActive) return;
+        obstacles.push({
+            x: (Math.random() * 2 - 1) * 0.8, // Posición en el carril
+            z: 100, // Distancia inicial
+            color: Math.random() > 0.5 ? '#ff00ff' : '#00f2fe'
+        });
+        
+        // Programar siguiente obstáculo según velocidad
+        setTimeout(spawnObstacle, 1000 - (speed * 30));
+    }
+
+    function initGame() {
+        gameActive = true;
+        distance = 0;
+        speed = 5;
+        playerX = 0;
+        obstacles = [];
+        menu.style.display = 'none';
+        results.classList.add('hidden');
+        spawnObstacle();
+        requestAnimationFrame(update);
+    }
+
+    function update() {
+        if (!gameActive) return;
+
+        // Aumentar velocidad gradualmente
+        if (speed < maxSpeed) speed += 0.005;
+        distance += speed / 100;
+        distElement.textContent = Math.floor(distance);
+        speedElement.textContent = Math.floor(speed * 15);
+
+        // Movimiento jugador (agilidad aumentada de 0.04 a 0.06)
+        if (keys['ArrowLeft'] || keys['KeyA']) playerX -= 0.06;
+        if (keys['ArrowRight'] || keys['KeyD']) playerX += 0.06;
+        
+        // Fricción y límites
+        playerX *= 0.95;
+        playerX = Math.max(-0.9, Math.min(0.9, playerX));
+
+        // Fondo y Carretera
+        roadOffset += speed;
+        
+        draw();
+
+        // Procesar obstáculos
+        for (let i = obstacles.length - 1; i >= 0; i--) {
+            let o = obstacles[i];
+            o.z -= speed * 0.5; // Se acercan
+
+            // Colisión sincronizada con la profundidad Z del coche
+            if (o.z < carZ + 2 && o.z > carZ - 2) {
+                if (Math.abs(o.x - playerX) < 0.3) {
+                    gameOver();
+                }
+            }
+
+            if (o.z < 0) obstacles.splice(i, 1);
+        }
+
+        requestAnimationFrame(update);
+    }
+
+    function draw() {
+        const w = canvas.width;
+        const h = canvas.height;
+        const horizon = h * 0.5;
+
+        // Cielo
+        let grad = ctx.createLinearGradient(0, 0, 0, horizon);
+        grad.addColorStop(0, '#000022');
+        grad.addColorStop(1, '#330033');
+        ctx.fillStyle = grad;
+        ctx.fillRect(0, 0, w, horizon);
+
+        // Sol retro
+        ctx.fillStyle = '#ffcc00';
+        ctx.shadowBlur = 40;
+        ctx.shadowColor = '#ff3300';
+        ctx.beginPath();
+        ctx.arc(w/2, horizon - 20, 60, 0, Math.PI, true);
+        ctx.fill();
+        ctx.shadowBlur = 0;
+
+        // Suelo / Cuadrícula
+        ctx.fillStyle = '#111';
+        ctx.fillRect(0, horizon, w, h - horizon);
+
+        // Carretera (Perspectiva simple)
+        const roadW = w * 0.8;
+        ctx.beginPath();
+        ctx.fillStyle = '#222';
+        ctx.moveTo(w/2 - 20, horizon);
+        ctx.lineTo(w/2 + 20, horizon);
+        ctx.lineTo(w/2 + roadW/2, h);
+        ctx.lineTo(w/2 - roadW/2, h);
+        ctx.fill();
+
+        // Líneas de la carretera (Corregidas para acercarse)
+        ctx.strokeStyle = '#00f2fe';
+        ctx.lineWidth = 2;
+        for (let i = 0; i < 15; i++) {
+            let z = ((i * 10 - roadOffset) % 150 + 150) % 150;
+            if (z < 1) continue;
+            let screenZ = 10 / z;
+            let py = horizon + (h - horizon) * screenZ;
+            let pW = (w * 0.8) * screenZ;
+            if (py > horizon && py < h) {
+                ctx.beginPath();
+                ctx.moveTo(w/2 - pW/2, py);
+                ctx.lineTo(w/2 + pW/2, py);
+                ctx.stroke();
+            }
+        }
+
+        // Obstáculos (Perspectiva corregida)
+        obstacles.forEach(o => {
+            if (o.z <= 1) return;
+            let screenZ = 10 / o.z;
+            let ox = w/2 + (o.x * w * 0.4 * screenZ);
+            let oy = horizon + (h - horizon) * screenZ;
+            let size = 60 * screenZ;
+
+            if (oy > horizon && oy < h + size) {
+                ctx.fillStyle = o.color;
+                ctx.shadowBlur = 15;
+                ctx.shadowColor = o.color;
+                ctx.fillRect(ox - size/2, oy - size, size, size);
+                ctx.shadowBlur = 0;
+            }
+        });
+
+        // Coche del jugador (Anclado al piso en 3D)
+        ctx.save();
+        let carScreenZ = 10 / carZ;
+        let carY = horizon + (h - horizon) * carScreenZ;
+        let carX = w/2 + (playerX * w * 0.4 * carScreenZ);
+        
+        ctx.translate(carX, carY);
+        // Cuerpo coche
+        ctx.fillStyle = '#fff';
+        ctx.shadowBlur = 20;
+        ctx.shadowColor = '#00f2fe';
+        ctx.fillRect(-30, -20, 60, 20);
+        // Cabina
+        ctx.fillStyle = '#333';
+        ctx.fillRect(-20, -35, 40, 15);
+        // Luces traseras
+        ctx.fillStyle = '#ff0000';
+        ctx.fillRect(-28, -15, 10, 5);
+        ctx.fillRect(18, -15, 10, 5);
+        ctx.restore();
+    }
+
+    function gameOver() {
+        gameActive = false;
+        menu.style.display = 'block';
+        results.classList.remove('hidden');
+        lastDistElement.textContent = Math.floor(distance);
+    }
+
+    startBtn.addEventListener('click', initGame);
+    
+    // Dibujo inicial
+    ctx.fillStyle = '#000';
+    ctx.fillRect(0,0,canvas.width, canvas.height);
+
+</script>
+</body>
+</html>

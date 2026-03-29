@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary-fixed-dim": "#adc6ff",
+              "surface-bright": "#393939",
+              "secondary-fixed-dim": "#e8b3ff",
+              "inverse-surface": "#e5e2e1",
+              "on-surface-variant": "#c1c6d7",
+              "tertiary-fixed": "#ffdbcc",
+              "outline-variant": "#414755",
+              "on-surface": "#e5e2e1",
+              "tertiary": "#ffb595",
+              "on-primary": "#002e69",
+              "surface": "#131313",
+              "on-error": "#690005",
+              "error-container": "#93000a",
+              "error": "#ffb4ab",
+              "secondary": "#e8b3ff",
+              "on-error-container": "#ffdad6",
+              "surface-container-low": "#1c1b1b",
+              "on-tertiary-container": "#4c1a00",
+              "on-primary-container": "#00285c",
+              "inverse-primary": "#005bc1",
+              "on-secondary-fixed-variant": "#7201a2",
+              "surface-variant": "#353534",
+              "on-primary-fixed-variant": "#004493",
+              "primary": "#adc6ff",
+              "on-tertiary-fixed-variant": "#7c2e00",
+              "background": "#131313",
+              "secondary-container": "#7508a5",
+              "on-secondary": "#510074",
+              "surface-dim": "#131313",
+              "surface-tint": "#adc6ff",
+              "surface-container-highest": "#353534",
+              "secondary-fixed": "#f6d9ff",
+              "surface-container-lowest": "#0e0e0e",
+              "primary-container": "#4b8eff",
+              "on-primary-fixed": "#001a41",
+              "on-tertiary-fixed": "#351000",
+              "inverse-on-surface": "#313030",
+              "on-tertiary": "#571e00",
+              "outline": "#8b90a0",
+              "surface-container": "#201f1f",
+              "tertiary-fixed-dim": "#ffb595",
+              "surface-container-high": "#2a2a2a",
+              "primary-fixed": "#d8e2ff",
+              "on-background": "#e5e2e1",
+              "tertiary-container": "#ef6719",
+              "on-secondary-fixed": "#310048",
+              "on-secondary-container": "#e19fff"
+            },
+            fontFamily: {
+              "headline": ["Space Grotesk"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "1rem", "lg": "2rem", "xl": "3rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .scan-line {
+            background: linear-gradient(to bottom, transparent, #adc6ff, transparent);
+            height: 120px;
+            width: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            opacity: 0.4;
+            pointer-events: none;
+            z-index: 10;
+        }
+        .lens-mask {
+            mask-image: radial-gradient(circle, transparent 150px, black 151px);
+        }
+        .vignette {
+            background: radial-gradient(circle, transparent 20%, rgba(19, 19, 19, 0.8) 100%);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface text-on-surface font-body overflow-hidden h-screen w-screen flex flex-col">
+<!-- Camera Viewport Base -->
+<div class="fixed inset-0 z-0">
+<img class="w-full h-full object-cover grayscale opacity-60" data-alt="Close-up of complex mathematical equations and calculus formulas handwritten in white chalk on a dark chalkboard, dimly lit with moody scientific atmosphere" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD1soLZ8JPdCL3Biy8mLU90pf2Sn4FtsiGGzud72JV-0Khhf8nBIOj7XqvKMLVE7xIir-VbXgZZdr4BDruI5DSQ-OikCii9n5hF27Yfh9vPjTbtYdwHUn6iBGbVP0qnFA0PJQG8NPDDCWWjrasy3GSrC3BwlqRHco6alG9sTAumxzYCY0v2glDPYWKwBfJbVDWOeyKjbx2tAPtrUal1-u5IEHNBII0PmhSBexJrT2ZidO2IiurvULUUScbd1FeJM9yMtmJ0wpcp5xc"/>
+<div class="absolute inset-0 vignette"></div>
+<div class="scan-line" style="transform: translateY(30vh);"></div>
+</div>
+<!-- Top Navigation (Shell suppressed for focused task as per mandate) -->
+<header class="relative z-50 flex justify-between items-center w-full max-w-screen-xl mx-auto px-6 py-4">
+<div class="flex items-center gap-4">
+<button class="w-12 h-12 flex items-center justify-center rounded-full bg-surface-container-high/40 backdrop-blur-md text-primary active:scale-95 transition-transform">
+<span class="material-symbols-outlined">arrow_back</span>
+</button>
+<h1 class="font-headline font-bold text-xl tracking-tight text-primary-fixed-dim">Resolver</h1>
+</div>
+<div class="flex items-center gap-3">
+<button class="w-10 h-10 flex items-center justify-center rounded-full bg-surface-container-high/40 backdrop-blur-md text-on-surface-variant active:scale-95 transition-transform">
+<span class="material-symbols-outlined">flash_on</span>
+</button>
+<button class="w-10 h-10 flex items-center justify-center rounded-full bg-surface-container-high/40 backdrop-blur-md text-on-surface-variant active:scale-95 transition-transform">
+<span class="material-symbols-outlined">settings</span>
+</button>
+</div>
+</header>
+<!-- Main Viewfinder Area -->
+<main class="relative flex-grow flex items-center justify-center p-6">
+<!-- Visual Guides / Frame -->
+<div class="relative w-full max-w-md aspect-[4/3] flex flex-col items-center justify-center">
+<!-- Corners -->
+<div class="absolute top-0 left-0 w-12 h-12 border-t-4 border-l-4 border-primary rounded-tl-xl opacity-80"></div>
+<div class="absolute top-0 right-0 w-12 h-12 border-t-4 border-r-4 border-primary rounded-tr-xl opacity-80"></div>
+<div class="absolute bottom-0 left-0 w-12 h-12 border-b-4 border-l-4 border-primary rounded-bl-xl opacity-80"></div>
+<div class="absolute bottom-0 right-0 w-12 h-12 border-b-4 border-r-4 border-primary rounded-br-xl opacity-80"></div>
+<!-- Floating Text -->
+<div class="bg-surface-container-low/40 backdrop-blur-xl px-6 py-2 rounded-full border border-primary/20 shadow-lg">
+<p class="text-sm font-medium tracking-wide uppercase text-primary">Scan math problem</p>
+</div>
+<!-- Lens HUD Elements -->
+<div class="absolute -top-12 left-1/2 -translate-x-1/2 flex gap-4 text-[10px] font-label text-primary/40 uppercase tracking-[0.2em]">
+<span>Focus: Auto</span>
+<span>ISO: 200</span>
+</div>
+</div>
+</main>
+<!-- Bottom Controls Overlay -->
+<section class="relative z-50 px-8 pb-12 pt-8 bg-gradient-to-t from-surface to-transparent">
+<div class="max-w-md mx-auto flex flex-col items-center gap-8">
+<!-- Gallery & Edit Buttons (Asymmetric Layering) -->
+<div class="w-full flex justify-between items-center">
+<button class="flex flex-col items-center gap-2 group">
+<div class="w-14 h-14 rounded-2xl bg-surface-container-high/60 backdrop-blur-xl flex items-center justify-center text-on-surface-variant border border-outline-variant/30 group-hover:text-primary transition-colors">
+<span class="material-symbols-outlined">image</span>
+</div>
+<span class="text-[10px] uppercase tracking-widest font-bold text-on-surface-variant/70">Gallery</span>
+</button>
+<!-- Center Capture FAB -->
+<div class="relative">
+<!-- Glow effect -->
+<div class="absolute inset-0 bg-primary blur-2xl opacity-20 scale-125"></div>
+<button class="relative w-24 h-24 rounded-full bg-gradient-to-br from-primary to-primary-container p-1 shadow-2xl active:scale-90 transition-transform duration-200">
+<div class="w-full h-full rounded-full border-4 border-on-primary/20 flex items-center justify-center">
+<span class="material-symbols-outlined text-on-primary text-4xl" style="font-variation-settings: 'FILL' 1;">shutter_speed</span>
+</div>
+</button>
+</div>
+<button class="flex flex-col items-center gap-2 group">
+<div class="w-14 h-14 rounded-2xl bg-surface-container-high/60 backdrop-blur-xl flex items-center justify-center text-on-surface-variant border border-outline-variant/30 group-hover:text-primary transition-colors">
+<span class="material-symbols-outlined">edit_note</span>
+</div>
+<span class="text-[10px] uppercase tracking-widest font-bold text-on-surface-variant/70">Keyboard</span>
+</button>
+</div>
+<!-- Mode Selector Chips -->
+<div class="flex items-center gap-2 p-1.5 bg-surface-container-lowest/80 backdrop-blur-md rounded-full border border-outline-variant/20">
+<button class="px-5 py-2 rounded-full text-xs font-bold uppercase tracking-wider text-primary bg-primary/10">Solver</button>
+<button class="px-5 py-2 rounded-full text-xs font-bold uppercase tracking-wider text-white/40 hover:text-white/70 transition-colors">Graph</button>
+<button class="px-5 py-2 rounded-full text-xs font-bold uppercase tracking-wider text-white/40 hover:text-white/70 transition-colors">Convert</button>
+</div>
+</div>
+</section>
+<!-- Suppressed Bottom Navigation (Active Logic Fallback) -->
+<!-- BottomNavBar is suppressed due to "Focused Task/Camera View" rule, 
+         but we ensure the logic is implied for navigation flow -->
+<!-- Toast/Feedback Area -->
+<div class="fixed bottom-32 left-1/2 -translate-x-1/2 z-50 pointer-events-none">
+<div class="bg-secondary-container/20 backdrop-blur-xl border border-secondary/20 px-4 py-2 rounded-lg flex items-center gap-3 shadow-2xl translate-y-4 opacity-0">
+<span class="material-symbols-outlined text-secondary text-sm">auto_awesome</span>
+<span class="text-secondary text-[10px] font-bold uppercase tracking-widest">System Ready</span>
+</div>
+</div>
+</body></html>

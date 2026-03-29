@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Nexus | Templates &amp; AI Onboarding</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "surface-bright": "#2c2c2c",
+              "on-secondary-container": "#d2d0cf",
+              "surface-container-low": "#131313",
+              "inverse-on-surface": "#565555",
+              "on-primary": "#1700a1",
+              "inverse-surface": "#fcf9f8",
+              "primary": "#a5a5ff",
+              "error-container": "#a70138",
+              "on-tertiary-fixed-variant": "#6c104f",
+              "surface-dim": "#0e0e0e",
+              "surface-container-high": "#201f1f",
+              "secondary": "#e5e2e1",
+              "on-secondary-fixed": "#403f3f",
+              "tertiary": "#ffa1d5",
+              "tertiary-container": "#fd8bcc",
+              "primary-fixed-dim": "#8686ff",
+              "surface-tint": "#a5a5ff",
+              "secondary-container": "#474746",
+              "on-tertiary-container": "#610246",
+              "secondary-dim": "#d6d4d3",
+              "primary-dim": "#6462ec",
+              "on-error": "#490013",
+              "on-error-container": "#ffb2b9",
+              "tertiary-fixed-dim": "#ed7ebe",
+              "on-background": "#ffffff",
+              "error-dim": "#d73357",
+              "on-tertiary": "#6e1150",
+              "on-surface-variant": "#adaaaa",
+              "on-secondary-fixed-variant": "#5c5b5b",
+              "surface-variant": "#262626",
+              "error": "#ff6e84",
+              "on-tertiary-fixed": "#350025",
+              "tertiary-dim": "#ed7ebe",
+              "on-primary-fixed": "#000000",
+              "surface": "#0e0e0e",
+              "on-surface": "#ffffff",
+              "surface-container-highest": "#262626",
+              "secondary-fixed-dim": "#d6d4d3",
+              "outline-variant": "#484847",
+              "on-primary-container": "#10007f",
+              "on-secondary": "#525151",
+              "on-primary-fixed-variant": "#16009b",
+              "secondary-fixed": "#e5e2e1",
+              "inverse-primary": "#4e4bd5",
+              "background": "#0e0e0e",
+              "tertiary-fixed": "#fd8bcc",
+              "primary-container": "#9695ff",
+              "surface-container": "#1a1919",
+              "primary-fixed": "#9695ff",
+              "surface-container-lowest": "#000000",
+              "outline": "#767575"
+            },
+            fontFamily: {
+              "headline": ["Inter"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass-panel {
+            background: rgba(38, 38, 38, 0.7);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(72, 72, 71, 0.15);
+        }
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface font-body selection:bg-primary/30">
+<!-- SideNavBar (Authority: JSON & Design System) -->
+<aside class="fixed left-0 top-0 h-full z-40 h-screen w-64 bg-[#131313] font-['Inter'] antialiased text-sm tracking-tight border-r border-transparent">
+<div class="p-6">
+<h1 class="text-lg font-bold tracking-tighter text-[#A5A5FF] mb-8">Nexus</h1>
+<nav class="space-y-1">
+<div class="flex items-center gap-3 px-4 py-2 text-[#ADAAAA] hover:bg-[#1A1919] transition-colors cursor-pointer group">
+<span class="material-symbols-outlined text-lg" data-icon="grid_view">grid_view</span>
+<span>Workspaces</span>
+</div>
+<div class="flex items-center gap-3 px-4 py-2 bg-[#262626] text-[#A5A5FF] border-l-2 border-[#A5A5FF] cursor-pointer">
+<span class="material-symbols-outlined text-lg" data-icon="star">star</span>
+<span>Favorites</span>
+</div>
+<div class="flex items-center gap-3 px-4 py-2 text-[#ADAAAA] hover:bg-[#1A1919] transition-colors cursor-pointer">
+<span class="material-symbols-outlined text-lg" data-icon="history">history</span>
+<span>Recents</span>
+</div>
+</nav>
+<div class="mt-12">
+<button class="w-full flex items-center justify-center gap-2 py-2.5 rounded-lg bg-gradient-to-br from-primary to-primary-dim text-on-primary-fixed font-semibold active:scale-[0.98] transition-transform cubic-bezier(0.16,1,0.3,1)">
+<span class="material-symbols-outlined text-sm" data-icon="add">add</span>
+                    New Page
+                </button>
+</div>
+</div>
+<div class="absolute bottom-8 left-0 w-full px-6 space-y-1">
+<div class="flex items-center gap-3 px-4 py-2 text-[#ADAAAA] hover:bg-[#1A1919] transition-colors cursor-pointer">
+<span class="material-symbols-outlined text-lg" data-icon="settings">settings</span>
+<span>Settings</span>
+</div>
+<div class="flex items-center gap-3 px-4 py-2 text-[#ADAAAA] hover:bg-[#1A1919] transition-colors cursor-pointer">
+<span class="material-symbols-outlined text-lg" data-icon="help_outline">help_outline</span>
+<span>Help</span>
+</div>
+</div>
+</aside>
+<!-- TopNavBar (Authority: JSON & Design System) -->
+<header class="fixed top-0 right-0 left-64 h-14 px-6 flex items-center justify-between z-30 bg-[#0E0E0E]/70 backdrop-blur-xl font-['Inter'] text-xs font-medium uppercase tracking-widest">
+<div class="flex-1 max-w-xl">
+<div class="relative group">
+<span class="absolute left-3 top-1/2 -translate-y-1/2 material-symbols-outlined text-on-surface-variant text-lg" data-icon="search">search</span>
+<input class="w-full bg-surface-container-low border-none border-b-2 border-outline-variant/15 focus:ring-0 focus:border-primary px-10 py-2 text-sm normal-case tracking-normal rounded-md transition-all" placeholder="Search templates..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="text-[#ADAAAA] hover:text-white transition-colors">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<button class="text-[#ADAAAA] hover:text-white transition-colors">
+<span class="material-symbols-outlined" data-icon="bolt">bolt</span>
+</button>
+<button class="text-[#ADAAAA] hover:text-white transition-colors">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+</button>
+<div class="h-8 w-8 rounded-full bg-surface-container overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="close-up portrait of a professional man with a friendly expression against a clean dark studio background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBbCOoAd_-VA2QgsvUgUhZfvAqct9xYYAxjEtncqBgm9nVqnpv1mu-biVaCnR2k4Qpll9CXZnM_4g7BG74vaotR7hYjBDJPJm-iWZ8rQBZapElF1afsRNiRdX1K96W667e42egB9RSOdJDzzvrQ1dxkbs986qrkKZj3pZw0wDmSD0saPmd-tIcpaljR9uSDXYODa6G5H3SYJPmnMJcqWId42HWZbTH9C91FUw4LzvaNzjwq7evyaLEu5Yq1ntBn7_OHtPJsLT5KiI0"/>
+</div>
+</div>
+</header>
+<!-- Main Canvas -->
+<main class="ml-64 pt-14 pb-32 min-h-screen px-12">
+<!-- AI Input Section -->
+<section class="max-w-4xl mx-auto py-16 text-center">
+<h2 class="text-5xl font-extrabold tracking-tighter mb-4 text-white">Create with Intention.</h2>
+<p class="text-on-surface-variant mb-12 max-w-lg mx-auto body-md">Nexus AI understands your workflow. Describe your project and we'll build the architecture for you.</p>
+<div class="glass-panel p-2 rounded-2xl shadow-2xl relative group focus-within:ring-2 ring-primary/20 transition-all">
+<div class="flex items-center gap-4 px-4">
+<span class="material-symbols-outlined text-primary" data-icon="auto_awesome" style="font-variation-settings: 'FILL' 1;">auto_awesome</span>
+<input class="w-full bg-transparent border-none focus:ring-0 text-lg py-4 placeholder:text-on-surface-variant/40" placeholder="I want a template for a research paper on AI ethics" type="text"/>
+<button class="bg-primary text-on-primary-container px-6 py-2.5 rounded-xl font-bold text-sm tracking-tight hover:brightness-110 active:scale-95 transition-all">
+                        Generate
+                    </button>
+</div>
+</div>
+</section>
+<!-- Template Grid (Bento Layout) -->
+<section class="mb-20">
+<div class="flex items-center justify-between mb-8">
+<h3 class="text-sm font-bold uppercase tracking-widest text-on-surface-variant">Featured Architectures</h3>
+<div class="flex gap-2">
+<button class="px-4 py-1.5 rounded-full text-xs font-bold border border-outline-variant/20 hover:bg-surface-container-highest transition-colors">All</button>
+<button class="px-4 py-1.5 rounded-full text-xs font-bold bg-surface-container-highest text-primary">Students</button>
+<button class="px-4 py-1.5 rounded-full text-xs font-bold border border-outline-variant/20 hover:bg-surface-container-highest transition-colors">Creators</button>
+</div>
+</div>
+<div class="grid grid-cols-12 gap-6">
+<!-- Large Card: Study Plan -->
+<div class="col-span-8 group cursor-pointer">
+<div class="bg-surface-container-low rounded-3xl p-8 h-full border border-transparent hover:border-primary/20 transition-all overflow-hidden relative">
+<div class="relative z-10 flex flex-col h-full">
+<span class="w-10 h-10 rounded-xl bg-primary/10 text-primary flex items-center justify-center mb-6">
+<span class="material-symbols-outlined" data-icon="menu_book">menu_book</span>
+</span>
+<h4 class="text-2xl font-bold mb-2">Study Plan</h4>
+<p class="text-on-surface-variant max-w-xs text-sm mb-8">Adaptive learning schedules with space repetition tracking and course resource mapping.</p>
+<div class="mt-auto bg-surface-container rounded-xl p-4 shadow-sm group-hover:translate-y-[-8px] transition-transform">
+<div class="flex items-center gap-3 mb-3">
+<div class="w-2 h-2 rounded-full bg-primary"></div>
+<div class="h-2 w-24 bg-outline-variant/30 rounded-full"></div>
+</div>
+<div class="space-y-2">
+<div class="h-1.5 w-full bg-outline-variant/10 rounded-full"></div>
+<div class="h-1.5 w-4/5 bg-outline-variant/10 rounded-full"></div>
+</div>
+</div>
+</div>
+<div class="absolute top-0 right-0 w-1/2 h-full opacity-10 grayscale group-hover:grayscale-0 group-hover:opacity-20 transition-all duration-700">
+<img class="w-full h-full object-cover" data-alt="close-up of a neatly organized desk with a notebook and minimalist stationery in soft morning light" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDlfUZHkd0tLFYOSk25IFpQXA3pm37MvsUtIaonC1iAhi2ud9khD-cWqEAtunTnUGmNl-P0X9cWHCg1HLBdJwzWd_p2g0dQF2v-NCLFJ-gcYhpwmWDUe7TsHIbXLZPzWjr15HpFbhML_4Lr87A1tUO3mmT_T24H1h4nJVtERswDthycABba9o4udkQzRetyQ3uzrhCIVjz_g8Yw_J1stMYSgFyIBGwH6PeielEKQ5k9yV4jp0PczzwsjkJ2bjGDyD1dfRAupFHarao"/>
+</div>
+</div>
+</div>
+<!-- Small Card: Content Calendar -->
+<div class="col-span-4 group cursor-pointer">
+<div class="bg-surface-container-low rounded-3xl p-8 h-full border border-transparent hover:border-tertiary/20 transition-all">
+<span class="w-10 h-10 rounded-xl bg-tertiary/10 text-tertiary flex items-center justify-center mb-6">
+<span class="material-symbols-outlined" data-icon="calendar_today">calendar_today</span>
+</span>
+<h4 class="text-2xl font-bold mb-2">Content Calendar</h4>
+<p class="text-on-surface-variant text-sm">Orchestrate multi-platform campaigns from ideation to delivery.</p>
+<div class="mt-8 grid grid-cols-3 gap-2">
+<div class="h-12 bg-surface-container rounded-lg"></div>
+<div class="h-12 bg-tertiary/20 rounded-lg"></div>
+<div class="h-12 bg-surface-container rounded-lg"></div>
+</div>
+</div>
+</div>
+<!-- Small Card: Project Tracking -->
+<div class="col-span-4 group cursor-pointer">
+<div class="bg-surface-container-low rounded-3xl p-8 h-full border border-transparent hover:border-primary/20 transition-all">
+<span class="w-10 h-10 rounded-xl bg-primary/10 text-primary flex items-center justify-center mb-6">
+<span class="material-symbols-outlined" data-icon="account_tree">account_tree</span>
+</span>
+<h4 class="text-2xl font-bold mb-2">Project Tracking</h4>
+<p class="text-on-surface-variant text-sm">Visual task pipelines for complex engineering or creative projects.</p>
+</div>
+</div>
+<!-- Large Card: Note-Taking -->
+<div class="col-span-8 group cursor-pointer">
+<div class="bg-surface-container-low rounded-3xl p-8 h-full border border-transparent hover:border-white/10 transition-all overflow-hidden relative">
+<div class="flex items-start justify-between">
+<div>
+<span class="w-10 h-10 rounded-xl bg-white/5 text-white flex items-center justify-center mb-6">
+<span class="material-symbols-outlined" data-icon="edit_note">edit_note</span>
+</span>
+<h4 class="text-2xl font-bold mb-2">Note-Taking</h4>
+<p class="text-on-surface-variant max-w-sm text-sm">Minimal canvas designed for deep focus and semantic linking.</p>
+</div>
+<div class="w-48 h-32 bg-surface-container rounded-xl overflow-hidden border border-outline-variant/10">
+<div class="p-3 space-y-2">
+<div class="h-2 w-3/4 bg-primary/20 rounded-full"></div>
+<div class="h-2 w-full bg-outline-variant/10 rounded-full"></div>
+<div class="h-2 w-full bg-outline-variant/10 rounded-full"></div>
+<div class="h-2 w-1/2 bg-outline-variant/10 rounded-full"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Preview Section -->
+<section class="mt-12 py-12">
+<div class="mb-8">
+<h3 class="text-sm font-bold uppercase tracking-widest text-on-surface-variant mb-2">Live Preview</h3>
+<h2 class="text-3xl font-bold">Research Architecture: AI Ethics</h2>
+</div>
+<div class="bg-surface-container-low rounded-3xl border border-outline-variant/10 overflow-hidden shadow-2xl">
+<div class="h-12 border-b border-outline-variant/10 bg-surface-container/50 px-6 flex items-center gap-2">
+<div class="flex gap-1.5">
+<div class="w-3 h-3 rounded-full bg-error/20"></div>
+<div class="w-3 h-3 rounded-full bg-tertiary/20"></div>
+<div class="w-3 h-3 rounded-full bg-primary/20"></div>
+</div>
+<div class="ml-4 px-3 py-1 bg-surface-container rounded-md text-[10px] font-bold text-on-surface-variant uppercase tracking-widest">Draft_v1.nexus</div>
+</div>
+<div class="p-12 max-w-3xl mx-auto space-y-12">
+<header class="space-y-4">
+<div class="h-10 w-2/3 bg-white/5 rounded-lg"></div>
+<div class="flex gap-3">
+<span class="px-3 py-1 rounded-md bg-primary/10 text-primary text-[10px] font-bold uppercase tracking-widest">Thesis</span>
+<span class="px-3 py-1 rounded-md bg-tertiary/10 text-tertiary text-[10px] font-bold uppercase tracking-widest">Q4 2024</span>
+</div>
+</header>
+<div class="grid grid-cols-2 gap-12">
+<div class="space-y-6">
+<h5 class="text-xs font-bold uppercase tracking-widest text-primary">Foundations</h5>
+<div class="space-y-3">
+<div class="flex gap-3 items-start">
+<span class="material-symbols-outlined text-sm mt-1 text-on-surface-variant" data-icon="check_box_outline_blank">check_box_outline_blank</span>
+<div class="h-4 w-full bg-outline-variant/10 rounded"></div>
+</div>
+<div class="flex gap-3 items-start">
+<span class="material-symbols-outlined text-sm mt-1 text-on-surface-variant" data-icon="check_box_outline_blank">check_box_outline_blank</span>
+<div class="h-4 w-4/5 bg-outline-variant/10 rounded"></div>
+</div>
+</div>
+</div>
+<div class="space-y-6">
+<h5 class="text-xs font-bold uppercase tracking-widest text-tertiary">Key Resources</h5>
+<div class="p-4 bg-surface-container rounded-xl border border-outline-variant/5">
+<div class="h-3 w-1/2 bg-on-surface-variant/20 rounded mb-2"></div>
+<div class="h-2 w-full bg-on-surface-variant/10 rounded"></div>
+</div>
+</div>
+</div>
+<div class="space-y-4">
+<h5 class="text-xs font-bold uppercase tracking-widest text-on-surface-variant">Methodology Canvas</h5>
+<div class="h-48 w-full border-2 border-dashed border-outline-variant/10 rounded-2xl flex flex-col items-center justify-center text-on-surface-variant/30">
+<span class="material-symbols-outlined text-4xl mb-2" data-icon="add_circle">add_circle</span>
+<span class="text-xs font-medium uppercase tracking-widest">Drop blocks or files</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- BottomNavBar (Authority: JSON & Design System) -->
+<nav class="fixed bottom-0 left-64 right-0 flex justify-center z-50">
+<div class="bg-[#262626]/80 backdrop-blur-2xl rounded-2xl mb-8 mx-auto w-fit px-2 py-2 border border-white/10 shadow-[0px_24px_48px_rgba(0,0,0,0.4)] flex items-center gap-1">
+<button class="text-[#ADAAAA] p-2 hover:bg-white/5 rounded-xl transition-all active:scale-95 flex flex-col items-center gap-1 group">
+<span class="material-symbols-outlined" data-icon="format_bold">format_bold</span>
+<span class="font-['Inter'] text-[10px] font-bold uppercase tracking-widest">Format</span>
+</button>
+<button class="bg-[#A5A5FF] text-white rounded-xl p-2 active:scale-95 transition-all flex flex-col items-center gap-1">
+<span class="material-symbols-outlined" data-icon="auto_awesome" style="font-variation-settings: 'FILL' 1;">auto_awesome</span>
+<span class="font-['Inter'] text-[10px] font-bold uppercase tracking-widest">AI</span>
+</button>
+<button class="text-[#ADAAAA] p-2 hover:bg-white/5 rounded-xl transition-all active:scale-95 flex flex-col items-center gap-1">
+<span class="material-symbols-outlined" data-icon="drag_indicator">drag_indicator</span>
+<span class="font-['Inter'] text-[10px] font-bold uppercase tracking-widest">Block</span>
+</button>
+<button class="text-[#ADAAAA] p-2 hover:bg-white/5 rounded-xl transition-all active:scale-95 flex flex-col items-center gap-1">
+<span class="material-symbols-outlined" data-icon="open_with">open_with</span>
+<span class="font-['Inter'] text-[10px] font-bold uppercase tracking-widest">Move</span>
+</button>
+</div>
+</nav>
+</body></html>

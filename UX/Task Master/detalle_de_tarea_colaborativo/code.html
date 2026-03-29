@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+
+<html class="light" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>TaskMaster - Detalle de Tarea</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "on-tertiary-container": "#4f3d00",
+              "secondary": "#00677f",
+              "secondary-container": "#00ccf9",
+              "surface-bright": "#faf8ff",
+              "on-tertiary-fixed": "#241a00",
+              "error": "#ba1a1a",
+              "on-primary-container": "#ffffff",
+              "on-surface": "#171b2a",
+              "background": "#faf8ff",
+              "secondary-fixed-dim": "#4cd6ff",
+              "surface-container-low": "#f2f3ff",
+              "on-tertiary-fixed-variant": "#584400",
+              "primary-fixed-dim": "#c1c1ff",
+              "secondary-fixed": "#b7eaff",
+              "primary": "#4744e5",
+              "surface-variant": "#dee1f6",
+              "on-primary-fixed": "#09006b",
+              "on-error": "#ffffff",
+              "tertiary": "#745b00",
+              "on-error-container": "#93000a",
+              "primary-container": "#6161ff",
+              "surface-container-highest": "#dee1f6",
+              "tertiary-fixed-dim": "#f2c000",
+              "outline": "#767587",
+              "tertiary-fixed": "#ffe08d",
+              "on-secondary": "#ffffff",
+              "on-surface-variant": "#464555",
+              "inverse-on-surface": "#eff0ff",
+              "on-primary-fixed-variant": "#2c24ce",
+              "on-primary": "#ffffff",
+              "surface": "#faf8ff",
+              "surface-container-lowest": "#ffffff",
+              "tertiary-container": "#d1a600",
+              "primary-fixed": "#e1dfff",
+              "inverse-primary": "#c1c1ff",
+              "surface-container": "#ebedff",
+              "on-background": "#171b2a",
+              "on-secondary-container": "#005266",
+              "surface-tint": "#4745e5",
+              "outline-variant": "#c7c4d8",
+              "on-tertiary": "#ffffff",
+              "surface-dim": "#d6d9ed",
+              "inverse-surface": "#2c303f",
+              "on-secondary-fixed": "#001f28",
+              "on-secondary-fixed-variant": "#004e60",
+              "surface-container-high": "#e4e7fc",
+              "error-container": "#ffdad6"
+            },
+            fontFamily: {
+              "headline": ["Plus Jakarta Sans"],
+              "body": ["Inter"],
+              "label": ["Plus Jakarta Sans"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body { font-family: 'Inter', sans-serif; }
+        h1, h2, h3, .font-headline { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .glass-effect {
+            backdrop-filter: blur(12px);
+            background: rgba(255, 255, 255, 0.8);
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface min-h-screen overflow-hidden">
+<!-- Background Dashboard (Blurred & Inactive) -->
+<div class="fixed inset-0 flex h-screen w-screen overflow-hidden blur-sm pointer-events-none scale-[1.02]">
+<!-- SideNavBar -->
+<aside class="hidden md:flex flex-col h-full py-8 px-4 bg-[#f2f3ff] dark:bg-slate-900 w-64 fixed left-0 top-0 tonal-shift surface-container-low">
+<div class="mb-10 px-4">
+<span class="text-xl font-black text-[#4744e5]">TaskMaster</span>
+</div>
+<nav class="flex-1 space-y-2">
+<div class="bg-[#dee1f6] dark:bg-slate-800 text-[#4744e5] dark:text-[#6161FF] rounded-xl px-4 py-3 flex items-center gap-3">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-medium text-sm">Dashboard</span>
+</div>
+<div class="text-slate-600 dark:text-slate-400 px-4 py-3 flex items-center gap-3">
+<span class="material-symbols-outlined">grid_view</span>
+<span class="font-medium text-sm">Mis Tableros</span>
+</div>
+<div class="text-slate-600 dark:text-slate-400 px-4 py-3 flex items-center gap-3">
+<span class="material-symbols-outlined">calendar_today</span>
+<span class="font-medium text-sm">Calendario</span>
+</div>
+</nav>
+</aside>
+<!-- Main Content Area -->
+<main class="ml-0 md:ml-64 flex-1 p-8 space-y-8">
+<header class="flex justify-between items-center mb-12">
+<h1 class="text-4xl font-extrabold tracking-tight text-on-surface">Bienvenido, Alex</h1>
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-full bg-primary-fixed overflow-hidden">
+<img alt="Student Avatar" data-alt="A clean minimalist 3D avatar of a young student with glasses on a soft purple background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBOYkGwzbHTzVM-M0nBqSilJwmGrCcCZMb9vZ2ljyHb6RqtF5xNLS2mTPBh7RvpNwr8tH1qFpr7WvVgZZBhmunu97SrFgxDjPSUY3N9gZdZkff2K067mpxYQah4tOrRHL1Cjd7DoKz1Ppf62cSJovIx6UC9y8X9DCjhPpnXWUXnbIs_C6TWHFCNSxPmq8qocrAizJytLhV0bMWi1MrpsRishUQXoAF6_aZgBKDkMmjsP8uPWDsG8iwqHPH7PUCo-7Wx7gQTRhCzoQ"/>
+</div>
+</div>
+</header>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<div class="col-span-2 space-y-6">
+<div class="h-64 bg-surface-container-low rounded-3xl p-6"></div>
+<div class="grid grid-cols-2 gap-6">
+<div class="h-40 bg-surface-container-low rounded-3xl p-6"></div>
+<div class="h-40 bg-surface-container-low rounded-3xl p-6"></div>
+</div>
+</div>
+<div class="bg-surface-container-low rounded-3xl p-6"></div>
+</div>
+</main>
+</div>
+<!-- Modal Backdrop -->
+<div class="fixed inset-0 bg-on-surface/20 backdrop-blur-[2px] z-[60]"></div>
+<!-- Task Detail Drawer (The Canvas) -->
+<div class="fixed top-0 right-0 h-full w-full md:w-[640px] lg:w-[720px] bg-surface-container-lowest shadow-[0px_-12px_48px_rgba(23,27,42,0.12)] z-[70] flex flex-col overflow-hidden animate-in slide-in-from-right duration-500">
+<!-- Header Actions -->
+<div class="flex items-center justify-between px-8 py-6 border-b border-outline-variant/10">
+<button class="flex items-center gap-2 text-outline hover:text-primary transition-colors">
+<span class="material-symbols-outlined">close</span>
+<span class="text-sm font-medium">Cerrar</span>
+</button>
+<div class="flex gap-3">
+<button class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined">share</span>
+</button>
+<button class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined">more_horiz</span>
+</button>
+</div>
+</div>
+<!-- Scrollable Content -->
+<div class="flex-1 overflow-y-auto px-8 py-10 space-y-10">
+<!-- Title & Metadata -->
+<section class="space-y-6">
+<div class="space-y-2">
+<span class="text-xs font-bold tracking-widest text-primary uppercase">Proyecto Académico</span>
+<h2 class="text-4xl font-extrabold text-on-surface leading-tight tracking-tight">Proyecto Final de Historia</h2>
+</div>
+<div class="flex flex-wrap gap-4 items-center">
+<!-- Subject Tag -->
+<div class="flex items-center gap-2 px-4 py-1.5 bg-secondary-fixed text-on-secondary-fixed rounded-full">
+<span class="material-symbols-outlined text-sm">menu_book</span>
+<span class="text-sm font-bold">Historia Universal</span>
+</div>
+<!-- Deadline -->
+<div class="flex items-center gap-2 px-4 py-1.5 bg-surface-container text-on-surface-variant rounded-full">
+<span class="material-symbols-outlined text-sm">calendar_month</span>
+<span class="text-sm font-medium">Oct 24, 2023</span>
+</div>
+<!-- Priority -->
+<div class="flex items-center gap-2 px-4 py-1.5 bg-error-container text-on-error-container rounded-full">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">priority_high</span>
+<span class="text-sm font-bold uppercase tracking-wider">Prioridad Alta</span>
+</div>
+</div>
+</section>
+<!-- Description -->
+<section class="space-y-4">
+<h3 class="text-lg font-bold flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">description</span>
+                    Instrucciones del Proyecto
+                </h3>
+<div class="bg-surface-container-low p-6 rounded-2xl text-on-surface-variant leading-relaxed space-y-4 font-body">
+<p>Realizar un ensayo comparativo sobre las causas de la Revolución Industrial en Inglaterra vs. el resto de Europa. Se debe incluir un mapa conceptual de las innovaciones tecnológicas clave.</p>
+<ul class="list-disc list-inside space-y-2 ml-2">
+<li>Mínimo 2,500 palabras.</li>
+<li>Formato APA 7ma edición.</li>
+<li>Incluir al menos 5 fuentes bibliográficas.</li>
+</ul>
+</div>
+</section>
+<!-- Attachments -->
+<section class="space-y-4">
+<div class="flex justify-between items-center">
+<h3 class="text-lg font-bold flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">attach_file</span>
+                        Archivos Adjuntos
+                    </h3>
+<span class="text-xs font-medium text-outline">2 archivos</span>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+<div class="flex items-center gap-3 p-4 border border-outline-variant/20 rounded-2xl hover:bg-surface-container transition-colors cursor-pointer group">
+<div class="w-12 h-12 flex items-center justify-center bg-primary-fixed rounded-xl text-primary group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined">picture_as_pdf</span>
+</div>
+<div class="overflow-hidden">
+<p class="text-sm font-semibold truncate">Guia_Ensayo.pdf</p>
+<p class="text-xs text-outline">1.2 MB</p>
+</div>
+</div>
+<div class="flex items-center justify-center p-4 border-2 border-dashed border-outline-variant/30 rounded-2xl hover:border-primary/50 hover:bg-primary-fixed/10 transition-all cursor-pointer group">
+<div class="flex flex-col items-center gap-1">
+<span class="material-symbols-outlined text-outline group-hover:text-primary">upload_file</span>
+<span class="text-xs font-bold text-outline group-hover:text-primary">Subir Archivo</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Comments/Team Chat -->
+<section class="space-y-6 pb-20">
+<h3 class="text-lg font-bold flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">forum</span>
+                    Comentarios del Equipo
+                </h3>
+<div class="space-y-6">
+<!-- Comment Item -->
+<div class="flex gap-4">
+<div class="w-10 h-10 rounded-full bg-tertiary-fixed flex-shrink-0 overflow-hidden shadow-sm">
+<img alt="Team Member" data-alt="Portrait of a young woman with curly hair and a friendly smile, flat design illustration style" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBNBfD1mMrU6ws7ZJHi9DRQQeyLMfU8MI2zQLPOG65VwGjJdvVyzhxp15S88Rv3k1HYA_egi_sF5OvWLaKVqQSj0Gj98u2_-gJKZxG-2MAgiwdAptEGSugLRXBPrjIPO3TqrbGWXjdo4hc_pEs09xLJuMrfgqTQ4SgALrIxrwJ5XseGkMNwGCjrLl8Lwz-rJ2PDQZsGKyTbY_VJ8Ksjn4mWRWW2cSMgYaRJqNzBnUYLu3b__m_NvBU9mQmHmb7trKnImuMe3V7xMg"/>
+</div>
+<div class="space-y-1 max-w-[85%]">
+<div class="flex items-baseline gap-2">
+<span class="font-bold text-sm">María López</span>
+<span class="text-[10px] text-outline uppercase font-bold tracking-tighter">Hace 2 horas</span>
+</div>
+<div class="bg-surface-container-high px-4 py-3 rounded-2xl rounded-tl-none text-sm text-on-surface-variant leading-snug">
+                                Chicos, ya subí la estructura del ensayo en la carpeta compartida. ¿Quién puede revisar la introducción?
+                            </div>
+</div>
+</div>
+<!-- Comment Item -->
+<div class="flex gap-4 flex-row-reverse">
+<div class="w-10 h-10 rounded-full bg-primary-fixed flex-shrink-0 overflow-hidden shadow-sm">
+<img alt="User Avatar" data-alt="Student avatar on a soft purple background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB4cfjoCF178_U-TV4ND6a-q4gpgmAD_XxAis-S76Is3t3Num1XghImxPTzsyD6aqBKW1HRJiA1NSzRGVZhW0QiqhotnLgq7SZOPP_aqlqn0fbQJ9cF0lCPQa9bqSNmQ-p9YzZBIT1JoEvJ83c0kT6ygaOVpdcsZUAFxD-Gk068OVtXHYH0mjQ9wvUiwO0hROMN8-VYc4IU-sN0IiMJesrO1kDIg8XKDNFe8gjfj3HR0cD3HedXdf0-2xjSN3HyZJpB__HPohzqsA"/>
+</div>
+<div class="space-y-1 max-w-[85%] text-right">
+<div class="flex items-baseline gap-2 flex-row-reverse">
+<span class="font-bold text-sm">Tú</span>
+<span class="text-[10px] text-outline uppercase font-bold tracking-tighter">Ahora</span>
+</div>
+<div class="bg-primary text-on-primary px-4 py-3 rounded-2xl rounded-tr-none text-sm leading-snug shadow-md shadow-primary/20">
+                                ¡Yo me encargo! La revisaré esta tarde después de clases.
+                            </div>
+</div>
+</div>
+</div>
+<!-- Comment Input -->
+<div class="relative mt-8">
+<input class="w-full bg-surface-container-low border-none rounded-full px-6 py-4 text-sm focus:ring-2 focus:ring-primary/20 placeholder:text-outline/60" placeholder="Escribe un mensaje..." type="text"/>
+<button class="absolute right-2 top-2 w-10 h-10 bg-primary text-white rounded-full flex items-center justify-center shadow-lg shadow-primary/30 active:scale-90 transition-transform">
+<span class="material-symbols-outlined text-sm">send</span>
+</button>
+</div>
+</section>
+</div>
+<!-- Sticky Footer Actions -->
+<div class="px-8 py-6 glass-effect border-t border-outline-variant/10 flex items-center gap-4">
+<button class="flex-1 py-4 bg-primary text-on-primary font-bold rounded-full shadow-xl shadow-primary/30 hover:shadow-primary/40 active:scale-[0.98] transition-all">
+                Marcar como Entregado
+            </button>
+<button class="px-6 py-4 bg-surface-container-high text-on-surface font-bold rounded-full hover:bg-surface-container-highest transition-colors">
+                Guardar Cambios
+            </button>
+</div>
+</div>
+<!-- Navigation Overlay (Inactive/Background) -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full h-20 bg-[#faf8ff]/80 dark:bg-slate-950/80 backdrop-blur-2xl flex justify-around items-center px-6 pb-safe z-40 blur-[1px]">
+<div class="flex flex-col items-center justify-center text-slate-400">
+<span class="material-symbols-outlined">home</span>
+<span class="text-[10px] font-bold uppercase mt-1">Home</span>
+</div>
+<div class="flex flex-col items-center justify-center bg-[#6161FF] text-white rounded-full w-12 h-12 -mt-6 shadow-lg shadow-[#6161FF]/40">
+<span class="material-symbols-outlined">add</span>
+</div>
+<div class="flex flex-col items-center justify-center text-slate-400">
+<span class="material-symbols-outlined">analytics</span>
+<span class="text-[10px] font-bold uppercase mt-1">Stats</span>
+</div>
+</nav>
+</body></html>

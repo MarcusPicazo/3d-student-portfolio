@@ -1,0 +1,25 @@
+{
+  "name": "portafolio-estudiantil-3d",
+  "version": "1.0.0",
+  "description": "Una plataforma interactiva en 3D para exhibir proyectos de Desarrollo Web, Arcade y UX.",
+  "main": "index.html",
+  "scripts": {
+    "start": "serve ."
+  },
+  "keywords": [
+    "3d-portfolio",
+    "threejs",
+    "education",
+    "student-projects",
+    "web-development",
+    "ux-design",
+    "arcade-games",
+    "javascript",
+    "interactive-gallery"
+  ],
+  "author": "Marcus Escalona",
+  "license": "MIT",
+  "devDependencies": {
+    "serve": "^14.2.1"
+  }
+}

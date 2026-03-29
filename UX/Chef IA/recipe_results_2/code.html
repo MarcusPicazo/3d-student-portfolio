@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>SmartChef AI - Recipe Results</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&amp;family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "surface-variant": "#e0e3e5",
+                        "surface-tint": "#006d36",
+                        "inverse-on-surface": "#eff1f3",
+                        "tertiary": "#895024",
+                        "primary-fixed-dim": "#4de082",
+                        "on-tertiary-container": "#794418",
+                        "outline": "#6d7b6d",
+                        "outline-variant": "#bccabb",
+                        "tertiary-container": "#ffb47f",
+                        "on-tertiary-fixed-variant": "#6c3a0f",
+                        "error-container": "#ffdad6",
+                        "on-surface-variant": "#3d4a3e",
+                        "surface-dim": "#d8dadc",
+                        "primary-container": "#4ade80",
+                        "on-tertiary": "#ffffff",
+                        "on-background": "#191c1e",
+                        "on-primary-fixed": "#00210c",
+                        "secondary-container": "#fd933d",
+                        "surface-container": "#eceef0",
+                        "on-error": "#ffffff",
+                        "surface-container-low": "#f2f4f6",
+                        "secondary": "#944a00",
+                        "tertiary-fixed-dim": "#ffb784",
+                        "on-secondary-container": "#693300",
+                        "primary-fixed": "#6dfe9c",
+                        "on-secondary": "#ffffff",
+                        "on-primary-container": "#005e2d",
+                        "on-error-container": "#93000a",
+                        "inverse-primary": "#4de082",
+                        "secondary-fixed-dim": "#ffb783",
+                        "surface-container-highest": "#e0e3e5",
+                        "on-secondary-fixed-variant": "#713700",
+                        "background": "#f7f9fb",
+                        "on-primary": "#ffffff",
+                        "surface-container-high": "#e6e8ea",
+                        "surface-bright": "#f7f9fb",
+                        "error": "#ba1a1a",
+                        "primary": "#006d36",
+                        "surface": "#f7f9fb",
+                        "on-primary-fixed-variant": "#005227",
+                        "on-surface": "#191c1e",
+                        "on-secondary-fixed": "#301400",
+                        "on-tertiary-fixed": "#301400",
+                        "tertiary-fixed": "#ffdcc6",
+                        "surface-container-lowest": "#ffffff",
+                        "inverse-surface": "#2d3133",
+                        "secondary-fixed": "#ffdcc5"
+                    },
+                    fontFamily: {
+                        "headline": ["Manrope"],
+                        "body": ["Inter"],
+                        "label": ["Inter"]
+                    },
+                    borderRadius: {"DEFAULT": "1rem", "lg": "2rem", "xl": "3rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+</head>
+<body class="bg-background font-body text-on-background min-h-screen">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl flex justify-between items-center px-6 py-4 w-full">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full border-2 border-primary/20 p-0.5 shadow-sm overflow-hidden">
+<img alt="User profile photo" class="w-full h-full rounded-full object-cover" data-alt="professional headshot of a smiling young chef in a clean white kitchen setting with soft natural light" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCfgcsU5LfmmC036x8RGYyqBuSzWyTw5ECQCCogFDKq7Xs7x6T9c5riaQBY7GrIsL8A3W_82062qdr18CCNslmYZxe7qmDHdNdwh3poDZIoUrY_NlS7KAttSIfGfxJztXeeop3mOD-Bk35heNqH4KW-oMmRNnY8F1HNzYg71LNeR0K9vNTmO9eUPEWYjYeS3urltPzAO0T9ImLAGp7g_EorDuQYTjDhCACFEk_k0vy2UuEvgaEuD5cwHStwuLLt9aiNSix-8f5Emh8"/>
+</div>
+<span class="text-xl font-black text-emerald-800 dark:text-emerald-200 tracking-tight font-headline">SmartChef AI</span>
+</div>
+<button class="text-slate-500 dark:text-slate-400 hover:opacity-80 transition-opacity active:transition-transform scale-95"><div class="relative">
+<span class="material-symbols-outlined text-2xl align-middle" style="font-variation-settings: 'wght' 300;">notifications</span>
+<span class="absolute top-0 right-0 w-2 h-2 bg-secondary rounded-full border-2 border-white dark:border-slate-900"></span>
+</div></button>
+</header>
+<main class="pt-24 pb-32 px-6">
+<!-- Hero Header -->
+<section class="mb-8">
+<h1 class="font-headline font-extrabold text-4xl leading-tight text-on-surface tracking-tight mb-2">I found 12 recipes for you!</h1>
+<p class="text-on-surface-variant font-medium opacity-70">Based on your pantry and preferences.</p>
+</section>
+<!-- Featured: Chef's Choice -->
+<section class="mb-10">
+<div class="relative group cursor-pointer overflow-hidden rounded-xl bg-surface-container-lowest shadow-[0_20px_40px_rgba(0,0,0,0.04)] active:scale-[0.98] transition-all">
+<div class="absolute top-4 left-4 z-10 bg-secondary-container text-on-secondary-container px-4 py-1.5 rounded-full text-xs font-bold flex items-center gap-2">
+<span class="material-symbols-outlined text-sm" data-icon="stars" style="font-variation-settings: 'FILL' 1;">stars</span>
+                    Chef's Choice
+                </div>
+<div class="absolute top-4 right-4 z-10 bg-white/90 backdrop-blur-md text-primary font-bold px-3 py-1 rounded-full text-xs">
+                    100% Match
+                </div>
+<div class="h-72 w-full overflow-hidden">
+<img alt="Gourmet Salad" class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700" data-alt="overhead shot of a vibrant gourmet buddha bowl with avocado, quinoa, roasted sweet potatoes and fresh greens on a stone surface" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCAWIiOTZzQpcIeUiXKzW7-YxF1LFbDbLkkGI_HJuUk24p1lkDzYpVmDG0Z4mQoWdPOAzdlMnRI8f07RRHUKxo227SqESuDqtgpayinZWIfep_Qk1iuk9e234_FQR3kB77-PdiL1rks_MkrKjlaSqr5alQaMcg4Ef3jsU8VhGkN3RljtLWQeYwESXJwUwAYKoHD-VEyB7flEGqHeCzSUpTyyyXrd498KiHO36brLKFmGE4HHZlPO7JwjA03-cV5cOgA3y3x4dSAjCI"/>
+</div>
+<div class="p-6">
+<h2 class="font-headline font-bold text-2xl mb-4 text-on-surface">Mediterranean Harvest Bowl</h2>
+<div class="flex items-center gap-6 text-on-surface-variant text-sm font-semibold">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-lg" data-icon="schedule">schedule</span>
+                            15 min
+                        </div>
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-lg" data-icon="equalizer">equalizer</span>
+                            Easy
+                        </div>
+<div class="flex items-center gap-1.5 ml-auto text-primary">
+<span class="material-symbols-outlined text-lg" data-icon="local_fire_department">local_fire_department</span>
+                            420 kcal
+                        </div>
+</div>
+</div>
+</div>
+</section>
+<!-- Recipe Feed (Asymmetric Grid/List) -->
+<div class="grid grid-cols-1 gap-8">
+<!-- Card 2 -->
+<div class="flex flex-col md:flex-row gap-6 p-2 rounded-lg bg-surface-container-low transition-all">
+<div class="w-full md:w-40 h-40 rounded-lg overflow-hidden shrink-0">
+<img alt="Pasta" class="w-full h-full object-cover" data-alt="close-up of fresh pasta with pesto sauce, pine nuts and basil leaves on a rustic plate with warm side lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB4nTuTaX8wVF8uO6xxrWCz2YTXle0lBj6xrZt1sOYcIp-9mjg80o6JT_OBgL0xkr9xfERNkzdSDnGqebqUxZq3MhvTIyq1sKMg-F032J2NYRzmQ48B7gIAJ74ZoAWGzkQINSJPBLjO9pTc1kSXcCrML7ey16x9GJ8EM3w0Munos0aUz4PHkFSbQwwl3qGzkKt5ssGssThvvdWo2WO4VGUGN8mQSxv9J3DeGK10nhjYWvaLXAl7-oc-PQQY0SPoGLh9Sb5sPtBBQGY"/>
+</div>
+<div class="flex flex-col justify-center flex-grow pr-4">
+<div class="flex justify-between items-start mb-2">
+<h3 class="font-headline font-bold text-lg text-on-surface leading-snug">Zesty Lemon Basil Pasta</h3>
+<span class="bg-primary-container/20 text-on-primary-container px-2 py-0.5 rounded text-[10px] font-bold">95% MATCH</span>
+</div>
+<div class="flex items-center gap-4 text-xs font-semibold text-on-surface-variant opacity-80 mb-4">
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-sm" data-icon="timer">timer</span> 20m</span>
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-sm" data-icon="restaurant">restaurant</span> Intermediate</span>
+</div>
+<button class="self-start text-primary font-bold text-sm flex items-center gap-1 hover:opacity-70 transition-opacity">
+                        View Recipe
+                        <span class="material-symbols-outlined text-sm" data-icon="arrow_forward">arrow_forward</span>
+</button>
+</div>
+</div>
+<!-- Card 3 -->
+<div class="flex flex-col md:flex-row gap-6 p-2 rounded-lg bg-surface-container-low transition-all">
+<div class="w-full md:w-40 h-40 rounded-lg overflow-hidden shrink-0">
+<img alt="Roasted Salmon" class="w-full h-full object-cover" data-alt="perfectly seared Atlantic salmon fillet with asparagus and lemon wedges on a white ceramic plate with soft shadows" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCdtsAhzAywzHX_FTgxGZs0zK_TfWn1MMwv0j4wI60hlvao7TT9eAG_NmEDsxX6oqXpte6HYZ3il9IJt-3abm3f52DIuuqjrHbSl36QWed6ViN7f8qbpJG0aoSKWD3-C0VDyyPMQ5ttsrBDcgTRb7WUMTSokQTQScWYnXZTz9gSntXnZwsR-ofZFP_Ade9p6SLnWrc-DLbVy1xFbWkJkV8nHRyVgrgz1zx6qzD5UGwsT8mkQFmCHvspeJD_Fw6JHv4oC3ZrxnYRBY0"/>
+</div>
+<div class="flex flex-col justify-center flex-grow pr-4">
+<div class="flex justify-between items-start mb-2">
+<h3 class="font-headline font-bold text-lg text-on-surface leading-snug">Honey Glazed Atlantic Salmon</h3>
+<span class="bg-primary-container/20 text-on-primary-container px-2 py-0.5 rounded text-[10px] font-bold">88% MATCH</span>
+</div>
+<div class="flex items-center gap-4 text-xs font-semibold text-on-surface-variant opacity-80 mb-4">
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-sm" data-icon="timer">timer</span> 25m</span>
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-sm" data-icon="restaurant">restaurant</span> Easy</span>
+</div>
+<button class="self-start text-primary font-bold text-sm flex items-center gap-1 hover:opacity-70 transition-opacity">
+                        View Recipe
+                        <span class="material-symbols-outlined text-sm" data-icon="arrow_forward">arrow_forward</span>
+</button>
+</div>
+</div>
+<!-- Card 4 -->
+<div class="flex flex-col md:flex-row gap-6 p-2 rounded-lg bg-surface-container-low transition-all">
+<div class="w-full md:w-40 h-40 rounded-lg overflow-hidden shrink-0">
+<img alt="Avocado Toast" class="w-full h-full object-cover" data-alt="artisan sourdough bread topped with smashed avocado, radish slices and red pepper flakes in a minimalist aesthetic" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC8x-8Sba6eSuRzdZ0PMU8Kmt-2skzql1WBBU9xbbDEWtNkWEdWDLakJvMVrmL07W2gbYr48vQISHAv1V0F1U4j95bosaphthNU3V03Xn9Z7vnxHHAEiPL-eGoFlDHhGwbCE-lwoAIxEYIUSSZDRHX0q2vVXslKyWXZOWT1safy3uyfXCq-6ncdiP9Hp9HIQ95IFWgEsbCMv20gvufkk35lMFAURC4lg8-6OKGUmR2T3opSNb3OPNzR380GFq2G5vv5b_qyZYd3NtI"/>
+</div>
+<div class="flex flex-col justify-center flex-grow pr-4">
+<div class="flex justify-between items-start mb-2">
+<h3 class="font-headline font-bold text-lg text-on-surface leading-snug">Avocado Radish Crunch Toast</h3>
+<span class="bg-primary-container/20 text-on-primary-container px-2 py-0.5 rounded text-[10px] font-bold">82% MATCH</span>
+</div>
+<div class="flex items-center gap-4 text-xs font-semibold text-on-surface-variant opacity-80 mb-4">
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-sm" data-icon="timer">timer</span> 10m</span>
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-sm" data-icon="restaurant">restaurant</span> Easy</span>
+</div>
+<button class="self-start text-primary font-bold text-sm flex items-center gap-1 hover:opacity-70 transition-opacity">
+                        View Recipe
+                        <span class="material-symbols-outlined text-sm" data-icon="arrow_forward">arrow_forward</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Load More / Filter -->
+<div class="mt-12 flex justify-center">
+<button class="bg-secondary-container text-on-secondary-container font-bold px-8 py-4 rounded-full shadow-lg hover:opacity-90 transition-all active:scale-95 flex items-center gap-2"><span class="material-symbols-outlined text-xl" style="font-variation-settings: 'wght' 500;">filter_list</span>
+Refine Results</button>
+</div>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full flex justify-around items-center px-4 pb-6 pt-3 bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl rounded-t-[32px] z-50 shadow-[0_-20px_40px_rgba(0,0,0,0.04)]">
+<a class="flex flex-col items-center justify-center text-slate-500 dark:text-slate-400 px-5 py-2 hover:bg-slate-100 dark:hover:bg-slate-800/50 rounded-full transition-all duration-300" href="#"><span class="material-symbols-outlined mb-1" style="font-variation-settings: 'wght' 300;">home</span>
+<span class="font-inter text-[11px] font-semibold tracking-wide">Home</span></a>
+<a class="flex flex-col items-center justify-center text-slate-500 dark:text-slate-400 px-5 py-2 hover:bg-slate-100 dark:hover:bg-slate-800/50 rounded-full transition-all duration-300" href="#"><span class="material-symbols-outlined mb-1" style="font-variation-settings: 'wght' 300;">favorite</span>
+<span class="font-inter text-[11px] font-semibold tracking-wide">Favorites</span></a>
+<a class="flex flex-col items-center justify-center bg-emerald-100 dark:bg-emerald-900/40 text-emerald-900 dark:text-emerald-100 rounded-full px-5 py-2 transition-all duration-300" href="#"><span class="material-symbols-outlined mb-1 text-2xl" style="font-variation-settings: 'FILL' 1, 'wght' 400;">center_focus_strong</span>
+<span class="font-inter text-[11px] font-semibold tracking-wide">Scan</span></a>
+<a class="flex flex-col items-center justify-center text-slate-500 dark:text-slate-400 px-5 py-2 hover:bg-slate-100 dark:hover:bg-slate-800/50 rounded-full transition-all duration-300" href="#"><span class="material-symbols-outlined mb-1" style="font-variation-settings: 'wght' 300;">account_circle</span>
+<span class="font-inter text-[11px] font-semibold tracking-wide">Profile</span></a>
+</nav>
+</body></html>
